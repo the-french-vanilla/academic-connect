@@ -2,14 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8"/>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
     <title>Index</title>
 </head>
 <body>
     <h2>Welcome</h2>
     
+    <a th:href="@{/signup}">Sign Up</a>
+    <a th:href="@{/forgotpassword}">Forgot Password</a>
+    
     <a th:href="@{/feed}">Feed</a>
     <a th:href="@{/messaging}">Messaging</a>
     <a th:href="@{/profile}">Profile</a>
+    
+    <div id="display-text"></div>
+    
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
 
 </body>
 </html>
