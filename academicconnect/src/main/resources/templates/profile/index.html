@@ -2,13 +2,176 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <link th:href="@{/css/profile.css}" rel="stylesheet" />
     <title>Profile</title>
 </head>
 <body>
-    <h2>Profile</h2>
+
+<div id="spacing"></div>
+
+    <div style="overflow: hidden">
+    	<img th:src="@{/image/terry.jpeg}" alt="Alex Aravind" width="100" height="100" style="float: left">
+	  	<div style="float: left; margin: 10px">
+		  	<h3>Terry Jiang</h3>
+		  	<span>Associate Professor at UNBC</span>
+	  	</div>
+    </div>
     
+    <div id="spacing"></div>
+    
+    <div class="tab">
+	  <button class="tablinks" onclick="openTab(event, 'profile')" id="defaultOpen">Profile</button>
+	  <button class="tablinks" onclick="openTab(event, 'publications')">Publications</button>
+	  <button class="tablinks" onclick="openTab(event, 'connections')">Connections</button>
+	  <button class="tablinks" onclick="openTab(event, 'groups')">Groups</button>
+	</div>
+
+	<div id="profile" class="tabcontent" style="overflow: hidden">
+	  <h3>Profile</h3>
+	  
+	  <div class="solid" style="width: 95%; overflow: hidden; padding: 10px">
+	  	<h4>Education</h4>
+	  	<span><b>University of Manitoba</b></span>
+	  	<div id="spacing"></div>
+	  	<span>Doctor of Philosophy, Computer Science (2012-2017)</span><br />
+	  	<span>Master's Degree, Computer Science (2010-2012)</span><br />
+	  	<span>Bachelor's Degree, Computer Science (2005-2010)</span>
+	  	<div id="spacing"></div>
+	  </div>
+	  
+	  <div id="spacing"></div>
+	  
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin-right: 5%; padding: 10px">
+	  	<span><b>Publications</b></span>
+	  	<span style="float: right">21</span><br />
+	  	<span><b>Citations</b></span>
+	  	<span style="float: right">233</span>
+	  </div>
+	  
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin-left: 5%; padding: 10px'">
+		<span><b>Co-authors:</b></span><br />
+	  	<span>G. M. Adam Pazdor</span><br />
+	  	<span>Trevor L. Cook</span><br />
+	  	<span>Edson M. Dela Cruz</span><br />
+	  	<span>Patrick M. J. Dubois</span><br />
+	  	<span>Zhao Han</span>
+	  </div>
+	  
+	</div>
+
+	<div id="publications" class="tabcontent">
+	  <h3>Publications</h3>
+	  
+	  <div class="solid" style="width: 95%; overflow: hidden; padding: 10px">
+	    <span style="float: right">2018</span>
+	  	<span><b>Big Data Analytics of Social Network Data: Who Cares Most About You on Facebook?</b></span><br />
+	  	<div id="spacing"></div>
+	  	<span>Carson K. Leung, <b><u>Fan Jiang</u></b>, Tik Wai Poon, Paul-Emile Crevier</span>
+	  </div>
+	  
+	  <div id="spacing"></div>
+	  
+	  <div class="solid" style="width: 95%; overflow: hidden; padding: 10px">
+	    <span style="float: right">2017</span>
+	  	<span><b>MapReduce-based complex big data analytics over uncertain and imprecise social networks.</b></span><br />
+	  	<div id="spacing"></div>
+	  	<span>Peter Braun, Alfredo Cuzzocrea, <b><u>Fan Jiang</u></b>, Carson Kai-Sang Leung, and Adam G.M. Pazdor</span>
+	  </div>
+	  
+	  <div id="spacing"></div>
+	  
+	  <div class="solid" style="width: 95%; overflow: hidden; padding: 10px">
+	    <span style="float: right">2017</span>
+	  	<span><b>Bitwise Parallel Association Rule Mining for Web Page Recommendation</b></span><br />
+	  	<div id="spacing"></div>
+	  	<span>Carson K. Leung, <b><u>Fan Jiang</u></b>, and Adam Pazdor</span>
+	  </div>
+	  
+	</div>
+
+	<div id="connections" class="tabcontent" style="overflow: hidden">
+	  <h3>Connections</h3>
+	  
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/alex.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Alex Aravind</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Post-Doctoral Fellow</span><br />
+		  	<div id="spacing"></div>
+		  	<span>4 Mutual Connections</span>
+	  	</div>
+	  </div>
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/david.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>David Casperson</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Associate Professor</span><br />
+		  	<div id="spacing"></div>
+		  	<span>3 Mutual Connections</span>
+	  	</div>
+	  </div>
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/allan.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Allan Kranz</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Senior Lab Instructor</span><br />
+		  	<div id="spacing"></div>
+		  	<span>6 Mutual Connections</span>
+	  	</div>
+	  </div>
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/liang.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Liang Chen</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Acting Chair of Computer Science</span><br />
+		  	<div id="spacing"></div>
+		  	<span>7 Mutual Connections</span>
+	  	</div>
+	  </div>
+	  <div id="spacing"></div>
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/allan2.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Allan E. Kranz</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Kranz Information Systems</span><br />
+		  	<div id="spacing"></div>
+		  	<span>1 Mutual Connection</span>
+	  	</div>
+	  </div>
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/waqar_haque.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Waqar Haque</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>Full Professor</span><br />
+		  	<div id="spacing"></div>
+		  	<span>3 Mutual Connections</span>
+	  	</div>
+	  </div>
+	  
+	</div>
+	
+	<div id="groups" class="tabcontent">
+	  <h3>Groups</h3>
+	  
+	  <div class="solid" style="width: 40%; overflow: hidden; float: left; margin: 10px; padding: 10px">
+	  	<img th:src="@{/image/david.jpeg}" alt="Alex Aravind" width="80" height="80" style="padding: 10px; float: left">
+	  	<div style="padding: 10px">
+		  	<span><b>Casperson Society</b></span><br />
+		  	<div id="spacing"></div>
+		  	<span>69 Members</span>
+	  	</div>
+	  </div>
+	</div>
+
+
     <script type="text/javascript" th:src="@{/js/profile.js}"></script>
 
 </body>
