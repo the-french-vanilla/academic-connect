@@ -6,16 +6,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thefrenchvanilla.academicconnect.repository.EmployeeRepository;
+import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 import com.thefrenchvanilla.academicconnect.entity.User;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	private EmployeeRepository employeeRepository;
+	private UserRepository employeeRepository;
 	
 	@Autowired
-	public UserServiceImpl(EmployeeRepository theEmployeeRepository) {
+	public UserServiceImpl(UserRepository theEmployeeRepository) {
 		employeeRepository = theEmployeeRepository;
 	}
 	

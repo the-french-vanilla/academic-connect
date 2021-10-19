@@ -22,10 +22,62 @@
     <div id="spacing"></div>
     
     <div class="tab">
-	  <button class="tablinks" onclick="openTab(event, 'profile')" id="defaultOpen">Profile</button>
+    
+    <div th:switch="${tab}"> 
+	  <div th:case="'profile'">
+	  	<button class="tablinks" onclick="openTab(event, 'profile')" id="defaultOpen">
+	  	  <a th:href="@{/profile}">Profile</a>
+	  	</button>
+	  </div>
+	  <div th:case="*">
+	  	<button class="tablinks" onclick="openTab(event, 'profile')">
+	  	  <a th:href="@{/profile}">Profile</a>
+	  	</button>
+	  </div> 
+	</div>
+	<div th:switch="${tab}"> 
+	  <div th:case="'publications'">
+	  	<button class="tablinks" onclick="openTab(event, 'publications')" id="defaultOpen">
+	  	  <a th:href="@{/profile/publications}">Publications</a>
+	  	</button>
+	  </div>
+	  <div th:case="*">
+	  	<button class="tablinks" onclick="openTab(event, 'publications')">
+	  	  <a th:href="@{/profile/publications}">Publications</a>
+	  	</button>
+	  </div> 
+	</div>
+	<div th:switch="${tab}"> 
+	  <div th:case="'connections'">
+	  	<button class="tablinks" onclick="openTab(event, 'connections')" id="defaultOpen">
+	  	  <a th:href="@{/profile/connections}">Connections</a>
+	  	</button>
+	  </div>
+	  <div th:case="*">
+	  	<button class="tablinks" onclick="openTab(event, 'connections')">
+	  	  <a th:href="@{/profile/connections}">Connections</a>
+	  	</button>
+	  </div> 
+	</div>
+	<div th:switch="${tab}"> 
+	  <div th:case="'groups'">
+	  	<button class="tablinks" onclick="openTab(event, 'groups')" id="defaultOpen">
+	  	  <a th:href="@{/profile/groups}">Groups</a>
+	  	</button>
+	  </div>
+	  <div th:case="*">
+	  	<button class="tablinks" onclick="openTab(event, 'groups')">
+	  	  <a th:href="@{/profile/groups}">Groups</a>
+	  	</button>
+	  </div> 
+	</div>
+	
+
+<!-- 	  <button class="tablinks" onclick="openTab(event, 'profile')" id="defaultOpen">Profile</button>
 	  <button class="tablinks" onclick="openTab(event, 'publications')">Publications</button>
 	  <button class="tablinks" onclick="openTab(event, 'connections')">Connections</button>
-	  <button class="tablinks" onclick="openTab(event, 'groups')">Groups</button>
+	  <button class="tablinks" onclick="openTab(event, 'groups')">Groups</button> -->
+	  
 	</div>
 
 	<div id="profile" class="tabcontent" style="overflow: hidden">
@@ -156,6 +208,18 @@
 	  	</div>
 	  </div>
 	  
+<!-- 	  <div>
+		  <th:block th:each="user : ${users}">
+		      <tr>
+		         <td th:text="${user.firstName}">...</td>
+		         <td th:text="${user.lastName}">...</td>
+		      </tr>
+		      <tr>
+		         <td colspan="2" th:text="${user.email}">...</td>
+		      </tr>
+		   </th:block>
+	   </div> -->
+	   
 	</div>
 	
 	<div id="groups" class="tabcontent">
