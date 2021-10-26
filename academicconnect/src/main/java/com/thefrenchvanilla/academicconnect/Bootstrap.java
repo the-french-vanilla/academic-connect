@@ -20,7 +20,7 @@ public class Bootstrap implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
     	// initialize data
-        loadUsers();
+        //loadUsers();
     }
 
     private void loadUsers() {
