@@ -23,13 +23,13 @@ public class Bootstrap implements CommandLineRunner{
         //loadUsers();
     }
 
-    private void loadUsers() {
-        User user1 = new User("Allan", "Kranz", "allan.kranz@unbc.ca");
-        userRespository.save(user1);
-
-        User user2 = new User("David", "Casperson", "david.casperson@unbc.ca");
-        userRespository.save(user2);
-
-        System.out.println("Users Loaded: " + userRespository.count());
-    }
+//    private void loadUsers() {
+//        User user1 = new User("Allan", "Kranz", "allan.kranz@unbc.ca");
+//        userRespository.save(user1);
+//
+//        User user2 = new User("David", "Casperson", "david.casperson@unbc.ca");
+//        userRespository.save(user2);
+//
+//        System.out.println("Users Loaded: " + userRespository.count());
+//    }
 }

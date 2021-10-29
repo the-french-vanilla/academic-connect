@@ -5,12 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class SignupController {
+public class LoginController {
 	
-	@RequestMapping({"/signup", "/signup/index", "/signup/index.html", "/signup.html"})
+	@RequestMapping({"/login", "/login/index", "/login/index.html", "/login.html"})
     public String index(Model model){
 
-        return "signup/index";
+        return "login/index";
     }
 
 }
