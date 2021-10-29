@@ -1,7 +1,5 @@
 $(document).ready(function(){
-	$('#display-text').html('<h1>hello world</h1>');
-
-	/*const jwtToken = localStorage.jwtToken;
+	const jwtToken = localStorage.jwtToken;
 
 	if (jwtToken === undefined) {
 		window.location.href = "/";
@@ -12,10 +10,10 @@ $(document).ready(function(){
 	    	logout();
 	    	window.location.href = "/";
 	  	}
-	}	*/
+	}	
 });
 
-/*function parseJwt (token) {
+function parseJwt (token) {
 	var base64Url = token.split('.')[1];
 	var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
 	var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -32,4 +30,4 @@ $('#logout').click(function(){
 
 function logout() {
 	localStorage.removeItem("jwtToken");
-}**/
+}

@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.services.UserService;
 
-//@Controller
-//public class UserProfileController {
-//	
-//	private UserService userService;
-//	
-//	public UserProfileController(UserService userService) {
-//		this.userService = userService;
-//	}
-//
-//	@RequestMapping({"/profile", "/profile/index", "/profile/index.html", "/profile.html"})
-//    public String index(Model theModel){
-//		
-//		// add to the spring model
-//		theModel.addAttribute("tab", "profile");
-//
-//        return "profile/index";
-//    }
-//	
+@Controller
+public class UserProfileController {
+	
+	private UserService userService;
+	
+	public UserProfileController(UserService userService) {
+		this.userService = userService;
+	}
+
+	@RequestMapping({"/profile", "/profile/index", "/profile/index.html", "/profile.html"})
+    public String index(Model theModel){
+		
+		// add to the spring model
+		theModel.addAttribute("tab", "profile");
+
+        return "profile/index";
+    }
+	
 //	@GetMapping("/profile/publications")
 //	public String displayPublications(Model theModel) {
 //		
@@ -66,5 +66,5 @@ import com.thefrenchvanilla.academicconnect.services.UserService;
 //		
 //		return "profile/index";
 //	}
-//
-//}
+
+}
