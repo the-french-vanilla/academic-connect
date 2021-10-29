@@ -9,7 +9,7 @@ $('#sign-up').click(function(){
 	
 	$.ajax({
 		type: "POST",
-		url: '/api/users/register/',
+		url: '/api/users/register',
 		data: JSON.stringify(data),
 		contentType: "application/json",
 		dataType: 'json',
