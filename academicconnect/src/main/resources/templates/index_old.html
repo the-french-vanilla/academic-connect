@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8"/>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <title>Index</title>
+</head>
+<body>
+    <h2>Welcome</h2>
+    
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/forgotpassword}">Forgot Password</a>
+    
+    <a th:href="@{/feed}">Feed</a>
+    <a th:href="@{/messaging}">Messaging</a>
+    <a th:href="@{/profile}">Profile</a>
+    
+    <div id="display-text"></div>
+    
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br><br>
+    <label for="first-name">First Name:</label>
+    <input type="text" id="first-name" name="first-name"><br><br>
+    <label for="last-name">Last Name:</label>
+    <input type="text" id="last-name" name="last-name"><br><br>
+  	<label for="password">Password:</label>
+  	<input type="password" id="password" name="password"><br><br>
+  	<label for="confirm-password">Confirm Password:</label>
+  	<input type="password" id="confirm-password" name="confirm-password"><br><br>
+  	<button type="button" id="sign-up">Sign Up</button>
+    
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+
+</body>
+</html>

@@ -10,7 +10,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User implements UserDetails {
@@ -32,6 +34,14 @@ public class User implements UserDetails {
     private String confirmPassword;
     private Date create_At;
     private Date update_At;
+    
+   
+    
+//    @ManyToMany(cascade={CascadeType.ALL})
+//	@JoinTable(name="connection",
+//		joinColumns={@JoinColumn(name="id")},
+//		inverseJoinColumns={@JoinColumn(name="user_id")})
+//	private Set<User> connections = new HashSet<User>();
 
 //    //OneToMany with Project
 //    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)

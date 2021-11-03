@@ -15,7 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.thefrenchvanilla.academicconnect.services.CustomUserDetailsService;
+import com.thefrenchvanilla.academicconnect.service.CustomUserDetailsService;
 
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.H2_URL;
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.SIGN_UP_URLS;

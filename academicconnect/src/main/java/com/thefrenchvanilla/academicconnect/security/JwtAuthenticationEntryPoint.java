@@ -1,7 +1,7 @@
 package com.thefrenchvanilla.academicconnect.security;
 
 import com.google.gson.Gson;
-import com.thefrenchvanilla.academicconnect.exceptions.InvalidLoginResponse;
+import com.thefrenchvanilla.academicconnect.exception.InvalidLoginResponse;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

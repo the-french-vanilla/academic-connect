@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.thefrenchvanilla.academicconnect.entity.User;
-import com.thefrenchvanilla.academicconnect.services.CustomUserDetailsService;
+import com.thefrenchvanilla.academicconnect.service.CustomUserDetailsService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

@@ -1,1 +1,0 @@
-package com.thefrenchvanilla.academicconnect.entity;
