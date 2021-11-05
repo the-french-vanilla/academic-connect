@@ -35,8 +35,8 @@ public class EducationController {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Education project1 = educationService.saveOrUpdateEducation(education, principal.getName());
-        return new ResponseEntity<Education>(project1, HttpStatus.CREATED);
+        Education education1 = educationService.saveOrUpdateEducation(education, principal.getName());
+        return new ResponseEntity<Education>(education1, HttpStatus.CREATED);
     }
 
 
@@ -50,7 +50,10 @@ public class EducationController {
 
 
     @GetMapping("/all")
-    public Iterable<Education> getAllEducations(){return educationService.findAllEducations();}
+    public Iterable<Education> getAllEducations(){
+    	return educationService.findAllEducations();
+    	//return null;
+    }
 
 
     @DeleteMapping("/{educationId}")
