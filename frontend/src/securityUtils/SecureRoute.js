@@ -10,7 +10,7 @@ const SecuredRoute = ({ component: Component, security, ...otherProps }) => (
       security.validToken === true ? (
         <Component {...props} />
       ) : (
-        <Redirect to="/login" />
+        <Redirect to="/" />
       )
     }
   />

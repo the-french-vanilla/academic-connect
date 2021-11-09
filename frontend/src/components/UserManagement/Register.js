@@ -10,7 +10,8 @@ class Register extends Component {
 
     this.state = {
       username: "",
-      fullName: "",
+      firstName: "",
+      lastName: "",
       password: "",
       confirmPassword: "",
       errors: {}
@@ -20,9 +21,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    if (this.props.security.validToken) {
-      this.props.history.push("/dashboard");
-    }
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,7 +34,8 @@ class Register extends Component {
     e.preventDefault();
     const newUser = {
       username: this.state.username,
-      fullName: this.state.fullName,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     };
@@ -51,8 +51,7 @@ class Register extends Component {
     const { errors } = this.state;
     return (
       <div className="register">
-        Register page
-        {/* <div className="container">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
@@ -61,24 +60,6 @@ class Register extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.fullName
-                    })}
-                    placeholder="Full Name"
-                    name="fullName"
-                    value={this.state.fullName}
-                    onChange={this.onChange}
-                  />
-                  {errors.fullName && (
-                    <div className="invalid-feedback">{errors.fullName}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.username
-                    })}
                     placeholder="Email Address (Username)"
                     name="username"
                     value={this.state.username}
@@ -90,10 +71,32 @@ class Register extends Component {
                 </div>
                 <div className="form-group">
                   <input
+                    type="text"
+                    placeholder="First Name"
+                    name="firstName"
+                    value={this.state.firstName}
+                    onChange={this.onChange}
+                  />
+                  {errors.firstName && (
+                    <div className="invalid-feedback">{errors.firstName}</div>
+                  )}
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    name="lastName"
+                    value={this.state.lastName}
+                    onChange={this.onChange}
+                  />
+                  {errors.lastName && (
+                    <div className="invalid-feedback">{errors.lastName}</div>
+                  )}
+                </div>
+                
+                <div className="form-group">
+                  <input
                     type="password"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.password
-                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
@@ -106,9 +109,6 @@ class Register extends Component {
                 <div className="form-group">
                   <input
                     type="password"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.confirmPassword
-                    })}
                     placeholder="Confirm Password"
                     name="confirmPassword"
                     value={this.state.confirmPassword}
@@ -124,7 +124,7 @@ class Register extends Component {
               </form>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     );
   }

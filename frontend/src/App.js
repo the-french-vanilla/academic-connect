@@ -26,7 +26,7 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
-// import SecuredRoute from "./securityUtils/SecureRoute";
+import SecuredRoute from "./securityUtils/SecureRoute";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -91,11 +91,11 @@ class App extends Component {
             </Switch> */}
 
             <Switch>
-              <Route exact path="/feed" component={Feed} />
-              <Route exact path="/settings" component={UserSettings} />
-              <Route exact path="/ac/:username" component={UserProfile} />
-              <Route exact path="/groups/:group_id" component={GroupProfile} />
-              <Route exact path="/messaging/thread/:thread_id" component={Messaging} />
+              <SecuredRoute exact path="/feed" component={Feed} />
+              <SecuredRoute exact path="/settings" component={UserSettings} />
+              <SecuredRoute exact path="/ac/:username" component={UserProfile} />
+              <SecuredRoute exact path="/groups/:group_id" component={GroupProfile} />
+              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
             </Switch>
 
           </div>
