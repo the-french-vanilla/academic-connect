@@ -11,9 +11,17 @@ import store from "./store";
 // import ProjectBoard from "./components/ProjectBoard/ProjectBoard";
 // import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTask";
 // import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
+
 import Landing from "./components/Layout/Landing";
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
+import ForgotPassword from "./components/UserManagement/ForgotPassword";
+import Feed from "./components/Layout/Feed";
+import UserSettings from "./components/Layout/UserSettings";
+import UserProfile from "./components/Layout/UserProfile";
+import GroupProfile from "./components/Layout/GroupProfile";
+import Messaging from "./components/Layout/Messaging";
+
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
@@ -47,11 +55,11 @@ class App extends Component {
             {
               //Public Routes
             }
-
             <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/forgotpassword" component={ForgotPassword} />
             </Switch>
 
             {
@@ -81,6 +89,15 @@ class App extends Component {
                 component={UpdateProjectTask}
               />
             </Switch> */}
+
+            <Switch>
+              <Route exact path="/feed" component={Feed} />
+              <Route exact path="/settings" component={UserSettings} />
+              <Route exact path="/ac/:username" component={UserProfile} />
+              <Route exact path="/groups/:group_id" component={GroupProfile} />
+              <Route exact path="/messaging/thread/:thread_id" component={Messaging} />
+            </Switch>
+
           </div>
         </Router>
       </Provider>
