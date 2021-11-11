@@ -8,14 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/education")
@@ -28,55 +24,42 @@ public class EducationController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-
     @PostMapping("")
-    public ResponseEntity<?> createEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal){
-
+    public ResponseEntity<?> createEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if(errorMap!=null) return errorMap;
+        if (errorMap != null) {
+        	return errorMap;
+        }
 
         Education education1 = educationService.createOrUpdateEducation(education, principal.getName());
         return new ResponseEntity<Education>(education1, HttpStatus.CREATED);
     }
-
-
-//    @GetMapping("/{educationId}")
-//    public ResponseEntity<?> getEducationById(@PathVariable String educationId){
-//
-//    	Education education = educationService.findEducationById(educationId);
-//
-//        return new ResponseEntity<Education>(education, HttpStatus.OK);
-//    }
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEducation(@PathVariable Long id){
-
+    public ResponseEntity<?> getEducation(@PathVariable Long id) {
     	Education education = educationService.getEducation(id);
-
         return new ResponseEntity<Education>(education, HttpStatus.OK);
     }
 
-
     @GetMapping("/all")
-    public Iterable<Education> getAllEducations(){
+    public Iterable<Education> getAllEducations() {
     	return educationService.getAllEducations();
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal){
-
+    public ResponseEntity<?> updateEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if(errorMap!=null) return errorMap;
+        if (errorMap != null) {
+        	return errorMap;
+        }
 
         Education education1 = educationService.createOrUpdateEducation(education, principal.getName());
         return new ResponseEntity<Education>(education1, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEducation(@PathVariable Long id){
+    public ResponseEntity<?> deleteEducation(@PathVariable Long id) {
     	educationService.deleteEducation(id);
-
-        return new ResponseEntity<String>("Education with ID: '"+id+"' was deleted", HttpStatus.OK);
+        return new ResponseEntity<String>("Education with ID: '" + id + "' was deleted", HttpStatus.OK);
     }
 }
