@@ -1,6 +1,7 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
 import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
+import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.service.ChatMessageService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 
@@ -47,15 +48,16 @@ public class ChatMessageController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, Principal principal) {
+    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
+    												  @PathVariable Long id, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
 
-        ChatMessage chatMessage1 = chatMessageService.createOrUpdateChatMessage(chatMessage, principal.getName());
+        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
         return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
-    }
+    } 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {

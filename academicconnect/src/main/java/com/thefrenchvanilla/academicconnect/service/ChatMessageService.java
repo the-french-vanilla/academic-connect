@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
+import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
+import com.thefrenchvanilla.academicconnect.exception.PostIdException;
 import com.thefrenchvanilla.academicconnect.repository.ChatMessageRepository;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 
@@ -45,6 +47,14 @@ public class ChatMessageService {
 
     public Iterable<ChatMessage> getAllChatMessages() {
         return chatMessageRepository.findAll();
+    }
+    
+    public ChatMessage updateChatMessage(ChatMessage chatMessage, Long id, String username){
+    	ChatMessage chatMessage1 = chatMessageRepository.findById(id).get();
+        if(chatMessage1 == null) {
+            throw new PostIdException("Cannot ChatMessage with ID '" + id + "'. This chat message does not exist");
+        }
+        return chatMessageRepository.save(chatMessage1);
     }
 
     public void deleteChatMessage(Long id) {

@@ -1,15 +1,13 @@
 package com.thefrenchvanilla.academicconnect.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.thefrenchvanilla.academicconnect.entity.Education;
 import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
 import com.thefrenchvanilla.academicconnect.exception.PostIdException;
-import com.thefrenchvanilla.academicconnect.repository.EducationRepository;
 import com.thefrenchvanilla.academicconnect.repository.PostRepository;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 
@@ -22,57 +20,47 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
-    public Post saveOrUpdatePost(Post post, String username){
-        try{
+    public Post saveOrUpdatePost(Post post, String username) {
+        try {
             User user = userRepository.findByUsername(username);
             post.setUser(user);
-
             return postRepository.save(post);
-
-        }catch (Exception e){
-            throw new PostIdException("Post ID '"+post.getId()+"' already exists");
+        } catch (Exception e) {
+            throw new PostIdException("Post ID '" + post.getId() + "' already exists");
         }
-
     }
 
-
-    public Post findPostById(String postId){
-
-        //Only want to return the post if the user looking for it is the owner
-
-        Post post = postRepository.findById(postId.toUpperCase());
-
-        if(post == null){
-            throw new PostIdException("Post ID '"+postId+"' does not exist");
-
-        }
-
-
-        return post;
+    public Post getPost(Long id){
+    	Post post;
+    	try {
+    		post = postRepository.findById(id).get();
+    		if (post == null) {
+                throw new EducationIdException("Post ID '" + id + "' does not exist");
+            }
+    	} catch (NoSuchElementException e) {
+    		throw new EducationIdException("Post ID '" + id + "' does not exist");
+    	}
+    	return post;
     }
 
     public Iterable<Post> findAllPosts(){
         return postRepository.findAll();
     }
     
-    public Post updatePostById(Post post, String postid, String username){
-    	Post post1 = postRepository.findById(postid.toUpperCase());
-
-        if(post1 == null){
-            throw  new  PostIdException("Cannot Post with ID '"+postid+"'. This post does not exist");
+    public Post updatePost(Post post, Long id, String username){
+    	Post post1 = postRepository.findById(id).get();
+        if(post1 == null) {
+            throw new PostIdException("Cannot Post with ID '" + id + "'. This post does not exist");
         }
-        
         return postRepository.save(post1);
     }
 
 
-    public void deletePostById(String postid){
-        Post post = postRepository.findById(postid.toUpperCase());
-
-        if(post == null){
-            throw  new  PostIdException("Cannot Post with ID '"+postid+"'. This post does not exist");
+    public void deletePost(Long id){
+    	Post post = postRepository.findById(id).get();
+        if (post == null) {
+            throw new EducationIdException("Cannot delete Post with ID '" + id + "'. This post does not exist");
         }
-
         postRepository.delete(post);
     }
 

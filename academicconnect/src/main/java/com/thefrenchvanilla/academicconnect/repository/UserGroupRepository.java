@@ -3,11 +3,11 @@ package com.thefrenchvanilla.academicconnect.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.thefrenchvanilla.academicconnect.entity.Post;
+import com.thefrenchvanilla.academicconnect.entity.UserGroup;
 
 @Repository
-public interface PostRepository extends CrudRepository<Post, Long> {
+public interface UserGroupRepository extends CrudRepository<UserGroup, Long> {
 
     @Override
-    Iterable<Post> findAll();
+    Iterable<UserGroup> findAll();
 }
