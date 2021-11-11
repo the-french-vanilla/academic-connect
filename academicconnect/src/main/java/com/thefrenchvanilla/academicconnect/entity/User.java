@@ -35,17 +35,13 @@ public class User implements UserDetails {
     private String lastName;
     
     @NotBlank(message = "Password field is required")
-    @JsonIgnore
     private String password;
     
     @Transient
-    @JsonIgnore
     private String confirmPassword;
     
-    @JsonIgnore
     private Date create_At;
     
-    @JsonIgnore
     private Date update_At;
     
    
@@ -62,6 +58,7 @@ public class User implements UserDetails {
 
 
     public User() {
+    	
     }
 
     public Long getId() {
@@ -151,6 +148,13 @@ public class User implements UserDetails {
      */
 
     @Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", create_At=" + create_At
+				+ ", update_At=" + update_At + "]";
+	}
+
+	@Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

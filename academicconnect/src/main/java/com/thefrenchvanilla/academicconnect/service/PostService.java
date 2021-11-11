@@ -30,7 +30,7 @@ public class PostService {
             return postRepository.save(post);
 
         }catch (Exception e){
-            throw new PostIdException("Post ID '"+post.getPostId().toUpperCase()+"' already exists");
+            throw new PostIdException("Post ID '"+post.getId()+"' already exists");
         }
 
     }
@@ -40,7 +40,7 @@ public class PostService {
 
         //Only want to return the post if the user looking for it is the owner
 
-        Post post = postRepository.findByPostId(postId.toUpperCase());
+        Post post = postRepository.findById(postId.toUpperCase());
 
         if(post == null){
             throw new PostIdException("Post ID '"+postId+"' does not exist");
@@ -56,7 +56,7 @@ public class PostService {
     }
     
     public Post updatePostById(Post post, String postid, String username){
-    	Post post1 = postRepository.findByPostId(postid.toUpperCase());
+    	Post post1 = postRepository.findById(postid.toUpperCase());
 
         if(post1 == null){
             throw  new  PostIdException("Cannot Post with ID '"+postid+"'. This post does not exist");
@@ -67,7 +67,7 @@ public class PostService {
 
 
     public void deletePostById(String postid){
-        Post post = postRepository.findByPostId(postid.toUpperCase());
+        Post post = postRepository.findById(postid.toUpperCase());
 
         if(post == null){
             throw  new  PostIdException("Cannot Post with ID '"+postid+"'. This post does not exist");

@@ -11,18 +11,23 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Field {
+public class TrendingNews {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@NotBlank(message = "Name is required")
-	private String name;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+    private Field field;
 	
-	private String description;
+	@NotBlank(message = "Title is required")
+	private String title;
+	
+	@NotBlank(message = "URL is required")
+	private String url;
 
-	public Field() {
+	public TrendingNews() {
 		
 	}
 
@@ -34,20 +39,28 @@ public class Field {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Field getField() {
+		return field;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setField(Field field) {
+		this.field = field;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}	
 	
 }

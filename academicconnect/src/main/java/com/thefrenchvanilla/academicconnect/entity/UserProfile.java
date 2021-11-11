@@ -22,15 +22,16 @@ public class UserProfile {
 	private Boolean active;
 	
 	@OneToOne
+	@JsonIgnore
     private User user;
 	
 	public UserProfile() {
-		
+		active = true;
 	}
 	
 	public UserProfile(User user) {
 		this.user = user;
-		this.active = true;
+		active = true;
 	}
 
 	public Long getId() {

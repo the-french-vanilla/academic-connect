@@ -8,7 +8,7 @@ import com.thefrenchvanilla.academicconnect.entity.Post;
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
 
-	Post findByPostId(String postId);
+	Post findById(String id);
 
     @Override
     Iterable<Post> findAll();

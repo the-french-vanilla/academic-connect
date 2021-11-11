@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,20 +17,17 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	private String postId;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
     private User user;
 	
+	@NotBlank(message = "Text is required")
 	private String text;
-	
-	private String reaction;
 	
 	private Boolean deleted;
 
 	public Post() {
-		super();
+		deleted = false;
 	}
 
 	public Long getId() {
@@ -38,14 +36,6 @@ public class Post {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public String getPostId() {
-		return postId;
-	}
-
-	public void setPostId(String postId) {
-		this.postId = postId;
 	}
 
 	public User getUser() {
@@ -64,14 +54,6 @@ public class Post {
 		this.text = text;
 	}
 
-	public String getReaction() {
-		return reaction;
-	}
-
-	public void setReaction(String reaction) {
-		this.reaction = reaction;
-	}
-
 	public Boolean getDeleted() {
 		return deleted;
 	}
@@ -79,6 +61,5 @@ public class Post {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	
 	
 }

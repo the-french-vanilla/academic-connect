@@ -42,10 +42,10 @@ public class PostController {
     }
 
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<?> getPostById(@PathVariable String postId){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable String id){
 
-    	Post post = postService.findPostById(postId);
+    	Post post = postService.findPostById(id);
 
         return new ResponseEntity<Post>(post, HttpStatus.OK);
     }
@@ -54,24 +54,24 @@ public class PostController {
     @GetMapping("/all")
     public Iterable<Post> getAllPosts(){return postService.findAllPosts();}
     
-    @PatchMapping("/{postId}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updatePost(@Valid @RequestBody Post post, BindingResult result,
-                                               @PathVariable String postId, Principal principal ){
+                                               @PathVariable String id, Principal principal ){
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
 
-        Post post1 = postService.updatePostById(post,postId, principal.getName());
+        Post post1 = postService.updatePostById(post,id, principal.getName());
 
         return new ResponseEntity<Post>(post1,HttpStatus.OK);
 
     }
 
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable String postId){
-    	postService.deletePostById(postId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable String id){
+    	postService.deletePostById(id);
 
-        return new ResponseEntity<String>("Post with ID: '"+postId+"' was deleted", HttpStatus.OK);
+        return new ResponseEntity<String>("Post with ID: '"+id+"' was deleted", HttpStatus.OK);
     }
 }

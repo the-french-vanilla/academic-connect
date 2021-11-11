@@ -71,6 +71,9 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result){
+//    	System.out.println(userValidator);
+//    	System.out.println(user);
+//    	System.out.println(result);
         // Validate passwords match
         userValidator.validate(user,result);
 

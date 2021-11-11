@@ -35,15 +35,13 @@ public class Education {
     
     @NotBlank(message = "Description is required")
     private String description;
-    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;
 
-
-
     public Education() {
+    	
     }
 
     public Long getId() {
