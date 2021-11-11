@@ -16,16 +16,17 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank(message ="Education Id is required")
-    @Size(min=4, max=5, message = "Please use 4 to 5 characters")
-    @Column(updatable = false, unique = true)
-    private String educationId;
+//    @NotBlank(message ="Education Id is required")
+//    @Size(min=4, max=5, message = "Please use 4 to 5 characters")
+//    @Column(updatable = false, unique = true)
+//    private String educationId;
     
     @NotBlank(message = "Institution is required")
     private String institution;
     
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date startDate;
+    
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date endDate;
     
@@ -53,13 +54,13 @@ public class Education {
         this.id = id;
     }
     
-    public String getEducationId() {
-        return educationId;
-    }
-
-    public void setEducationId(String educationId) {
-        this.educationId = educationId;
-    }
+//    public String getEducationId() {
+//        return educationId;
+//    }
+//
+//    public void setEducationId(String educationId) {
+//        this.educationId = educationId;
+//    }
 
     public String getInstitution() {
         return institution;

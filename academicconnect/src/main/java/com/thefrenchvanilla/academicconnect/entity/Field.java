@@ -6,31 +6,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class UserProfile {
-	
+public class Field {
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	//private byte[] profilePicture;
+	private String fieldId;
 	
-	private Boolean active;
+	private String name;
 	
-	@OneToOne
-    private User user;
-	
-	public UserProfile() {
-		
-	}
-	
-	public UserProfile(User user) {
-		this.user = user;
-		this.active = true;
+	private String description;
+
+	public Field() {
+		super();
 	}
 
 	public Long getId() {
@@ -40,21 +33,30 @@ public class UserProfile {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Boolean getActive() {
-		return active;
+	
+	public String getFieldId() {
+		return fieldId;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
+	public void setFieldId(String fieldId) {
+		this.fieldId = fieldId;
 	}
 
-	public User getUser() {
-		return user;
+	public String getName() {
+		return name;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setName(String name) {
+		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 }

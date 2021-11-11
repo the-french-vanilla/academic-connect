@@ -1,5 +1,7 @@
 package com.thefrenchvanilla.academicconnect.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class EducationService {
     @Autowired
     private UserRepository userRepository;
 
-    public Education saveOrUpdateEducation(Education education, String username){
+    public Education createOrUpdateEducation(Education education, String username){
         try{
             User user = userRepository.findByUsername(username);
             education.setUser(user);
@@ -26,37 +28,64 @@ public class EducationService {
             return educationRepository.save(education);
 
         }catch (Exception e){
-            throw new EducationIdException("Education ID '"+education.getEducationId().toUpperCase()+"' already exists");
+            //throw new EducationIdException("Education ID '"+education.getEducationId().toUpperCase()+"' already exists");
+        	throw new EducationIdException("Education ID '"+education.getId()+"' already exists");
         }
 
     }
 
 
-    public Education findEducationById(String educationId){
+//    public Education findEducationById(String educationId){
+//
+//        //Only want to return the education if the user looking for it is the owner
+//
+//        Education education = educationRepository.findByEducationId(educationId.toUpperCase());
+//
+//        if(education == null){
+//            throw new EducationIdException("Education ID '"+educationId+"' does not exist");
+//
+//        }
+//
+//
+//        return education;
+//    }
+    
+    public Education getEducation(Long id){
 
         //Only want to return the education if the user looking for it is the owner
+    	
+    	Education education;
+    	
+    	try {
 
-        Education education = educationRepository.findByEducationId(educationId.toUpperCase());
+    		education = educationRepository.findById(id).get();
+    		
+    		if(education == null){
+                throw new EducationIdException("Education ID '"+id+"' does not exist");
 
-        if(education == null){
-            throw new EducationIdException("Education ID '"+educationId+"' does not exist");
+            }
+        
+    	} catch (NoSuchElementException e) {
+    		throw new EducationIdException("Education ID '"+id+"' does not exist");
+    	}
 
-        }
+        
 
 
         return education;
     }
 
-    public Iterable<Education> findAllEducations(){
+    public Iterable<Education> getAllEducations(){
         return educationRepository.findAll();
     }
 
 
-    public void deleteEducationById(String educationid){
-        Education education = educationRepository.findByEducationId(educationid.toUpperCase());
+    public void deleteEducation(Long id){
+        //Education education = educationRepository.findByEducationId(educationid.toUpperCase());
+    	Education education = educationRepository.findById(id).get();
 
         if(education == null){
-            throw  new  EducationIdException("Cannot Education with ID '"+educationid+"'. This education does not exist");
+            throw  new  EducationIdException("Cannot Education with ID '"+id+"'. This education does not exist");
         }
 
         educationRepository.delete(education);

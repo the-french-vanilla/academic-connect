@@ -1,6 +1,8 @@
 package com.thefrenchvanilla.academicconnect.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +27,25 @@ public class User implements UserDetails {
     @NotBlank(message = "username is required")
     @Column(unique = true)
     private String username;
+    
     @NotBlank(message = "Please enter your first name")
     private String firstName;
+    
     @NotBlank(message = "Please enter your last name")
     private String lastName;
+    
     @NotBlank(message = "Password field is required")
+    @JsonIgnore
     private String password;
+    
     @Transient
+    @JsonIgnore
     private String confirmPassword;
+    
+    @JsonIgnore
     private Date create_At;
+    
+    @JsonIgnore
     private Date update_At;
     
    

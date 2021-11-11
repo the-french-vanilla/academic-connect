@@ -30,20 +30,28 @@ public class EducationController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> createNewEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal){
+    public ResponseEntity<?> createEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal){
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Education education1 = educationService.saveOrUpdateEducation(education, principal.getName());
+        Education education1 = educationService.createOrUpdateEducation(education, principal.getName());
         return new ResponseEntity<Education>(education1, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/{educationId}")
-    public ResponseEntity<?> getEducationById(@PathVariable String educationId){
+//    @GetMapping("/{educationId}")
+//    public ResponseEntity<?> getEducationById(@PathVariable String educationId){
+//
+//    	Education education = educationService.findEducationById(educationId);
+//
+//        return new ResponseEntity<Education>(education, HttpStatus.OK);
+//    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEducation(@PathVariable Long id){
 
-    	Education education = educationService.findEducationById(educationId);
+    	Education education = educationService.getEducation(id);
 
         return new ResponseEntity<Education>(education, HttpStatus.OK);
     }
@@ -51,15 +59,24 @@ public class EducationController {
 
     @GetMapping("/all")
     public Iterable<Education> getAllEducations(){
-    	return educationService.findAllEducations();
-    	//return null;
+    	return educationService.getAllEducations();
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal){
+
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if(errorMap!=null) return errorMap;
+
+        Education education1 = educationService.createOrUpdateEducation(education, principal.getName());
+        return new ResponseEntity<Education>(education1, HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/{educationId}")
-    public ResponseEntity<?> deleteEducation(@PathVariable String educationId){
-    	educationService.deleteEducationById(educationId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEducation(@PathVariable Long id){
+    	educationService.deleteEducation(id);
 
-        return new ResponseEntity<String>("Education with ID: '"+educationId+"' was deleted", HttpStatus.OK);
+        return new ResponseEntity<String>("Education with ID: '"+id+"' was deleted", HttpStatus.OK);
     }
 }

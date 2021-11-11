@@ -3,6 +3,7 @@ package com.thefrenchvanilla.academicconnect.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.thefrenchvanilla.academicconnect.entity.Education;
 import com.thefrenchvanilla.academicconnect.entity.User;
 
 import java.util.Optional;
