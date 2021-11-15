@@ -1,17 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
-    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    <link th:href="@{/css/forgotpassword.css}" rel="stylesheet" />
-    <title>Forgot Password</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot password</title>
+    <link rel="stylesheet" href="forgotpass.css">
 </head>
+
 <body>
-    <h2>Forgot Password</h2>
-    
-    <span th:text="${data}"></span>
-    
-    <script type="text/javascript" th:src="@{/js/forgotpassword.js}"></script>
+    <u>
+        <h1>FORGOT PASSWORD</h1>
+    </u>>
+    <div class="box">
+        <u>
+            <h2>Enter Your Email Address</h2>
+        </u>
+        <div class="inner-box">
+            <form action="recover.html">
+                <input type="email" placeholder="Enter your Email Address" />
+                <input type="submit" value="Send Link" />
+            </form>
+        </div>
+    </div>
+
 
 </body>
+
+</html>
+ 
+
+
+
+
+Another html page for recover!
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="forgotpass.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Recover</title>
+</head>
+
+<body>
+    <div class="box">
+        <div class="inner-box">
+            <u>
+                <h3> Email Verification link!</h3>
+            </u>
+            <p style="text-align: center;"> Email Verification link has been sent your given email address.</p>
+            <br />
+            <p style="text-align: center;"> Go back to<a class="link" href="signin.html"> Login page
+                </a></p>
+        </div>
+</body>
+
 </html>
