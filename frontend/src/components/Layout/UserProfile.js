@@ -8,6 +8,10 @@ class UserProfile extends Component {
     return (
       <div className="user-profile">
         <h1>User Profile Page</h1>
+        <h1>User Profile Page</h1>
+        <h1>User Profile Page</h1>
+        <h1>User Profile Page</h1>
+        <h1>User Profile Page</h1>
       </div>
     );
   }

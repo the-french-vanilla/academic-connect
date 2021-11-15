@@ -75,7 +75,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/h2-console/**"
+                        "/h2-console/**",
+                        
+                        "/feed",
+                        "/forgotpassword",
+                        "/messaging",
+                        "/signup",
+                        "/profile"
                 ).permitAll()
                 .antMatchers(SIGN_UP_URLS).permitAll()
                 .antMatchers(H2_URL).permitAll()

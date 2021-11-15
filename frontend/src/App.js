@@ -16,6 +16,8 @@ import Landing from "./components/Layout/Landing";
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
 import ForgotPassword from "./components/UserManagement/ForgotPassword";
+import AccountRecovery from "./components/UserManagement/AccountRecovery";
+
 import Feed from "./components/Layout/Feed";
 import UserSettings from "./components/Layout/UserSettings";
 import UserProfile from "./components/Layout/UserProfile";
@@ -51,7 +53,7 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            {/* <Header /> */}
+            <Header />
             {
               //Public Routes
             }
@@ -60,6 +62,17 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/forgotpassword" component={ForgotPassword} />
+              <Route exact path="/accountrecovery" component={AccountRecovery} />
+
+
+              <Route exact path="/feed" component={Feed} />
+              <Route exact path="/settings" component={UserSettings} />
+              <Route exact path="/ac/:username" component={UserProfile} />
+              <Route exact path="/ac/:username/publications" component={UserProfile} />
+              <Route exact path="/ac/:username/connections" component={UserProfile} />
+              <Route exact path="/ac/:username/groups" component={UserProfile} />
+              <Route exact path="/groups/:group_id" component={GroupProfile} />
+              <Route exact path="/messaging/thread/:thread_id" component={Messaging} />
             </Switch>
 
             {
@@ -91,11 +104,11 @@ class App extends Component {
             </Switch> */}
 
             <Switch>
-              <SecuredRoute exact path="/feed" component={Feed} />
-              <SecuredRoute exact path="/settings" component={UserSettings} />
+              {/* <SecuredRoute exact path="/feed" component={Feed} /> */}
+              {/* <SecuredRoute exact path="/settings" component={UserSettings} />
               <SecuredRoute exact path="/ac/:username" component={UserProfile} />
               <SecuredRoute exact path="/groups/:group_id" component={GroupProfile} />
-              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
+              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} /> */}
             </Switch>
 
           </div>

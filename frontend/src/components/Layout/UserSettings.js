@@ -8,6 +8,10 @@ class UserSettings extends Component {
     return (
       <div className="user-settings">
         <h1>User Settings Page</h1>
+        <h1>User Settings Page</h1>
+        <h1>User Settings Page</h1>
+        <h1>User Settings Page</h1>
+        <h1>User Settings Page</h1>
       </div>
     );
   }

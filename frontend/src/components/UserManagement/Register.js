@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 
+import "./register.css";
+
 class Register extends Component {
   constructor() {
     super();
@@ -12,8 +14,11 @@ class Register extends Component {
       username: "",
       firstName: "",
       lastName: "",
+      email: "",
+      phoneNumber: "",
       password: "",
       confirmPassword: "",
+      gender: "",
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -36,6 +41,8 @@ class Register extends Component {
       username: this.state.username,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
+      email: this.state.email,
+      phoneNumber: this.state.phoneNumber,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     };
@@ -49,7 +56,87 @@ class Register extends Component {
 
   render() {
     const { errors } = this.state;
+
     return (
+      <div className="main">
+        <div className="title">SIGNUP FORM</div>
+        <div className="container">
+            <form onSubmit={this.onSubmit}>
+                <div className="users">
+                  <div className="input-box">
+                        <span className="details">Username</span>
+                        <input type="text" name="username" value={this.state.username} onChange={this.onChange} placeholder="Enter your Username" required />
+                        {errors.username && (
+                          <div className="invalid-feedback">{errors.username}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">First Name</span>
+                        <input type="text" name="firstName" value={this.state.firstName} onChange={this.onChange} placeholder="Enter Your First Name" required />
+                        {errors.firstName && (
+                          <div className="invalid-feedback">{errors.firstName}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">Last Name</span>
+                        <input type="text" name="lastName" value={this.state.lastName} onChange={this.onChange} placeholder="Enter Your Last Name" required />
+                        {errors.lastName && (
+                          <div className="invalid-feedback">{errors.lastName}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">Email</span>
+                        <input type="email" name="email" value={this.state.email} onChange={this.onChange} placeholder="Enter your Email" required />
+                        {errors.email && (
+                          <div className="invalid-feedback">{errors.email}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">Phone Number</span>
+                        <input type="text" name="phoneNumber" value={this.state.phoneNumber} onChange={this.onChange} placeholder="Enter your Phone Number" required />
+                        {errors.phoneNumber && (
+                          <div className="invalid-feedback">{errors.phoneNumber}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">Password</span>
+                        <input type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Enter your Password" required />
+                        {errors.password && (
+                          <div className="invalid-feedback">{errors.password}</div>
+                        )}
+                    </div>
+                    <div className="input-box">
+                        <span className="details">Confirm Password</span>
+                        <input type="password" name="confirmPassword" value={this.state.confirmPassword} onChange={this.onChange} placeholder="Confirm your Password" required />
+                        {errors.confirmPassword && (
+                          <div className="invalid-feedback">{errors.confirmPassword}</div>
+                        )}
+                    </div>
+                </div>
+                <div className="gender-info">
+                    <input type="radio" name="gender" id="dot-1" />
+                    <input type="radio" name="gender" id="dot-2" />
+                    <span className="gender-title">Gender</span>
+                    <div className="category">
+                        <label for="dot-1">
+                            <div className="dot one"></div>
+                            <div className="gender">Male</div>
+                        </label>
+                        <label for="dot-2">
+                            <div className="dot two"></div>
+                            <div className="gender">Female</div>
+                        </label>
+                    </div>
+                </div>
+                <div className="button">
+                    <input type="submit" value="Register" />
+                </div>
+            </form>
+        </div>
+    </div>
+    );
+
+    {/* return (
       <div className="register">
         <div className="container">
           <div className="row">
@@ -126,7 +213,7 @@ class Register extends Component {
           </div>
         </div>
       </div>
-    );
+    ); */}
   }
 }
 

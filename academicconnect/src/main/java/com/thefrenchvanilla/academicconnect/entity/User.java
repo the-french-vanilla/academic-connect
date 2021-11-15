@@ -23,8 +23,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@Email(message = "Username needs to be an email")
-    @NotBlank(message = "username is required")
+    @NotBlank(message = "Username is required")
     @Column(unique = true)
     private String username;
     
@@ -34,11 +33,22 @@ public class User implements UserDetails {
     @NotBlank(message = "Please enter your last name")
     private String lastName;
     
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email needs to be an email")
+    @Column(unique = true)
+    private String email;
+    
+    @NotBlank(message = "Phone number is required")
+    private String phoneNumber;
+    
     @NotBlank(message = "Password field is required")
     private String password;
     
     @Transient
     private String confirmPassword;
+    
+    //@NotBlank(message = "Gender is required")
+    private String gender;
     
     private Date create_At;
     
@@ -133,7 +143,31 @@ public class User implements UserDetails {
 //        this.projects = projects;
 //    }
 
-    @PrePersist
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	@PrePersist
     protected void onCreate(){
         this.create_At = new Date();
     }

@@ -5,7 +5,7 @@ import classnames from "classnames";
 import { login } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 
-import "../../static/css/landing.css";
+import "./landing.css";
 
 import frontV3 from '../../static/image/frontV3.png';
 
@@ -85,6 +85,9 @@ class Landing extends Component {
 
               <Link to="/register">
                   Sign Up
+                </Link><br />
+                <Link to="/forgotpassword">
+                  Forgot Password
                 </Link>
             </div>
         </div>

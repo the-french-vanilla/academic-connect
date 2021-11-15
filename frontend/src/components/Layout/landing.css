@@ -35,7 +35,7 @@ button {
     width:800px;
     align-self:center;
     justify-content:center;
-    background: url(../image/Backing.png);
+    background: url(../../static/image/Backing.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
