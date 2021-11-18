@@ -46,6 +46,19 @@ public class PublicationService {
     public Iterable<Publication> getAllPublications() {
         return publicationRepository.findAll();
     }
+    
+    public int getNumberPublications(String username) {
+    	try {
+            User user = userRepository.findByUsername(username);
+            int numPublications = publicationRepository.findAllByUser(user).size();
+            return numPublications;
+        } catch (Exception e) {
+        	e.printStackTrace();
+            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+        }
+    	
+    	return 0;
+    }
 
     public void deletePublication(Long id) {
     	Publication publication = publicationRepository.findById(id).get();

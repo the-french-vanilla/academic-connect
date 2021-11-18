@@ -1,12 +1,8 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Contact;
 import com.thefrenchvanilla.academicconnect.entity.Post;
-import com.thefrenchvanilla.academicconnect.entity.User;
-import com.thefrenchvanilla.academicconnect.payload.CreateChatMessageRequest;
 import com.thefrenchvanilla.academicconnect.service.ChatMessageService;
 import com.thefrenchvanilla.academicconnect.service.ContactService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
@@ -17,24 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/message")
+@RequestMapping("/api/contact")
 @CrossOrigin
-public class ChatMessageController {
+public class ContactController {
 
-    @Autowired
-    private ChatMessageService chatMessageService;
-    
     @Autowired
     private ContactService contactService;
 
@@ -42,20 +28,14 @@ public class ChatMessageController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("")
-    public ResponseEntity<?> createChatMessage(@Valid @RequestBody CreateChatMessageRequest chatMessage, BindingResult result, Principal principal) {
+    public ResponseEntity<?> createContact(@Valid @RequestBody Contact contact, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
-        
-        Contact contact = contactService.getContact(chatMessage.getContactId());
-        User user1 = contact.getUser1();
-        User user2 = contact.getUser2();
-        
-        ChatMessage chatMessage1 = new ChatMessage(user1, user2, contact, chatMessage.getText());
-        
-        ChatMessage chatMessage2 = chatMessageService.createOrUpdateChatMessage(chatMessage1, principal.getName());
-        return new ResponseEntity<ChatMessage>(chatMessage2, HttpStatus.CREATED);
+
+        Contact contact1 = contactService.createOrUpdateContact(contact, principal.getName());
+        return new ResponseEntity<Contact>(contact1, HttpStatus.CREATED);
     }
     
 //    @GetMapping("/{id}")
@@ -63,18 +43,23 @@ public class ChatMessageController {
 //    	ChatMessage chatMessage = chatMessageService.getChatMessage(id);
 //        return new ResponseEntity<ChatMessage>(chatMessage, HttpStatus.OK);
 //    }
-    
-    @GetMapping("/user1/{contactId}/user2/{otherContactId}")
-    public Iterable<ChatMessage> getAllChatMessages(@PathVariable Long contactId, @PathVariable Long otherContactId) {
-    	List<ChatMessage> chatMessages = chatMessageService.getChatMessagesByContactId(contactId, otherContactId);
-        //return new ResponseEntity<ChatMessage>(chatMessages, HttpStatus.OK);
-    	return chatMessages;
-    }
 
-//    @GetMapping("/all")
-//    public Iterable<ChatMessage> getAllChatMessages() {
-//    	return chatMessageService.getAllChatMessages();
-//    }
+    @GetMapping("/all")
+    public Iterable<Contact> getAllContacts(Principal principal) {
+    	return contactService.getAllContacts(principal.getName());
+    }
+    
+    @GetMapping("/firstContactId")
+    public ResponseEntity<?> getFirstContactId(Principal principal) {
+    	Long contactId = contactService.getFirstContactId(principal.getName());
+    	return new ResponseEntity<Long>(contactId, HttpStatus.OK);
+    }
+    
+    @GetMapping("/firstOtherContactId")
+    public ResponseEntity<?> getFirstOtherContactId(Principal principal) {
+    	Long contactId = contactService.getFirstOtherContactId(principal.getName());
+    	return new ResponseEntity<Long>(contactId, HttpStatus.OK);
+    }
     
 //    @PutMapping("/{id}")
 //    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
@@ -87,7 +72,7 @@ public class ChatMessageController {
 //        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
 //        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
 //    } 
-//
+
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {
 //    	chatMessageService.deleteChatMessage(id);

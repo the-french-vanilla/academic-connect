@@ -43,8 +43,19 @@ public class PostService {
     	return post;
     }
 
-    public Iterable<Post> findAllPosts(){
-        return postRepository.findAll();
+    public Iterable<Post> findAllPosts(String username){
+        //return postRepository.findAll();
+        
+        try {
+            User user = userRepository.findByUsername(username);
+            Iterable<Post> posts = postRepository.findAllByUserOrderByCreateAtDesc(user);
+            return posts;
+        } catch (Exception e) {
+        	e.printStackTrace();
+            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+        }
+    	
+    	return null;
     }
     
     public Post updatePost(Post post, Long id, String username){

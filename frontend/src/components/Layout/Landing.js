@@ -5,8 +5,6 @@ import classnames from "classnames";
 import { login } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 
-import "./landing.css";
-
 import frontV3 from '../../static/image/frontV3.png';
 
 class Landing extends Component {
@@ -54,14 +52,15 @@ class Landing extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="landing">
+      <div id="landing-page">
+        <div style={{height: '10vh'}}></div>
         <div className="wrapper">
           <div className="one">  
               <img src={ frontV3 } alt="hello world" />
           </div>
           <div className="two">
               <h1><b>Academic Connect</b></h1>
-              <h2><b>Connect with professors, researchers, and scholars in the academia.</b></h2>
+              <h4><b>Connect with professors, researchers, and scholars in the academia.</b></h4>
 
               <form onSubmit={this.onSubmit} method="post">
                   <label htmlFor="username"><b>Username</b></label>
@@ -104,7 +103,7 @@ Landing.propTypes = {
 
 const mapStateToProps = state => ({
   security: state.security,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(

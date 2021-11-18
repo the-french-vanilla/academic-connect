@@ -1,13 +1,12 @@
 package com.thefrenchvanilla.academicconnect.entity;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 
@@ -15,29 +14,27 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class UserGroup {
-	
+public class Contact {
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToMany
-	@JsonIgnore
-	private Set<User> users;
+	@OneToOne
+	//@JsonIgnore
+    private User user1;
 	
-	@NotBlank(message = "Name is required")
-	private String name;
-	
-	@NotBlank(message = "Description is required")
-	private String description;
+	@OneToOne
+	//@JsonIgnore
+    private User user2;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createAt;
+    private Date createAt;
 	
-	private Boolean active;
+	private Boolean archived;
 
-	public UserGroup() {
-		active = true;
+	public Contact() {
+		archived = false;
 	}
 
 	public Long getId() {
@@ -48,28 +45,28 @@ public class UserGroup {
 		this.id = id;
 	}
 
-	public Set<User> getUsers() {
-		return users;
+	public User getUser1() {
+		return user1;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setUser1(User user1) {
+		this.user1 = user1;
 	}
 
-	public String getName() {
-		return name;
+	public Boolean getArchived() {
+		return archived;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setArchived(Boolean archived) {
+		this.archived = archived;
 	}
 
-	public String getDescription() {
-		return description;
+	public User getUser2() {
+		return user2;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setUser2(User user2) {
+		this.user2 = user2;
 	}
 
 	public Date getCreateAt() {
@@ -84,13 +81,5 @@ public class UserGroup {
     protected void onCreate(){
         this.createAt = new Date();
     }
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
+	
 }

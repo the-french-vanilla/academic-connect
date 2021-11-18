@@ -5,15 +5,18 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Connection;
+import com.thefrenchvanilla.academicconnect.entity.Contact;
 import com.thefrenchvanilla.academicconnect.entity.User;
-import com.thefrenchvanilla.academicconnect.entity.UserProfile;
 
 @Repository
-public interface ConnectionRepository extends CrudRepository<Connection, Long> {
+public interface ContactRepository extends CrudRepository<Contact, Long> {
 
     @Override
-    Iterable<Connection> findAll();
+    Iterable<Contact> findAll();
     
-    List<Connection> findAllByUser1(User user1);
+    List<Contact> findAllByUser1(User user1);
+    
+    List<Contact> findAllByUser2(User user2);
 }

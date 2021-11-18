@@ -46,6 +46,11 @@ public class ConnectionController {
     	return connectionService.getAllConnections();
     }
     
+    @GetMapping("/number")
+    public int getNumberConnections(Principal principal) {
+    	return connectionService.getNumberConnections(principal.getName());
+    }
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> updateConnection(@Valid @RequestBody Connection connection, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);

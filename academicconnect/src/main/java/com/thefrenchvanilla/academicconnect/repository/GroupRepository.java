@@ -6,14 +6,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.thefrenchvanilla.academicconnect.entity.Connection;
+import com.thefrenchvanilla.academicconnect.entity.Publication;
 import com.thefrenchvanilla.academicconnect.entity.User;
-import com.thefrenchvanilla.academicconnect.entity.UserProfile;
+import com.thefrenchvanilla.academicconnect.entity.UserGroup;
 
 @Repository
-public interface ConnectionRepository extends CrudRepository<Connection, Long> {
+public interface GroupRepository extends CrudRepository<UserGroup, Long> {
 
     @Override
-    Iterable<Connection> findAll();
+    Iterable<UserGroup> findAll();
     
-    List<Connection> findAllByUser1(User user1);
+    //List<UserGroup> findAllByUser(User user);
 }

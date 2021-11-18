@@ -3,19 +3,22 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
 import { createNewPost, getAllPosts } from "../../actions/postActions";
+import { getNumberOfConnections } from "../../actions/connectionActions";
+import { getNumberOfPublications } from "../../actions/publicationActions";
+import { getNumberOfGroups } from "../../actions/groupActions";
+import { getFirstContactId, getFirstOtherContactId } from "../../actions/contactActions";
 import PropTypes from "prop-types";
-
-import "./feed.css";
 
 class Feed extends Component {
   constructor() {
     super();
     this.state = {
       text: ""
-    }
-    this.logout = this.logout.bind(this);
+    };
+    // this.logout = this.logout.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.updateText = this.updateText.bind(this);
   }
 
   componentDidMount() {
@@ -24,12 +27,27 @@ class Feed extends Component {
     }
 
     this.props.getAllPosts();
+    this.props.getNumberOfConnections();
+    this.props.getNumberOfPublications();
+    //this.props.getNumberOfGroups();
+    this.props.getFirstContactId();
+    this.props.getFirstOtherContactId();
   }
 
-  logout() {
-    this.props.logout();
-    window.location.href = "/";
+  test = (e) => {
+    e.preventDefault();
   }
+
+  updateText(e) {
+    this.setState({
+      text: e.target.value
+    });
+  }
+
+  // logout() {
+  //   this.props.logout();
+  //   window.location.href = "/";
+  // }
 
   onSubmit(e) {
     e.preventDefault();
@@ -42,7 +60,11 @@ class Feed extends Component {
 
     this.props.createNewPost(PostRequest);
 
-    window.location.href = "/";
+    this.setState({
+      text: ""
+    });
+
+    // window.location.href = "/";
   }
 
   onChange(e) {
@@ -51,6 +73,11 @@ class Feed extends Component {
 
   render() {
     let posts = this.props.posts;
+
+    const { numConnections, numPublications, numGroups }  = this.props;
+    const { user } = this.props;
+
+    const { firstContactId, firstOtherContactId } = this.props;
 
     return (
       <div className="feed">
@@ -61,13 +88,12 @@ class Feed extends Component {
         <div className="profile">
           <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" />
         </div>
-        <h4>Terry Jiang</h4>
-
+        <h4>{user.firstName + ' ' + user.lastName}</h4>
         
         <h5>
-          <Link to="/ac/johndoe/connections">143 Connections</Link><br />
-          <Link to="/ac/johndoe/publications">43 Publications</Link><br />
-          <Link to="/ac/johndoe/groups">5 Groups</Link>
+          <Link to={'/ac/' + user.username + '/connections'}>{numConnections} Connection{numConnections > 1 ? 's': ''}</Link><br />
+          <Link to={'/ac/' + user.username + '/publications'}>{numPublications} Publication{numPublications > 1 ? 's': ''}</Link><br />
+          <Link to={'/ac/' + user.username + '/groups'}>{numGroups} Group{numGroups > 1 ? 's': ''}</Link>
         </h5>
         <hr className="dashed" />
         <h3 className="centre"><u>Trending News</u></h3>
@@ -88,8 +114,8 @@ class Feed extends Component {
                       <div className="profile_thumb rounded-img">
                         <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
                       </div>
-                      <form action="">
-                        <input type="text" placeholder="What's New about today?"/>
+                      <form onSubmit={this.test}>
+                        <input type="text" value={this.state.text} onChange={this.updateText} placeholder="What's New about today?"/>
                       </form>
                     </div>
                     <div className="create_btn">
@@ -108,30 +134,21 @@ class Feed extends Component {
                           <h6>Live Video</h6>
                         </li>
                       </ul>
-                      <button className="btn btn-outline-success">Publish</button>
+                      <button disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
                     </div>
                   </div>
                 </div>
 
-
-                <div className="card">
-                  <h2>Allan Kranz</h2>
-                  <h6>Title description, Dec 7, 2017</h6>
-                  <div className="fakeimg" style={{height:'200px'}}>Image</div>
-                  <p>Some text..</p>
-                  <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco.</p>
-                </div>
-                <div className="card">
-                  <h2>Waqar Haque</h2>
-                  <h6>Title description, Sep 2, 2017</h6>
-                  <div className="fakeimg" style={{height:'200px'}}>Image</div>
-                  <p>Some text..</p>
-                  <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco.</p>
-                </div>
+                {
+                  posts.map((post) =>
+                    <div key={post.id} className="card">
+                      <h2>{user.firstName + ' ' + user.lastName}</h2>
+                      <h6>{post.createAt}</h6>
+                      <div className="fakeimg" style={{height:'200px'}}>Image</div>
+                      <p>{post.text}</p>
+                    </div>
+                  )
+                }
               </div>
             </div>
             </div>
@@ -183,9 +200,18 @@ Feed.propTypes = {
 const mapStateToProps = state => ({
   security: state.security,
   posts: state.postReducer.posts,
+  numConnections: state.connectionReducer.numConnections,
+  numPublications: state.publicationReducer.numPublications,
+  numGroups: state.groupReducer.numGroups,
+  user: state.security.user,
+
+  firstContactId: state.contactReducer.firstContactId,
+  firstOtherContactId: state.contactReducer.firstOtherContactId,
 });
 
 export default connect(
   mapStateToProps,
-  { logout, createNewPost, getAllPosts }
+  { logout, createNewPost, getAllPosts,
+    getNumberOfConnections, getNumberOfPublications, getNumberOfGroups,
+    getFirstContactId, getFirstOtherContactId }
 )(Feed);

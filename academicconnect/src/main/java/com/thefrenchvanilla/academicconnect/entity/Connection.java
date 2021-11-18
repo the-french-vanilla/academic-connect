@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,8 +27,8 @@ public class Connection {
 	@JsonIgnore
     private User user2;
 	
-	@JsonFormat(pattern = "yyyy-mm-dd")
-    private Date dateConnected;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createAt;
 	
 	private Boolean active;
 
@@ -59,13 +60,18 @@ public class Connection {
 		this.user2 = user2;
 	}
 
-	public Date getDateConnected() {
-		return dateConnected;
-	}
+	public Date getCreateAt() {
+        return createAt;
+    }
 
-	public void setDateConnected(Date dateConnected) {
-		this.dateConnected = dateConnected;
-	}
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+    
+    @PrePersist
+    protected void onCreate(){
+        this.createAt = new Date();
+    }
 
 	public Boolean getActive() {
 		return active;

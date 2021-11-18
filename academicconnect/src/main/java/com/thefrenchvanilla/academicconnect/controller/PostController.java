@@ -1,6 +1,9 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
 import com.thefrenchvanilla.academicconnect.entity.Post;
+import com.thefrenchvanilla.academicconnect.payload.CreatePostRequest;
+import com.thefrenchvanilla.academicconnect.payload.CreatePostResponse;
+import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 import com.thefrenchvanilla.academicconnect.service.PostService;
 
@@ -26,14 +29,20 @@ public class PostController {
 
 
     @PostMapping("")
-    public ResponseEntity<?> createPost(@Valid @RequestBody Post post, BindingResult result, Principal principal) {
+    public ResponseEntity<?> createPost(@Valid @RequestBody CreatePostRequest postRequest, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
+        
+        Post post = new Post(postRequest.getText());
 
         Post post1 = postService.saveOrUpdatePost(post, principal.getName());
-        return new ResponseEntity<Post>(post1, HttpStatus.CREATED);
+        //return new ResponseEntity<Post>(post1, HttpStatus.CREATED);
+        
+        return ResponseEntity.ok(new CreatePostResponse(post1.getId(), post1.getUser().getUsername(), 
+        		post1.getText(), post1.getDeleted(), post1.getCreateAt()));
+        
     }
 
     @GetMapping("/{id}")
@@ -43,8 +52,8 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public Iterable<Post> getAllPosts() {
-    	return postService.findAllPosts();
+    public Iterable<Post> getAllPosts(Principal principal) {
+    	return postService.findAllPosts(principal.getName());
     }
     
     @PatchMapping("/{id}")

@@ -50,7 +50,7 @@ public class User implements UserDetails {
     //@NotBlank(message = "Gender is required")
     private String gender;
     
-    private Date create_At;
+    private Date createAt;
     
     private Date update_At;
     
@@ -119,12 +119,12 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public Date getCreate_At() {
-        return create_At;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreate_At(Date create_At) {
-        this.create_At = create_At;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public Date getUpdate_At() {
@@ -169,7 +169,7 @@ public class User implements UserDetails {
 
 	@PrePersist
     protected void onCreate(){
-        this.create_At = new Date();
+        this.createAt = new Date();
     }
 
     @PreUpdate
@@ -184,7 +184,7 @@ public class User implements UserDetails {
     @Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", create_At=" + create_At
+				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", createAt=" + createAt
 				+ ", update_At=" + update_At + "]";
 	}
 

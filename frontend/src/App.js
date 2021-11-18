@@ -65,14 +65,14 @@ class App extends Component {
               <Route exact path="/accountrecovery" component={AccountRecovery} />
 
 
-              <Route exact path="/feed" component={Feed} />
+              {/* <Route exact path="/feed" component={Feed} />
               <Route exact path="/settings" component={UserSettings} />
               <Route exact path="/ac/:username" component={UserProfile} />
               <Route exact path="/ac/:username/publications" component={UserProfile} />
               <Route exact path="/ac/:username/connections" component={UserProfile} />
               <Route exact path="/ac/:username/groups" component={UserProfile} />
               <Route exact path="/groups/:group_id" component={GroupProfile} />
-              <Route exact path="/messaging/thread/:thread_id" component={Messaging} />
+              <Route exact path="/messaging/thread/:thread_id" component={Messaging} /> */}
             </Switch>
 
             {
@@ -104,11 +104,14 @@ class App extends Component {
             </Switch> */}
 
             <Switch>
-              {/* <SecuredRoute exact path="/feed" component={Feed} /> */}
-              {/* <SecuredRoute exact path="/settings" component={UserSettings} />
+              <SecuredRoute exact path="/feed" component={Feed} />
+              <SecuredRoute exact path="/settings" component={UserSettings} />
               <SecuredRoute exact path="/ac/:username" component={UserProfile} />
+              <SecuredRoute exact path="/ac/:username/publications" component={UserProfile} />
+              <SecuredRoute exact path="/ac/:username/connections" component={UserProfile} />
+              <SecuredRoute exact path="/ac/:username/groups" component={UserProfile} />
               <SecuredRoute exact path="/groups/:group_id" component={GroupProfile} />
-              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} /> */}
+              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
             </Switch>
 
           </div>

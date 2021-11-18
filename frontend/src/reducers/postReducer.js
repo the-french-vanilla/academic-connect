@@ -2,7 +2,7 @@ import { CREATE_NEW_POST, GET_ALL_POSTS } from "../actions/types";
 
 const initialState = {
   posts: [],
-  post: {}
+  // post: {}
 };
 
 export default function(state = initialState, action) {
@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
     case CREATE_NEW_POST:
       return {
         ...state,
-        post: action.payload
+        // post: action.payload
       };
 
     case GET_ALL_POSTS:

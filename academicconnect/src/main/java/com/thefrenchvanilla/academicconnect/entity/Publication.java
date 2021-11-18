@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -27,7 +28,8 @@ public class Publication {
 	@NotBlank(message = "Title is required")
 	private String title;
 	
-	@NotBlank(message = "Date is required")
+	//@NotBlank(message = "Date is required")
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date date;
 	
 	@NotBlank(message = "Authors is required")

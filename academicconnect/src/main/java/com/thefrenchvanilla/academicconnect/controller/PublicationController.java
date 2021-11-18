@@ -27,13 +27,13 @@ public class PublicationController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("")
-    public ResponseEntity<?> createPublication(@Valid @RequestBody Publication notification, BindingResult result, Principal principal) {
+    public ResponseEntity<?> createPublication(@Valid @RequestBody Publication publication, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
 
-        Publication notification1 = publicationService.createOrUpdatePublication(notification, principal.getName());
+        Publication notification1 = publicationService.createOrUpdatePublication(publication, principal.getName());
         return new ResponseEntity<Publication>(notification1, HttpStatus.CREATED);
     }
     
@@ -46,6 +46,11 @@ public class PublicationController {
     @GetMapping("/all")
     public Iterable<Publication> getAllPublications() {
     	return publicationService.getAllPublications();
+    }
+    
+    @GetMapping("/number")
+    public int getNumberPublications(Principal principal) {
+    	return publicationService.getNumberPublications(principal.getName());
     }
     
     @PutMapping("/{id}")

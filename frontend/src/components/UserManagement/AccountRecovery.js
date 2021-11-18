@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 
-import "./forgotpassword.css";
+// import "./forgotpassword.css";
 
 class AccountRecovery extends Component {
   render() {

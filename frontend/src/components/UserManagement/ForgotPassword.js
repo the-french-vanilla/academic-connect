@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 
-import "./forgotpassword.css";
+// import "./forgotpassword.css";
 
 class ForgotPassword extends Component {
   render() {
     return (
       <div className="forgot-password">
+        <div style={{height: '10vh'}}></div>
         <u>
             <h1>FORGOT PASSWORD</h1>
         </u>

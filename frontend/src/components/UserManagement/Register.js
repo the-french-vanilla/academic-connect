@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { createNewUser } from "../../actions/securityActions";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
-
-import "./register.css";
 
 class Register extends Component {
   constructor() {
@@ -58,7 +57,10 @@ class Register extends Component {
     const { errors } = this.state;
 
     return (
+      <div id="register-page">
+        
       <div className="main">
+      <div style={{height: '10vh'}}></div>
         <div className="title">SIGNUP FORM</div>
         <div className="container">
             <form onSubmit={this.onSubmit}>
@@ -130,9 +132,13 @@ class Register extends Component {
                 </div>
                 <div className="button">
                     <input type="submit" value="Register" />
+                    <Link to="/">
+                      Back
+                    </Link>
                 </div>
             </form>
         </div>
+    </div>
     </div>
     );
 
