@@ -28,42 +28,59 @@ class Header extends Component {
             </Link>
           </li> */}
           <li className="nav-item">
-            <Link className="nav-link" to="#">Notification</Link>
+              <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
+              <Link className="nav-link" to="/feed">Notification <span class="sr-only">(current)</span></Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to={'/ac/' + user.username}>Profile</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={'/messaging/thread/' + this.props.firstContactId}>Messaging</Link>
+              <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
+              <Link className="nav-link" to={'/messaging/thread/' + this.props.firstContactId}>Messaging <span class="sr-only">(current)</span></Link>
           </li>
         </ul>
 
-        <ul className="navbar-nav ml-auto">
+
+        {/* <form className="form-inline">
+          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> */}
+
+        <form className="navbar-form navbar-right" role="search" id="navBarSearchForm" type="get" >
+          <div className="input-group" id ="searchA">
+            <input id="wish_title1" type="text" className="form-control" placeholder="Search" name="wish_title1" />
+            <span className="input-group-btn">
+              <button className="btn btn-primary">
+                <i className="glyphicon glyphicon-search"></i>Search
+              </button>
+            </span>
+          </div>
+        </form>
+
+        <ul className="navbar-nav l-auto">
           <li className="nav-item">
             <Link className="nav-link" to={'/ac/' + user.username}>
               <i className="fas fa-user-circle mr-1" />
               {user.firstName + ' ' + user.lastName}
             </Link>
           </li>
-          <li className="nav-item">
-            {/* <Link
+
+          {/* <li className="nav-item">
+            <Link
               className="nav-link"
               to="/logout"
               onClick={this.logout.bind(this)}
             >
               Logout
-            </Link> */}
-            
-          </li>
+            </Link>
+          </li> */}
         </ul>
+
         <div className="dropdown">
           <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i className="fa fa-cog"></i>Settings
           </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button className="dropdown-item" type="button">
+          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+            {/* <button className="dropdown-item" type="button">
               <Link to="/settings">Privacy Settings</Link>
-            </button>
+            </button> */}
             <button className="dropdown-item" type="button">
               <Link to="/settings">Manage Account</Link>
             </button>
@@ -118,6 +135,8 @@ class Header extends Component {
           </button>
           {headerLinks}
         </div>
+
+        
       </nav>
     );
 

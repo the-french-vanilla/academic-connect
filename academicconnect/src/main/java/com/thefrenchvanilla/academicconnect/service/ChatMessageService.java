@@ -50,7 +50,7 @@ public class ChatMessageService {
     		otherChatMessages = chatMessageRepository.findAllByContact(otherContact);
     		chatMessages.addAll(otherChatMessages);
     		
-    		Collections.sort(chatMessages, Collections.reverseOrder());
+    		Collections.sort(chatMessages);
     		
     		return chatMessages;
     		

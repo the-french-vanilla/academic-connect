@@ -142,10 +142,18 @@ class Feed extends Component {
                 {
                   posts.map((post) =>
                     <div key={post.id} className="card">
-                      <h2>{user.firstName + ' ' + user.lastName}</h2>
-                      <h6>{post.createAt}</h6>
-                      <div className="fakeimg" style={{height:'200px'}}>Image</div>
-                      <p>{post.text}</p>
+                      <div className="create_input d_flex">
+                        <div className="profile_thumb rounded-img">
+                          <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
+                        </div>
+                        <div style={{float: 'right'}}>
+                          <h4>{user.firstName + ' ' + user.lastName}</h4>
+                          <h6>{post.createAt}</h6>
+                        </div>
+                        <div>
+                          <p>{post.text}</p>
+                        </div>
+                      </div>
                     </div>
                   )
                 }

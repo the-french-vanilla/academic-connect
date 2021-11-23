@@ -23,6 +23,7 @@ import UserSettings from "./components/Layout/UserSettings";
 import UserProfile from "./components/Layout/UserProfile";
 import GroupProfile from "./components/Layout/GroupProfile";
 import Messaging from "./components/Layout/Messaging";
+import SearchResult from "./components/Layout/SearchResult";
 
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
@@ -112,6 +113,7 @@ class App extends Component {
               <SecuredRoute exact path="/ac/:username/groups" component={UserProfile} />
               <SecuredRoute exact path="/groups/:group_id" component={GroupProfile} />
               <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
+              <SecuredRoute exact path="/search/results/all" component={SearchResult} />
             </Switch>
 
           </div>
