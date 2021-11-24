@@ -15,9 +15,13 @@ import AccountRecovery from "./components/UserManagement/AccountRecovery";
 import Feed from "./components/Layout/Feed";
 import UserSettings from "./components/Layout/UserSettings";
 import UserProfile from "./pages/UserProfile/index";
+import Connections from "./pages/Connections/index";
+import Pages from "./pages/Pages/index";
+import Groups from "./pages/Groups/index";
+import Events from "./pages/Events/index";
+import SearchResults from "./pages/SearchResults";
 import GroupProfile from "./components/Layout/GroupProfile";
 import Messaging from "./components/Layout/Messaging";
-import SearchResult from "./components/Layout/SearchResult";
 
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
@@ -75,9 +79,15 @@ class App extends Component {
               <SecuredRoute exact path="/feed" component={Feed} />
               <SecuredRoute exact path="/settings" component={UserSettings} />
               <SecuredRoute path="/ac/:username" component={UserProfile} />
-              <SecuredRoute exact path="/groups/:group_id" component={GroupProfile} />
+              <SecuredRoute exact path="/group/:group_id" component={GroupProfile} />
               <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
-              <SecuredRoute exact path="/search/results/all" component={SearchResult} />
+
+              <SecuredRoute path="/connections" component={Connections} />
+              <SecuredRoute path="/pages" component={Pages} />
+              <SecuredRoute path="/groups" component={Groups} />
+              <SecuredRoute path="/events" component={Events} />
+              <SecuredRoute path="/search/results" component={SearchResults} />
+
               {
                 // Page not found
               }

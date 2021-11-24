@@ -35,6 +35,26 @@ class Header extends Component {
               <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
               <Link className="nav-link" to={'/messaging/thread/' + this.props.firstContactId}>Messaging <span class="sr-only">(current)</span></Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/connections">
+              Connections
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/pages">
+              Pages
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/groups">
+              Groups
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/events">
+              Events
+            </Link>
+          </li>
         </ul>
 
 
