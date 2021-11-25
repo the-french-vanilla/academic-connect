@@ -46,16 +46,16 @@ public class TrendingNewsController {
     	return trendingNewsService.getAllTrendingNews();
     }
     
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateTrendingNews(@Valid @RequestBody TrendingNews trendingNews, BindingResult result, Principal principal) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) {
-        	return errorMap;
-        }
-
-        TrendingNews trendingNews1 = trendingNewsService.createOrUpdateTrendingNews(trendingNews);
-        return new ResponseEntity<TrendingNews>(trendingNews1, HttpStatus.OK);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updateTrendingNews(@Valid @RequestBody TrendingNews trendingNews, BindingResult result, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+//
+//        TrendingNews trendingNews1 = trendingNewsService.createOrUpdateTrendingNews(trendingNews);
+//        return new ResponseEntity<TrendingNews>(trendingNews1, HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTrendingNews(@PathVariable Long id) {

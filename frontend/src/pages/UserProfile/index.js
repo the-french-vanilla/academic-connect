@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecureRoute";
-import { createNewPost, getAllPosts } from "../../actions/postActions";
+import { getUserProfile } from "../../actions/userProfileActions";
 import PostsTab from "./PostsTab";
 import ProfileTab from "./ProfileTab";
 import PublicationsTab from "./PublicationsTab";
@@ -23,9 +23,10 @@ class UserProfile extends Component {
     // this.updateText = this.updateText.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.props.getAllPosts();
-  // }
+  componentDidMount() {
+    const { user } = this.props;
+    this.props.getUserProfile(user.id);
+  }
 
   // test = (e) => {
   //   e.preventDefault();
@@ -60,8 +61,7 @@ class UserProfile extends Component {
   // }
 
   render() {
-    let posts = this.props.posts;
-    const { user } = this.props;
+    const { userProfile } = this.props;
 
     const {match} = this.props;
 
@@ -71,15 +71,22 @@ class UserProfile extends Component {
 
         <div style={{overflow: 'hidden'}}>
           <img src="" alt="" width="100" height="100" style={{float: 'left'}} />
-          <div style={{float: 'left', margin: '10px'}}>
-            <h3>Terry Jiang</h3>
-            <span>Associate Professor at UNBC</span>
-          </div>
+          { 
+            userProfile != null ? (
+              <div style={{float: 'left', margin: '10px'}}>
+                <h3>{userProfile.user.firstName + ' ' + userProfile.user.lastName}</h3>
+                <span>{userProfile.headline}</span>
+              </div>
+            ) : null
+          }
           <div style={{float: 'left', margin: '10px'}}>
             <button>Connect</button>
           </div>
           <div style={{float: 'left', margin: '10px'}}>
             <button>Message</button>
+          </div>
+          <div style={{float: 'left', margin: '10px'}}>
+            <button>Update Profile</button>
           </div>
         </div>
 
@@ -342,18 +349,11 @@ UserProfile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  security: state.security,
-  posts: state.postReducer.posts,
-  numConnections: state.connectionReducer.numConnections,
-  numPublications: state.publicationReducer.numPublications,
-  numGroups: state.groupReducer.numGroups,
   user: state.security.user,
-
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
+  userProfile: state.userProfileReducer.userProfile,
 });
 
 export default connect(
   mapStateToProps,
-  { createNewPost, getAllPosts }
+  { getUserProfile }
 )(UserProfile);

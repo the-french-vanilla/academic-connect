@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.thefrenchvanilla.academicconnect.entity.Education;
+import com.thefrenchvanilla.academicconnect.entity.Event;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.entity.UserProfile;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
@@ -63,7 +64,9 @@ public class UserService {
         return user;
     }
 
-
+    public Iterable<User> getAllUsers() {
+    	return userRepository.findAll();
+    }
 
 }
 

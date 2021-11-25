@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logout } from "../../actions/securityActions";
+import { createNewEducation, getAllEducations } from "../../actions/educationActions";
+import { getNumberOfPublications } from "../../actions/publicationActions";
 
 class ProfileTab extends Component {
+  componentDidMount() {
+    this.props.getAllEducations();
+    this.props.getNumberOfPublications();
+  }
+
   render() {
-    const { user } = this.props;
+    const { user, userProfile, educations, numPublications } = this.props;
 
     return (
       <div>
@@ -42,21 +48,34 @@ class ProfileTab extends Component {
             
             <div style={{height: '30px'}}></div>
 
+            <h4>About</h4>
+
             <div className="container border round bg-light">
-              <h4>Education</h4>
-              <span><b>University of Manitoba</b></span>
-              <div id="spacing"></div>
-              <span>Doctor of Philosophy, Computer Science (2012-2017)</span><br />
-              <span>Master's Degree, Computer Science (2010-2012)</span><br />
-              <span>Bachelor's Degree, Computer Science (2005-2010)</span>
-              <div id="spacing"></div>
+            <p>{userProfile.about}</p>
             </div>
+
+            <h4>Education</h4>
+
+            {
+              educations.map((education) =>
+                <div key={education.id} >
+                  <div className="container border round bg-light">
+                    <span><b>{education.institution} </b></span>({education.startDate + ' to ' + education.endDate})
+                    <div style={{height: '10px'}}></div>
+                    {education.accreditation}
+                    <div style={{height: '10px'}}></div>
+                    <span>{education.description}</span>
+                  </div>
+                  <div style={{height: '30px'}}></div>
+                </div>
+              )
+            }
 
             <div style={{height: '30px'}}></div>
 
             <div className="container border round bg-light">
               <span><b>Publications</b></span>
-              <span style={{float: 'right'}}>21</span><br />
+              <span style={{float: 'right'}}>{numPublications}</span><br />
               <span><b>Citations</b></span>
               <span style={{float: 'right'}}>233</span>
             </div>
@@ -79,17 +98,13 @@ class ProfileTab extends Component {
 }
 
 const mapStateToProps = state => ({
-  security: state.security,
-  posts: state.postReducer.posts,
-  numConnections: state.connectionReducer.numConnections,
+  educations: state.educationReducer.educations,
+  user: state.security.user,  
   numPublications: state.publicationReducer.numPublications,
-  numGroups: state.groupReducer.numGroups,
-  user: state.security.user,
-
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
+  userProfile: state.userProfileReducer.userProfile,
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { createNewEducation, getAllEducations, getNumberOfPublications }
 )(ProfileTab);

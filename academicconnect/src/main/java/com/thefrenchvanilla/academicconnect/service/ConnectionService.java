@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thefrenchvanilla.academicconnect.entity.Connection;
+import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
 import com.thefrenchvanilla.academicconnect.exception.PostIdException;
@@ -44,8 +45,17 @@ public class ConnectionService {
         return connection;
     }
 
-    public Iterable<Connection> getAllConnections() {
-        return connectionRepository.findAll();
+    public Iterable<Connection> getAllConnections(String username) {
+    	Iterable<Connection> connections = null;
+        try {
+            User user = userRepository.findByUsername(username);
+            connections = connectionRepository.findAllByUser1(user);
+            
+        } catch (Exception e) {
+        	e.printStackTrace();
+            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+        }
+        return connections;
     }
     
     public int getNumberConnections(String username) {

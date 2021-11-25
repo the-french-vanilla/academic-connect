@@ -1,10 +1,7 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Contact;
-import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.CreateChatMessageRequest;
 import com.thefrenchvanilla.academicconnect.service.ChatMessageService;
@@ -17,14 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -58,11 +49,11 @@ public class ChatMessageController {
         return new ResponseEntity<ChatMessage>(chatMessage2, HttpStatus.CREATED);
     }
     
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getChatMessage(@PathVariable Long id) {
-//    	ChatMessage chatMessage = chatMessageService.getChatMessage(id);
-//        return new ResponseEntity<ChatMessage>(chatMessage, HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getChatMessage(@PathVariable Long id) {
+    	ChatMessage chatMessage = chatMessageService.getChatMessage(id);
+        return new ResponseEntity<ChatMessage>(chatMessage, HttpStatus.OK);
+    }
     
     @GetMapping("/user1/{contactId}/user2/{otherContactId}")
     public Iterable<ChatMessage> getAllChatMessages(@PathVariable Long contactId, @PathVariable Long otherContactId) {
@@ -76,21 +67,21 @@ public class ChatMessageController {
 //    	return chatMessageService.getAllChatMessages();
 //    }
     
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
-//    												  @PathVariable Long id, Principal principal) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-//        if (errorMap != null) {
-//        	return errorMap;
-//        }
-//
-//        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
-//        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
-//    } 
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {
-//    	chatMessageService.deleteChatMessage(id);
-//        return new ResponseEntity<String>("ChatMessage with ID: '" + id + "' was deleted", HttpStatus.OK);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
+    												  @PathVariable Long id, Principal principal) {
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null) {
+        	return errorMap;
+        }
+
+        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
+        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
+    } 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {
+    	chatMessageService.deleteChatMessage(id);
+        return new ResponseEntity<String>("ChatMessage with ID: '" + id + "' was deleted", HttpStatus.OK);
+    }
 }

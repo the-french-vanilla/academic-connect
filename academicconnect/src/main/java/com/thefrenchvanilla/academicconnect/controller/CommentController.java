@@ -1,6 +1,5 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Comment;
 import com.thefrenchvanilla.academicconnect.service.CommentService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;

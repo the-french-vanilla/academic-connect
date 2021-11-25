@@ -23,25 +23,30 @@ public class UserProfileService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
-
     
     public UserProfile findUserProfile(Long userId){
-
         //Only want to return the education if the user looking for it is the owner
-
         User user = userRepository.getById(userId);
-        System.out.println(user.getId());
         UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
-
         if(userProfile == null){
             throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
 
         }
-
-
         return userProfile;
     }
 
-
+    public UserProfile updateUserProfile(Long userId, String headline, String about){
+    	//Only want to return the education if the user looking for it is the owner
+        User user = userRepository.getById(userId);
+        UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
+        if(userProfile == null){
+            throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
+        }
+        userProfile.setHeadline(headline);
+        userProfile.setAbout(about);
+        userProfileRepository.save(userProfile);
+        
+        return userProfile;
+    }
 
 }

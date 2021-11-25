@@ -42,8 +42,8 @@ public class ConnectionController {
     }
 
     @GetMapping("/all")
-    public Iterable<Connection> getAllConnections() {
-    	return connectionService.getAllConnections();
+    public Iterable<Connection> getAllConnections(Principal principal) {
+    	return connectionService.getAllConnections(principal.getName());
     }
     
     @GetMapping("/number")
@@ -61,8 +61,6 @@ public class ConnectionController {
         Connection connection1 = connectionService.createOrUpdateConnection(connection, principal.getName());
         return new ResponseEntity<Connection>(connection1, HttpStatus.OK);
     }
-    
-    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteConnection(@PathVariable Long id) {

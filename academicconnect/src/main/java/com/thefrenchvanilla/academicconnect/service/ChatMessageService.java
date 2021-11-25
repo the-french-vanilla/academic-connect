@@ -63,37 +63,37 @@ public class ChatMessageService {
     	return chatMessages;
     }
     
-//    public ChatMessage getChatMessage(Long id) {
-//    	ChatMessage chatMessage;
-//    	try {
-//    		chatMessage = chatMessageRepository.findById(id).get();
-//    		if (chatMessage == null) {
-//                throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
-//            }
-//    	} catch (NoSuchElementException e) {
-//    		throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
-//    	}
-//        return chatMessage;
-//    }
+    public ChatMessage getChatMessage(Long id) {
+    	ChatMessage chatMessage;
+    	try {
+    		chatMessage = chatMessageRepository.findById(id).get();
+    		if (chatMessage == null) {
+                throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
+            }
+    	} catch (NoSuchElementException e) {
+    		throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
+    	}
+        return chatMessage;
+    }
 
-//    public Iterable<ChatMessage> getAllChatMessages() {
-//        return chatMessageRepository.findAll();
-//    }
+    public Iterable<ChatMessage> getAllChatMessages() {
+        return chatMessageRepository.findAll();
+    }
     
-//    public ChatMessage updateChatMessage(ChatMessage chatMessage, Long id, String username){
-//    	ChatMessage chatMessage1 = chatMessageRepository.findById(id).get();
-//        if(chatMessage1 == null) {
-//            throw new PostIdException("Cannot ChatMessage with ID '" + id + "'. This chat message does not exist");
-//        }
-//        return chatMessageRepository.save(chatMessage1);
-//    }
-//
-//    public void deleteChatMessage(Long id) {
-//    	ChatMessage chatMessage = chatMessageRepository.findById(id).get();
-//        if (chatMessage == null) {
-//            throw new EducationIdException("Cannot delete ChatMessage with ID '" + id + "'. This education does not exist");
-//        }
-//        chatMessageRepository.delete(chatMessage);
-//    }
+    public ChatMessage updateChatMessage(ChatMessage chatMessage, Long id, String username){
+    	ChatMessage chatMessage1 = chatMessageRepository.findById(id).get();
+        if(chatMessage1 == null) {
+            throw new PostIdException("Cannot ChatMessage with ID '" + id + "'. This chat message does not exist");
+        }
+        return chatMessageRepository.save(chatMessage1);
+    }
+
+    public void deleteChatMessage(Long id) {
+    	ChatMessage chatMessage = chatMessageRepository.findById(id).get();
+        if (chatMessage == null) {
+            throw new EducationIdException("Cannot delete ChatMessage with ID '" + id + "'. This education does not exist");
+        }
+        chatMessageRepository.delete(chatMessage);
+    }
 
 }

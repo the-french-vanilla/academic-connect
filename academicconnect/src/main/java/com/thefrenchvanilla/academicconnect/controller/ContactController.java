@@ -38,11 +38,11 @@ public class ContactController {
         return new ResponseEntity<Contact>(contact1, HttpStatus.CREATED);
     }
     
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getChatMessage(@PathVariable Long id) {
-//    	ChatMessage chatMessage = chatMessageService.getChatMessage(id);
-//        return new ResponseEntity<ChatMessage>(chatMessage, HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getContact(@PathVariable Long id) {
+    	Contact chatMessage = contactService.getContact(id);
+        return new ResponseEntity<Contact>(chatMessage, HttpStatus.OK);
+    }
 
     @GetMapping("/all")
     public Iterable<Contact> getAllContacts(Principal principal) {
@@ -61,21 +61,21 @@ public class ContactController {
     	return new ResponseEntity<Long>(contactId, HttpStatus.OK);
     }
     
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
-//    												  @PathVariable Long id, Principal principal) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-//        if (errorMap != null) {
-//        	return errorMap;
-//        }
-//
-//        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
-//        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
-//    } 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateContact(@Valid @RequestBody Contact contact, BindingResult result, 
+    												  @PathVariable Long id, Principal principal) {
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null) {
+        	return errorMap;
+        }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {
-//    	chatMessageService.deleteChatMessage(id);
-//        return new ResponseEntity<String>("ChatMessage with ID: '" + id + "' was deleted", HttpStatus.OK);
-//    }
+        Contact contact1 = contactService.updateContact(contact, id, principal.getName());
+        return new ResponseEntity<Contact>(contact1, HttpStatus.OK);
+    } 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteContact(@PathVariable Long id) {
+    	contactService.deleteContact(id);
+        return new ResponseEntity<String>("Contact with ID: '" + id + "' was deleted", HttpStatus.OK);
+    }
 }

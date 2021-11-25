@@ -7,6 +7,8 @@ import groupReducer from "./groupReducer";
 import publicationReducer from "./publicationReducer";
 import contactReducer from "./contactReducer";
 import chatMessageReducer from "./chatMessageReducer";
+import educationReducer from "./educationReducer";
+import userProfileReducer from "./userProfileReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -17,4 +19,6 @@ export default combineReducers({
   publicationReducer: publicationReducer,
   contactReducer: contactReducer,
   chatMessageReducer: chatMessageReducer,
+  educationReducer: educationReducer,
+  userProfileReducer: userProfileReducer,
 });

@@ -21,12 +21,18 @@ public class UserProfile {
 	
 	private Boolean active;
 	
+	private String headline;
+	
+	private String about;
+	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	public UserProfile() {
 		active = true;
+		headline = "";
+		about = "";
 	}
 	
 	public UserProfile(User user) {
@@ -56,6 +62,22 @@ public class UserProfile {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getHeadline() {
+		return headline;
+	}
+
+	public void setHeadline(String headline) {
+		this.headline = headline;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
 }

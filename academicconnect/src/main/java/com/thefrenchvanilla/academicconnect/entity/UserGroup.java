@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 
@@ -21,9 +23,9 @@ public class UserGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToMany
-	@JsonIgnore
-	private Set<User> users;
+//	@ManyToMany
+//	@JsonIgnore
+//	private Set<User> users;
 	
 	@NotBlank(message = "Name is required")
 	private String name;
@@ -35,6 +37,14 @@ public class UserGroup {
 	private Date createAt;
 	
 	private Boolean active;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Page page;
 
 	public UserGroup() {
 		active = true;
@@ -48,13 +58,13 @@ public class UserGroup {
 		this.id = id;
 	}
 
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
+//	public Set<User> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<User> users) {
+//		this.users = users;
+//	}
 
 	public String getName() {
 		return name;
@@ -91,6 +101,22 @@ public class UserGroup {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 
 }

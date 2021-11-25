@@ -82,20 +82,20 @@ public class ContactService {
         }
     }
     
-//    public ChatMessage updateChatMessage(ChatMessage chatMessage, Long id, String username){
-//    	ChatMessage chatMessage1 = chatMessageRepository.findById(id).get();
-//        if(chatMessage1 == null) {
-//            throw new PostIdException("Cannot ChatMessage with ID '" + id + "'. This chat message does not exist");
-//        }
-//        return chatMessageRepository.save(chatMessage1);
-//    }
-//
-//    public void deleteChatMessage(Long id) {
-//    	ChatMessage chatMessage = chatMessageRepository.findById(id).get();
-//        if (chatMessage == null) {
-//            throw new EducationIdException("Cannot delete ChatMessage with ID '" + id + "'. This education does not exist");
-//        }
-//        chatMessageRepository.delete(chatMessage);
-//    }
+    public Contact updateContact(Contact chatMessage, Long id, String username){
+    	Contact contact1 = contactRepository.findById(id).get();
+        if(contact1 == null) {
+            throw new PostIdException("Cannot Contact with ID '" + id + "'. This contact does not exist");
+        }
+        return contactRepository.save(contact1);
+    }
+
+    public void deleteContact(Long id) {
+    	Contact contact1 = contactRepository.findById(id).get();
+        if (contact1 == null) {
+            throw new EducationIdException("Cannot delete Contact with ID '" + id + "'. This contact does not exist");
+        }
+        contactRepository.delete(contact1);
+    }
 
 }

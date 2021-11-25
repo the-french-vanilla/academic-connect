@@ -2,6 +2,7 @@ package com.thefrenchvanilla.academicconnect.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thefrenchvanilla.academicconnect.entity.Education;
+import com.thefrenchvanilla.academicconnect.entity.Event;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
@@ -29,6 +30,8 @@ import javax.validation.Valid;
 
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.TOKEN_PREFIX;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin
@@ -48,8 +51,6 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
@@ -91,6 +92,11 @@ public class UserController {
     	User user = userService.findUserById(userId);
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<User> getAllUsers() {
+    	return userService.getAllUsers();
     }
 }
 

@@ -24,3 +24,11 @@ export const GET_ALL_CONTACTS = "GET_ALL_CONTACTS";
 // chat messages
 export const CREATE_NEW_CHAT_MESSAGE = "CREATE_NEW_CHAT_MESSAGE";
 export const GET_ALL_CHAT_MESSAGES = "GET_ALL_CHAT_MESSAGES";
+
+// education
+export const CREATE_NEW_EDUCATION = "CREATE_NEW_EDUCATION";
+export const GET_ALL_EDUCATIONS = "GET_ALL_EDUCATIONS";
+
+// user profile
+export const GET_USER_PROFILE = "GET_USER_PROFILE";
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";

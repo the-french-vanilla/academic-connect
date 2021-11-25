@@ -27,6 +27,10 @@ public class Comment {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    private Page page;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Post post;
 	
 	@NotBlank(message = "Text is required")
@@ -59,6 +63,14 @@ public class Comment {
 
 	public Post getPost() {
 		return post;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 
 	public void setPost(Post post) {
