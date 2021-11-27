@@ -109,7 +109,7 @@ class SelectedContact extends Component {
                         <div className="text-muted small text-nowrap mt-2">{chatMessage.createAt}</div>
                       </div>
                       <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                        <div className="font-weight-bold mb-1">{chatMessage.user2.firstName + ' ' + chatMessage.user2.lastName}</div>
+                        <div className="font-weight-bold mb-1">{chatMessage.user1.firstName + ' ' + chatMessage.user1.lastName}</div>
                         {chatMessage.text}
                       </div>
                     </div>

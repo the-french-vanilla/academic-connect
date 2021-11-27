@@ -45,7 +45,7 @@ export const getIsConnected = (username) => async dispatch => {
     //   payload: err.response.data
     // });
   }
-
+  
   dispatch(checkConnectionRequestSent(username));
   dispatch(checkConnectionRequestReceived(username));
 };

@@ -19,7 +19,7 @@ public interface ConnectionRepository extends CrudRepository<Connection, Long> {
     
     List<Connection> findByUser1OrUser2(User user1, User user2);
     
-    long countByUser1OrUser2(User user1, User user2);
+    long countByUser1AndUser2(User user1, User user2);
 
 	Iterable<Connection> findAllByUser1AndUser2(User user2, User user);
 }

@@ -28,11 +28,11 @@ class UserProfile extends Component {
 
   componentDidMount() {
     const { match, user } = this.props;
-    this.props.getUserProfile(match.params.username);
+    this.props.getUserProfile(match.params.username, user.username);
 
-    if (user.username !== match.params.username) {
-      this.props.getIsConnected(match.params.username);
-    }
+    // if (user.username !== match.params.username) {
+    //   this.props.getIsConnected(match.params.username);
+    // }
   }
 
   connect() {

@@ -38,7 +38,7 @@ public class ConnectionController {
     
     @GetMapping("/{username}/connected")
     public ResponseEntity<?> getIsConnected(@PathVariable String username, Principal principal) {
-    	Boolean isConnected = connectionService.getIsConnected(principal, username);
+    	Boolean isConnected = connectionService.getIsConnected(username, principal.getName());
         return new ResponseEntity<Boolean>(isConnected, HttpStatus.OK);
     }
     

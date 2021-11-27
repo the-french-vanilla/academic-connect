@@ -52,10 +52,10 @@ public class ConnectionService {
         }
 	}
     
-    public Boolean getIsConnected(Principal principal, String username) {
-    	User user1 = userRepository.findByUsername(principal.getName());
-    	User user2 = userRepository.findByUsername(username);
-		if (connectionRepository.countByUser1OrUser2(user1, user2) == 0) {
+    public Boolean getIsConnected(String username2, String username) {
+    	User user = userRepository.findByUsername(username);
+    	User user2 = userRepository.findByUsername(username2);
+		if (connectionRepository.countByUser1AndUser2(user, user2) == 0) {
 			return false;
 		} else {
 			return true;
