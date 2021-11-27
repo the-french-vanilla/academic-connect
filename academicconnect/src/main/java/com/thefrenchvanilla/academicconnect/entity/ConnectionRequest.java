@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,11 +20,11 @@ public class ConnectionRequest {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user1;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user2;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -32,7 +33,7 @@ public class ConnectionRequest {
 	private String status;
 
 	public ConnectionRequest() {
-		
+		status = "pending";
 	}
 
 	public Long getId() {
@@ -58,6 +59,11 @@ public class ConnectionRequest {
 	public void setUser2(User user2) {
 		this.user2 = user2;
 	}
+	
+	@PrePersist
+    protected void onCreate(){
+        this.createAt = new Date();
+    }
 
 	public Date getCreateAt() {
 		return createAt;

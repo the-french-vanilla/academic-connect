@@ -1,6 +1,7 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
 import com.thefrenchvanilla.academicconnect.entity.Connection;
+import com.thefrenchvanilla.academicconnect.payload.UnconnectRequest;
 import com.thefrenchvanilla.academicconnect.service.ConnectionService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 
@@ -33,6 +34,18 @@ public class ConnectionController {
 
         Connection connection1 = connectionService.createOrUpdateConnection(connection, principal.getName());
         return new ResponseEntity<Connection>(connection1, HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/{username}/connected")
+    public ResponseEntity<?> getIsConnected(@PathVariable String username, Principal principal) {
+    	Boolean isConnected = connectionService.getIsConnected(principal, username);
+        return new ResponseEntity<Boolean>(isConnected, HttpStatus.OK);
+    }
+    
+    @PostMapping("/unconnect")
+    public ResponseEntity<?> unconnect(@Valid @RequestBody UnconnectRequest unconnectRequest, BindingResult result, Principal principal) {
+    	connectionService.unconnect(unconnectRequest.getUsername(), principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @GetMapping("/{id}")

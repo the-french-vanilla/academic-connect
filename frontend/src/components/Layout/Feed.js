@@ -26,7 +26,7 @@ class Feed extends Component {
       this.props.history.push("/feed");
     }
 
-    this.props.getAllPosts();
+    this.props.getAllPosts(this.props.user.username);
     this.props.getNumberOfConnections();
     this.props.getNumberOfPublications();
     //this.props.getNumberOfGroups();
@@ -58,7 +58,7 @@ class Feed extends Component {
       deleted: false
     };
 
-    this.props.createNewPost(PostRequest);
+    this.props.createNewPost(PostRequest, this.props.user.username);
 
     this.setState({
       text: ""

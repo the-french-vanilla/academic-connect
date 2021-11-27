@@ -16,4 +16,10 @@ public interface ConnectionRepository extends CrudRepository<Connection, Long> {
     Iterable<Connection> findAll();
     
     List<Connection> findAllByUser1(User user1);
+    
+    List<Connection> findByUser1OrUser2(User user1, User user2);
+    
+    long countByUser1OrUser2(User user1, User user2);
+
+	Iterable<Connection> findAllByUser1AndUser2(User user2, User user);
 }

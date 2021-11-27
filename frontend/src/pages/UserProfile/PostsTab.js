@@ -19,7 +19,8 @@ class PostsTab extends Component {
   }
 
   componentDidMount() {
-    this.props.getAllPosts();
+    const { match } = this.props;
+    this.props.getAllPosts(match.params.username);
   }
 
   test = (e) => {
@@ -40,8 +41,10 @@ class PostsTab extends Component {
       reaction: 'test',
       deleted: false
     };
+    
+    const { match } = this.props;
 
-    this.props.createNewPost(PostRequest);
+    this.props.createNewPost(PostRequest, match.params.username);
 
     this.setState({
       text: ""
@@ -55,8 +58,8 @@ class PostsTab extends Component {
   }
 
   render() {
-    let posts = this.props.posts;
-    const { user } = this.props;
+    //let posts = this.props.posts;
+    const { match, user, posts, isConnected } = this.props;
 
     return (
       <div>
@@ -94,6 +97,7 @@ class PostsTab extends Component {
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+            
             <div className="container">
               <div className="row">
                 <div className="col-8">
@@ -191,6 +195,7 @@ const mapStateToProps = state => ({
   security: state.security,
   posts: state.postReducer.posts,
   numConnections: state.connectionReducer.numConnections,
+  isConnected: state.connectionReducer.isConnected,
   numPublications: state.publicationReducer.numPublications,
   numGroups: state.groupReducer.numGroups,
   user: state.security.user,

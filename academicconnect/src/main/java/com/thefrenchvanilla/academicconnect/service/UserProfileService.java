@@ -24,13 +24,12 @@ public class UserProfileService {
     @Autowired
     private UserProfileRepository userProfileRepository;
     
-    public UserProfile findUserProfile(Long userId){
+    public UserProfile findUserProfile(String username){
         //Only want to return the education if the user looking for it is the owner
-        User user = userRepository.getById(userId);
+        User user = userRepository.findByUsername(username);
         UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
         if(userProfile == null){
             throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
-
         }
         return userProfile;
     }

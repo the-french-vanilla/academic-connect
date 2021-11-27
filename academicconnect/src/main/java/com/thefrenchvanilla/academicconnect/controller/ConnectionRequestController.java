@@ -1,9 +1,11 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.thefrenchvanilla.academicconnect.entity.Connection;
 import com.thefrenchvanilla.academicconnect.entity.ConnectionRequest;
+import com.thefrenchvanilla.academicconnect.payload.AcceptConnectionRequestRequest;
+import com.thefrenchvanilla.academicconnect.payload.CancelConnectionRequestRequest;
+import com.thefrenchvanilla.academicconnect.payload.CreateConnectionRequestRequest;
+import com.thefrenchvanilla.academicconnect.payload.DeleteConnectionRequestRequest;
 import com.thefrenchvanilla.academicconnect.service.ConnectionRequestService;
-import com.thefrenchvanilla.academicconnect.service.ConnectionService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +28,56 @@ public class ConnectionRequestController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("")
-    public ResponseEntity<?> createConnectionRequest(@Valid @RequestBody ConnectionRequest connectionRequest, BindingResult result, Principal principal) {
+    @PostMapping("/")
+    public ResponseEntity<?> createConnectionRequest(@Valid @RequestBody CreateConnectionRequestRequest createConnectionRequestRequest, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
 
-        ConnectionRequest connectionRequest1 = connectionRequestService.createOrUpdateConnectionRequest(connectionRequest, principal.getName());
+        ConnectionRequest connectionRequest1 = connectionRequestService.createOrUpdateConnectionRequest(createConnectionRequestRequest.getUsername(), principal.getName());
         return new ResponseEntity<ConnectionRequest>(connectionRequest1, HttpStatus.CREATED);
     }
+    
+    @GetMapping("/{username}/checksent")
+    public boolean checkSendConnectionRequest(@PathVariable String username, Principal principal) {
+    	return connectionRequestService.checkSendConnectionRequest(username, principal.getName());
+    }
+    
+    @GetMapping("/{username}/checkreceived")
+    public boolean checkReceivedConnectionRequest(@PathVariable String username, Principal principal) {
+    	return connectionRequestService.checkReceivedConnectionRequest(username, principal.getName());
+    }
+    
+    @GetMapping("/sendrequests")
+    public Iterable<ConnectionRequest> getSentConnectionRequests(Principal principal) {
+    	return connectionRequestService.getSentConnectionRequests(principal.getName());
+    }
+    
+    @GetMapping("/receivedrequests")
+    public Iterable<ConnectionRequest> getReceivedConnectionRequests(Principal principal) {
+    	return connectionRequestService.getReceivedConnectionRequests(principal.getName());
+    }
+    
+    @PostMapping("/accept")
+    public ResponseEntity<?> acceptConnectionRequest(@Valid @RequestBody AcceptConnectionRequestRequest acceptConnectionRequestRequest, BindingResult result, Principal principal) {
+    	connectionRequestService.acceptConnectionRequest(acceptConnectionRequestRequest.getUsername(), principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteConnectionRequest(@Valid @RequestBody DeleteConnectionRequestRequest deleteConnectionRequestRequest, BindingResult result, Principal principal) {
+    	connectionRequestService.deleteConnectionRequest(deleteConnectionRequestRequest.getUsername(), principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+    @PostMapping("/cancel")
+    public ResponseEntity<?> cancelConnectionRequest(@Valid @RequestBody CancelConnectionRequestRequest cancelConnectionRequestRequest, BindingResult result, Principal principal) {
+    	connectionRequestService.cancelConnectionRequest(cancelConnectionRequestRequest.getUsername(), principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+    
     
     @GetMapping("/{id}")
     public ResponseEntity<?> getConnectionRequest(@PathVariable Long id) {
@@ -69,9 +111,9 @@ public class ConnectionRequestController {
 //        return new ResponseEntity<ConnectionRequest>(connectionRequest1, HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteConnectionRequest(@PathVariable Long id) {
-    	connectionRequestService.deleteConnectionRequest(id);
-        return new ResponseEntity<String>("ConnectionRequest with ID: '" + id + "' was deleted", HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteConnectionRequest(@PathVariable Long id) {
+//    	connectionRequestService.deleteConnectionRequest(id);
+//        return new ResponseEntity<String>("ConnectionRequest with ID: '" + id + "' was deleted", HttpStatus.OK);
+//    }
 }

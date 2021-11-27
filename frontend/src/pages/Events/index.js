@@ -47,11 +47,11 @@ class Events extends Component {
               </div>
               <div className="modal-body mx-3">
                 <div className="md-form mb-5">
-                  <label data-error="wrong" data-success="right" for="defaultForm-name">Event Name</label>
+                  <label data-error="wrong" data-success="right" htmlFor="defaultForm-name">Event Name</label>
                   <input type="text" id="defaultForm-name" className="form-control validate" />
                 </div>
                 <div className="md-form mb-5">
-                  <label data-error="wrong" data-success="right" for="defaultForm-description">Description</label>
+                  <label data-error="wrong" data-success="right" htmlFor="defaultForm-description">Description</label>
                   <textarea type="text" id="defaultForm-description" className="form-control validate" />
                 </div>
               </div>

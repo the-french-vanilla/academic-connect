@@ -2,9 +2,38 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { 
+  getSentConnectionRequests, 
+  getReceivedConnectionRequests,
+  acceptConnectionRequest,
+  deleteConnectionRequest,
+  cancelConnectionRequest 
+} from "../../actions/connectionRequestActions";
 
 class ConnectionRequestsTab extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.props.getSentConnectionRequests();
+    this.props.getReceivedConnectionRequests();
+  }
+
+  accept(username, page) {
+    this.props.acceptConnectionRequest(username, page);
+  }
+
+  delete(username, page) {
+    this.props.deleteConnectionRequest(username, page);
+  }
+
+  cancel(username) {
+    this.props.cancelConnectionRequest(username);
+  }
+
   render() {
+    const { sendConnectionRequests, receivedConnectionRequests } = this.props;
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -26,7 +55,56 @@ class ConnectionRequestsTab extends Component {
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="connection-requests" role="tabpanel" aria-labelledby="connection-requests-tab">
-            Connection Requests
+            
+            <div style={{height: '30px'}}></div>
+
+            <h4>Received Connection Requests</h4>
+
+            {
+              receivedConnectionRequests.length > 0 ? (
+                receivedConnectionRequests.map((receivedConnectionRequest) =>
+                  <div key={receivedConnectionRequest.id} className="container border round bg-light">
+                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
+                    <div style={{padding: '10px'}}>
+                      <span><b>{receivedConnectionRequest.user1.firstName + ' ' + receivedConnectionRequest.user1.lastName}</b></span><br />
+                      {/* <div id="spacing"></div>
+                      <span>Post-Doctoral Fellow</span><br />
+                      <div id="spacing"></div>
+                      <span>4 Mutual Connections</span> */}
+                      <div className="col-9"></div>
+                      <div className="col-3">
+                        <button onClick={() => this.accept(receivedConnectionRequest.user1.username, 'connections')}>Accept</button>
+                        <button onClick={() => this.delete(receivedConnectionRequest.user1.username, 'connections')}>Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                ) 
+              ) : <div>You have not send any connection requests.</div>
+            }
+
+            <h4>Sent Connection Requests</h4>
+
+            {
+              sendConnectionRequests.length > 0 ? (
+                sendConnectionRequests.map((sendConnectionRequest) =>
+                  <div key={sendConnectionRequest.id} className="container border round bg-light">
+                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
+                    <div style={{padding: '10px'}}>
+                      <span><b>{sendConnectionRequest.user1.firstName + ' ' + sendConnectionRequest.user1.lastName}</b></span><br />
+                      {/* <div id="spacing"></div>
+                      <span>Post-Doctoral Fellow</span><br />
+                      <div id="spacing"></div>
+                      <span>4 Mutual Connections</span> */}
+                      <div className="col-9"></div>
+                      <div className="col-3">
+                        <button onClick={() => this.cancel(sendConnectionRequest.user2.username)}>Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                ) 
+              ) : <div>You have not send any connection requests.</div>
+            }
+
           </div>
         </div>
       </div>
@@ -35,6 +113,8 @@ class ConnectionRequestsTab extends Component {
 }
 
 const mapStateToProps = state => ({
+  sendConnectionRequests: state.connectionRequestReducer.sendConnectionRequests,
+  receivedConnectionRequests: state.connectionRequestReducer.receivedConnectionRequests,
   // security: state.security,
   // posts: state.postReducer.posts,
   // numConnections: state.connectionReducer.numConnections,
@@ -47,5 +127,12 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { 
+    getSentConnectionRequests, 
+    getReceivedConnectionRequests,
+    acceptConnectionRequest,
+    deleteConnectionRequest,
+    cancelConnectionRequest
+ }
 )(ConnectionRequestsTab);

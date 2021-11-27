@@ -1,11 +1,13 @@
 package com.thefrenchvanilla.academicconnect.service;
 
+import java.security.Principal;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thefrenchvanilla.academicconnect.entity.Connection;
+import com.thefrenchvanilla.academicconnect.entity.ConnectionRequest;
 import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
@@ -31,6 +33,34 @@ public class ConnectionService {
         	throw new EducationIdException("Connection ID '" + connection.getId() + "' already exists");
         }
     }
+    
+    public void unconnect(String username2, String username) {
+		Iterable<Connection> connections = null;
+		Iterable<Connection> connections2 = null;
+		User user = null;
+		User user2 = null;
+		try {
+            user = userRepository.findByUsername(username);
+            user2 = userRepository.findByUsername(username2);
+            connections = connectionRepository.findAllByUser1AndUser2(user, user2);
+            connections2 = connectionRepository.findAllByUser1AndUser2(user2, user);
+            connectionRepository.deleteAll(connections);
+            connectionRepository.deleteAll(connections2);
+        } catch (Exception e) {
+        	e.printStackTrace();
+            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+        }
+	}
+    
+    public Boolean getIsConnected(Principal principal, String username) {
+    	User user1 = userRepository.findByUsername(principal.getName());
+    	User user2 = userRepository.findByUsername(username);
+		if (connectionRepository.countByUser1OrUser2(user1, user2) == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
     
     public Connection getConnection(Long id) {
     	Connection connection;

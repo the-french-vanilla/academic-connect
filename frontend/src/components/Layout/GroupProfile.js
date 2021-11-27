@@ -34,7 +34,7 @@ class GroupProfile extends Component {
       deleted: false
     };
 
-    this.props.createNewPost(PostRequest);
+    //this.props.createNewPost(PostRequest);
 
     this.setState({
       text: ""

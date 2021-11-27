@@ -24,7 +24,7 @@ public class Connection {
     private User user1;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user2;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

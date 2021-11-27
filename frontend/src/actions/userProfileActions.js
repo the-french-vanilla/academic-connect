@@ -1,8 +1,8 @@
 import axios from "axios";
 import { GET_USER_PROFILE, UPDATE_USER_PROFILE } from "./types";
 
-export const getUserProfile = (userId) => async dispatch => {
-  const res = await axios.get("http://localhost:8081/api/profile/" + userId);
+export const getUserProfile = (username) => async dispatch => {
+  const res = await axios.get("http://localhost:8081/api/profile/" + username);
   dispatch({
     type: GET_USER_PROFILE,
     payload: res.data

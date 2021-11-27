@@ -1,8 +1,5 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.thefrenchvanilla.academicconnect.entity.Education;
-import com.thefrenchvanilla.academicconnect.entity.Event;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
@@ -29,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.TOKEN_PREFIX;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")

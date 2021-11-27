@@ -3,6 +3,7 @@ import errorReducer from "./errorReducer";
 import securityReducer from "./securityReducer";
 import postReducer from "./postReducer";
 import connectionReducer from "./connectionReducer";
+import connectionRequestReducer from "./connectionRequestReducer";
 import groupReducer from "./groupReducer";
 import publicationReducer from "./publicationReducer";
 import contactReducer from "./contactReducer";
@@ -15,6 +16,7 @@ export default combineReducers({
   security: securityReducer,
   postReducer: postReducer,
   connectionReducer: connectionReducer,
+  connectionRequestReducer: connectionRequestReducer,
   groupReducer: groupReducer,
   publicationReducer: publicationReducer,
   contactReducer: contactReducer,

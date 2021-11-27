@@ -14,26 +14,26 @@ class UserSettings extends Component {
             <div className="col-8">
             <form>
               <div className="form-group">
-                <label for="firstName">First Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input type="text" className="form-control" id="firstName" aria-describedby="firstNameHelp" placeholder="Enter first name" />
                 <small id="firstNameHelp" className="form-text text-muted">First name</small>
               </div>
               <div className="form-group">
-                <label for="lastName">Last Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <input type="text" className="form-control" id="lastName" aria-describedby="lastNameHelp" placeholder="Enter last name" />
                 <small id="lastNameHelp" className="form-text text-muted">Last name</small>
               </div>
               <div className="form-group">
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
                 <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
                 <small id="emailHelp" className="form-text text-muted">Email.</small>
               </div>
               <div className="form-group">
-                <label for="changePassword">Change Password</label>
+                <label htmlFor="changePassword">Change Password</label>
                 <input type="password" className="form-control" id="changePassword" placeholder="Change Password" />
               </div>
               <div className="form-group">
-                <label for="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">Confirm Password</label>
                 <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm Password" />
               </div>
               <button type="submit" className="btn btn-primary">Save</button>

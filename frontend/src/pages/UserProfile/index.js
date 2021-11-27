@@ -5,6 +5,13 @@ import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecureRoute";
 import { getUserProfile } from "../../actions/userProfileActions";
+import { getIsConnected } from "../../actions/connectionActions";
+import { 
+  sendConnectionRequest,
+  acceptConnectionRequest,
+  deleteConnectionRequest 
+} from "../../actions/connectionRequestActions";
+
 import PostsTab from "./PostsTab";
 import ProfileTab from "./ProfileTab";
 import PublicationsTab from "./PublicationsTab";
@@ -14,56 +21,73 @@ import GroupsTab from "./GroupsTab";
 class UserProfile extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   text: ""
-    // };
-    // // this.logout = this.logout.bind(this);
-    // this.onChange = this.onChange.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
-    // this.updateText = this.updateText.bind(this);
+    this.connect = this.connect.bind(this);
+    this.message = this.message.bind(this);
   }
 
   componentDidMount() {
-    const { user } = this.props;
-    this.props.getUserProfile(user.id);
+    const { match, user } = this.props;
+    this.props.getUserProfile(match.params.username);
+
+    if (user.username !== match.params.username) {
+      this.props.getIsConnected(match.params.username);
+    }
   }
 
-  // test = (e) => {
-  //   e.preventDefault();
-  // }
+  connect() {
+    const { match } = this.props;
+    this.props.sendConnectionRequest(match.params.username);
+  }
 
-  // updateText(e) {
-  //   this.setState({
-  //     text: e.target.value
-  //   });
-  // }
+  accept(username, page) {
+    this.props.acceptConnectionRequest(username, page);
+  }
 
-  // onSubmit(e) {
-  //   e.preventDefault();
-  //   const PostRequest = {
-  //     postId: 1,
-  //     text: this.state.text,
-  //     reaction: 'test',
-  //     deleted: false
-  //   };
+  delete(username, page) {
+    this.props.deleteConnectionRequest(username, page);
+  }
 
-  //   this.props.createNewPost(PostRequest);
-
-  //   this.setState({
-  //     text: ""
-  //   });
-
-  //   // window.location.href = "/";
-  // }
-
-  // onChange(e) {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // }
+  message() {
+    
+  }
 
   render() {
-    const { userProfile } = this.props;
+    const { match, user, userProfile, isConnected, 
+      connectionRequestSent, connectionRequestReceived } = this.props;
 
-    const {match} = this.props;
+    let connectionButton = null;
+    if (isConnected) {
+      connectionButton = (
+        <div style={{float: 'left', margin: '10px'}}>
+          <button style={{cursor: 'not-allowed'}}>Connected</button>
+        </div>
+      );
+    } else {
+      if (connectionRequestSent) {
+        connectionButton = (
+          <div style={{float: 'left', margin: '10px'}}>
+            <button style={{cursor: 'not-allowed'}}>Connection Request Sent</button>
+          </div>
+        );
+      } else if (connectionRequestReceived) {
+        connectionButton = (
+          <React.Fragment>
+            <div style={{float: 'left', margin: '10px'}}>
+              <button onClick={() => this.accept(userProfile.user.username, 'userProfile')}>Accept Connection Request</button>
+            </div>
+            <div style={{float: 'left', margin: '10px'}}>
+              <button onClick={() => this.delete(userProfile.user.username, 'userProfile')}>Reject Connection Request</button>
+            </div>
+          </React.Fragment>
+        );
+      } else {
+        connectionButton = (
+          <div style={{float: 'left', margin: '10px'}}>
+            <button onClick={this.connect}>Connect</button>
+          </div>
+        );
+      }
+    }
 
     return (
       <div className="user-profile">
@@ -79,15 +103,22 @@ class UserProfile extends Component {
               </div>
             ) : null
           }
-          <div style={{float: 'left', margin: '10px'}}>
-            <button>Connect</button>
-          </div>
-          <div style={{float: 'left', margin: '10px'}}>
-            <button>Message</button>
-          </div>
-          <div style={{float: 'left', margin: '10px'}}>
-            <button>Update Profile</button>
-          </div>
+          {
+            (user.username === match.params.username) ? (
+              <div style={{float: 'left', margin: '10px'}}>
+                <button>Update Profile</button>
+              </div>
+            ) : (
+              <React.Fragment>
+                {connectionButton}
+                <div style={{float: 'left', margin: '10px'}}>
+                  <button onClick={this.message}>Message</button>
+                </div>
+              </React.Fragment>
+            )
+          }
+          
+          
         </div>
 
         <Switch>
@@ -351,9 +382,17 @@ UserProfile.propTypes = {
 const mapStateToProps = state => ({
   user: state.security.user,
   userProfile: state.userProfileReducer.userProfile,
+  isConnected: state.connectionReducer.isConnected,
+  connectionRequestSent: state.connectionRequestReducer.connectionRequestSent,
+  connectionRequestReceived: state.connectionRequestReducer.connectionRequestReceived,
 });
 
 export default connect(
   mapStateToProps,
-  { getUserProfile }
+  { getUserProfile, 
+    getIsConnected, 
+    sendConnectionRequest,
+    acceptConnectionRequest,
+    deleteConnectionRequest
+  }
 )(UserProfile);

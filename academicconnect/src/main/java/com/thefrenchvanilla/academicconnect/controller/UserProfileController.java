@@ -36,10 +36,10 @@ public class UserProfileController {
     @Autowired
     private UserProfileService userProfileService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserProfile(@PathVariable Long userId){
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getUserProfile(@PathVariable String username){
 
-    	UserProfile userProfile = userProfileService.findUserProfile(userId);
+    	UserProfile userProfile = userProfileService.findUserProfile(username);
 
         return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
     }

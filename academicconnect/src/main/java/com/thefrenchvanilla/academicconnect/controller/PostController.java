@@ -51,9 +51,9 @@ public class PostController {
         return new ResponseEntity<Post>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public Iterable<Post> getAllPosts(Principal principal) {
-    	return postService.findAllPosts(principal.getName());
+    @GetMapping("/all/{username}")
+    public Iterable<Post> getAllPosts(@PathVariable String username) {
+    	return postService.findAllPosts(username);
     }
     
     @PatchMapping("/{id}")

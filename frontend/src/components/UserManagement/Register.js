@@ -120,11 +120,11 @@ class Register extends Component {
                     <input type="radio" name="gender" id="dot-2" />
                     <span className="gender-title">Gender</span>
                     <div className="category">
-                        <label for="dot-1">
+                        <label htmlFor="dot-1">
                             <div className="dot one"></div>
                             <div className="gender">Male</div>
                         </label>
-                        <label for="dot-2">
+                        <label htmlFor="dot-2">
                             <div className="dot two"></div>
                             <div className="gender">Female</div>
                         </label>

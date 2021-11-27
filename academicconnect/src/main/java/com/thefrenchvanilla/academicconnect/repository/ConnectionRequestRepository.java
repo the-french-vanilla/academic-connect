@@ -15,4 +15,10 @@ public interface ConnectionRequestRepository extends CrudRepository<ConnectionRe
     Iterable<ConnectionRequest> findAll();
     
     List<ConnectionRequest> findAllByUser1(User user1);
+    
+    List<ConnectionRequest> findAllByUser2(User user2);
+
+	boolean existsByUser1AndUser2(User user1, User user2);
+
+	Iterable<ConnectionRequest> findAllByUser1AndUser2(User user, User user2);
 }
