@@ -1,9 +1,8 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Contact;
-import com.thefrenchvanilla.academicconnect.entity.Post;
-import com.thefrenchvanilla.academicconnect.service.ChatMessageService;
+import com.thefrenchvanilla.academicconnect.payload.AcceptConnectionRequestRequest;
+import com.thefrenchvanilla.academicconnect.payload.CreateContactIfNotExistRequest;
 import com.thefrenchvanilla.academicconnect.service.ContactService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 
@@ -38,10 +37,22 @@ public class ContactController {
         return new ResponseEntity<Contact>(contact1, HttpStatus.CREATED);
     }
     
+    @PostMapping("/createifnotexist")
+    public ResponseEntity<?> createContactIfNotExist(@Valid @RequestBody CreateContactIfNotExistRequest createContactIfNotExistRequest, Principal principal) {
+    	Contact contact = contactService.createContactIfNotExist(createContactIfNotExistRequest.getUsername(), principal.getName());
+        return new ResponseEntity<Contact>(contact, HttpStatus.OK);
+    }
+    
     @GetMapping("/{id}")
-    public ResponseEntity<?> getContact(@PathVariable Long id) {
-    	Contact chatMessage = contactService.getContact(id);
-        return new ResponseEntity<Contact>(chatMessage, HttpStatus.OK);
+    public ResponseEntity<?> getContact(@PathVariable Long id, Principal principal) {
+    	Contact contact = contactService.getContact(id);
+        return new ResponseEntity<Contact>(contact, HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}/othercontactid")
+    public ResponseEntity<?> getOtherContactId(@PathVariable Long id, Principal principal) {
+    	Long contactId = contactService.getOtherContactId(id);
+    	return new ResponseEntity<Long>(contactId, HttpStatus.OK);
     }
 
     @GetMapping("/all")

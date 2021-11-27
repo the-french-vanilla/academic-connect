@@ -1,17 +1,12 @@
 package com.thefrenchvanilla.academicconnect.service;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thefrenchvanilla.academicconnect.entity.ChatMessage;
 import com.thefrenchvanilla.academicconnect.entity.Contact;
-import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
 import com.thefrenchvanilla.academicconnect.exception.PostIdException;
-import com.thefrenchvanilla.academicconnect.repository.ChatMessageRepository;
 import com.thefrenchvanilla.academicconnect.repository.ContactRepository;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 
@@ -34,21 +29,66 @@ public class ContactService {
         }
     }
     
+    public Contact createContactIfNotExist(String username2, String username) {
+    	Contact contact = new Contact();
+    	Contact contact2 = new Contact();
+    	Contact contact3 = new Contact();
+        try {
+            User user = userRepository.findByUsername(username);
+            User user2 = userRepository.findByUsername(username2);
+            
+            if (contactRepository.existsByUser1AndUser2(user, user2)) {
+            	contact3 = contactRepository.findByUser1AndUser2(user, user2);
+            } else {
+            	contact.setUser1(user);
+            	contact.setUser2(user2);
+            	contact2.setUser1(user2);
+            	contact2.setUser2(user);
+            	contact3 = contactRepository.save(contact);
+            	contactRepository.save(contact2);
+            }
+        } catch (Exception e) {
+        	//throw new EducationIdException("ConnectionRequest ID '" + connectionRequest.getId() + "' already exists");
+        }
+        return contact3;
+	}
+    
     public Contact getContact(Long id) {
-    	Contact contact;
+    	Contact contact = null;
     	try {
     		contact = contactRepository.findById(id).get();
-    		if (contact == null) {
-                throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
-            }
-    	} catch (NoSuchElementException e) {
-    		throw new EducationIdException("ChatMessage ID '" + id + "' does not exist");
-    	}
+        } catch (Exception e) {
+        	//throw new EducationIdException("ConnectionRequest ID '" + connectionRequest.getId() + "' already exists");
+        }
+        return contact;
+    }
+    
+    public Long getOtherContactId(Long id) {
+    	Contact contact = null;
+    	Contact contact2 = null;
+    	try {
+    		contact = contactRepository.findById(id).get();
+    		User user = contact.getUser1();
+    		User user2 = contact.getUser2();
+    		contact2 = contactRepository.findByUser1AndUser2(user2, user);
+        } catch (Exception e) {
+        	//throw new EducationIdException("ConnectionRequest ID '" + connectionRequest.getId() + "' already exists");
+        }
+    	
+		return contact2.getId();
+	}
+    
+    public Contact getContactById(Long id) {
+    	Contact contact = null;
+    	try {
+            contact = contactRepository.findById(id).get();
+        } catch (Exception e) {
+        	//throw new EducationIdException("ConnectionRequest ID '" + connectionRequest.getId() + "' already exists");
+        }
         return contact;
     }
 
     public Iterable<Contact> getAllContacts(String username) {
-    	
     	Contact contact = null;
     	try {
             User user = userRepository.findByUsername(username);
@@ -97,5 +137,5 @@ public class ContactService {
         }
         contactRepository.delete(contact1);
     }
-
+    
 }

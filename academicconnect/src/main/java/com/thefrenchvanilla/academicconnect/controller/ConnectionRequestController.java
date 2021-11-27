@@ -60,19 +60,19 @@ public class ConnectionRequestController {
     }
     
     @PostMapping("/accept")
-    public ResponseEntity<?> acceptConnectionRequest(@Valid @RequestBody AcceptConnectionRequestRequest acceptConnectionRequestRequest, BindingResult result, Principal principal) {
+    public ResponseEntity<?> acceptConnectionRequest(@Valid @RequestBody AcceptConnectionRequestRequest acceptConnectionRequestRequest, Principal principal) {
     	connectionRequestService.acceptConnectionRequest(acceptConnectionRequestRequest.getUsername(), principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteConnectionRequest(@Valid @RequestBody DeleteConnectionRequestRequest deleteConnectionRequestRequest, BindingResult result, Principal principal) {
+    public ResponseEntity<?> deleteConnectionRequest(@Valid @RequestBody DeleteConnectionRequestRequest deleteConnectionRequestRequest, Principal principal) {
     	connectionRequestService.deleteConnectionRequest(deleteConnectionRequestRequest.getUsername(), principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @PostMapping("/cancel")
-    public ResponseEntity<?> cancelConnectionRequest(@Valid @RequestBody CancelConnectionRequestRequest cancelConnectionRequestRequest, BindingResult result, Principal principal) {
+    public ResponseEntity<?> cancelConnectionRequest(@Valid @RequestBody CancelConnectionRequestRequest cancelConnectionRequestRequest, Principal principal) {
     	connectionRequestService.cancelConnectionRequest(cancelConnectionRequestRequest.getUsername(), principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

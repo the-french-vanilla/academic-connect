@@ -19,4 +19,8 @@ public interface ContactRepository extends CrudRepository<Contact, Long> {
     List<Contact> findAllByUser1(User user1);
     
     List<Contact> findAllByUser2(User user2);
+
+	boolean existsByUser1AndUser2(User user, User user2);
+
+	Contact findByUser1AndUser2(User user, User user2);
 }

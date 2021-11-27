@@ -25,27 +25,25 @@ public class ChatMessageController {
 
     @Autowired
     private ChatMessageService chatMessageService;
-    
-    @Autowired
-    private ContactService contactService;
 
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("")
-    public ResponseEntity<?> createChatMessage(@Valid @RequestBody CreateChatMessageRequest chatMessage, BindingResult result, Principal principal) {
+    public ResponseEntity<?> createChatMessage(@Valid @RequestBody CreateChatMessageRequest createChatMessageRequest, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
         
-        Contact contact = contactService.getContact(chatMessage.getContactId());
-        User user1 = contact.getUser1();
-        User user2 = contact.getUser2();
+//        Contact contact = contactService.getContact(createChatMessageRequest.getUsername(), principal.getName());
+//        User user1 = contact.getUser1();
+//        User user2 = contact.getUser2();
+//        
+//        ChatMessage chatMessage1 = new ChatMessage(user1, user2, contact, chatMessage.getText());
         
-        ChatMessage chatMessage1 = new ChatMessage(user1, user2, contact, chatMessage.getText());
-        
-        ChatMessage chatMessage2 = chatMessageService.createOrUpdateChatMessage(chatMessage1, principal.getName());
+        ChatMessage chatMessage2 = chatMessageService.createOrUpdateChatMessage(createChatMessageRequest.getUsername(), 
+        		principal.getName(), createChatMessageRequest.getText(), createChatMessageRequest.getContactId());
         return new ResponseEntity<ChatMessage>(chatMessage2, HttpStatus.CREATED);
     }
     
@@ -57,7 +55,7 @@ public class ChatMessageController {
     
     @GetMapping("/user1/{contactId}/user2/{otherContactId}")
     public Iterable<ChatMessage> getAllChatMessages(@PathVariable Long contactId, @PathVariable Long otherContactId) {
-    	List<ChatMessage> chatMessages = chatMessageService.getChatMessagesByContactId(contactId, otherContactId);
+    	List<ChatMessage> chatMessages = chatMessageService.getChatMessagesByContactIds(contactId, otherContactId);
         //return new ResponseEntity<ChatMessage>(chatMessages, HttpStatus.OK);
     	return chatMessages;
     }
@@ -67,17 +65,17 @@ public class ChatMessageController {
 //    	return chatMessageService.getAllChatMessages();
 //    }
     
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
-    												  @PathVariable Long id, Principal principal) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) {
-        	return errorMap;
-        }
-
-        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
-        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
-    } 
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updateChatMessage(@Valid @RequestBody ChatMessage chatMessage, BindingResult result, 
+//    												  @PathVariable Long id, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+//
+//        ChatMessage chatMessage1 = chatMessageService.updateChatMessage(chatMessage, id, principal.getName());
+//        return new ResponseEntity<ChatMessage>(chatMessage1, HttpStatus.OK);
+//    } 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteChatMessage(@PathVariable Long id) {

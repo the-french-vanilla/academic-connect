@@ -30,17 +30,27 @@ public class ChatMessageService {
     @Autowired
     private UserRepository userRepository;
 
-    public ChatMessage createOrUpdateChatMessage(ChatMessage chatMessage, String username) {
-        try {
-            User user = userRepository.findByUsername(username);
-            chatMessage.setUser1(user);
-            return chatMessageRepository.save(chatMessage);
-        } catch (Exception e) {
-        	throw new EducationIdException("ChatMessage ID '" + chatMessage.getId() + "' already exists");
-        }
+    public ChatMessage createOrUpdateChatMessage(String username2, String username, String text, Long contactId) {
+//        try {
+//            User user = userRepository.findByUsername(username);
+//            chatMessage.setUser1(user);
+//            return chatMessageRepository.save(chatMessage);
+//        } catch (Exception e) {
+//        	throw new EducationIdException("ChatMessage ID '" + chatMessage.getId() + "' already exists");
+//        }
+    	
+    	Contact contact = contactRepository.findById(contactId).get();
+        User user = userRepository.findByUsername(username);
+        User user2 = userRepository.findByUsername(username2);
+        
+        ChatMessage chatMessage1 = new ChatMessage(user, user2, contact, text);
+//        if(chatMessage1 == null) {
+//              //throw new PostIdException("Cannot ChatMessage with ID '" + string2 + "'. This chat message does not exist");
+//        }
+        return chatMessageRepository.save(chatMessage1);
     }
     
-    public List<ChatMessage> getChatMessagesByContactId(Long contactId, Long otherContactId) {
+    public List<ChatMessage> getChatMessagesByContactIds(Long contactId, Long otherContactId) {
     	List<ChatMessage> chatMessages = null;
     	List<ChatMessage> otherChatMessages;
     	try {
@@ -80,13 +90,21 @@ public class ChatMessageService {
         return chatMessageRepository.findAll();
     }
     
-    public ChatMessage updateChatMessage(ChatMessage chatMessage, Long id, String username){
-    	ChatMessage chatMessage1 = chatMessageRepository.findById(id).get();
-        if(chatMessage1 == null) {
-            throw new PostIdException("Cannot ChatMessage with ID '" + id + "'. This chat message does not exist");
-        }
-        return chatMessageRepository.save(chatMessage1);
-    }
+//    public ChatMessage updateChatMessage(String username2, String username, String text, Long contactId) {
+//    	
+//      Contact contact = contactRepository.findById(contactId).get();
+//      User user = userRepository.findByUsername(username);
+//      User user2 = userRepository.findByUsername(username2);
+//      
+//      ChatMessage chatMessage1 = new ChatMessage(user, user2, contact, text);
+//    	
+//    	
+//    	ChatMessage chatMessage1 = chatMessageRepository.findById(string2).get();
+//        if(chatMessage1 == null) {
+//            throw new PostIdException("Cannot ChatMessage with ID '" + string2 + "'. This chat message does not exist");
+//        }
+//        return chatMessageRepository.save(chatMessage1);
+//    }
 
     public void deleteChatMessage(Long id) {
     	ChatMessage chatMessage = chatMessageRepository.findById(id).get();
