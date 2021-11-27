@@ -1,7 +1,9 @@
 export const GET_ERRORS = "GET_ERRORS";
 
 // security
+export const GET_ERROR_MESSAGE = "GET_ERROR_MESSAGE";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
 
 // post
 export const CREATE_NEW_POST = "CREATE_NEW_POST";

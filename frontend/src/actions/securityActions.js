@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERROR_MESSAGE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERROR_MESSAGE } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -39,8 +39,9 @@ export const login = LoginRequest => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
+      type: GET_ERROR_MESSAGE,
+      // payload: err.response.data
+      payload: err.message
     });
   }
 };
@@ -50,6 +51,13 @@ export const logout = () => dispatch => {
   setJWTToken(false);
   dispatch({
     type: SET_CURRENT_USER,
+    payload: {}
+  });
+};
+
+export const clearErrorMessage = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR_MESSAGE,
     payload: {}
   });
 };

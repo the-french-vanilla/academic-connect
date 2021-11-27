@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { login } from "../../actions/securityActions";
+import { login, clearErrorMessage } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 
 import frontV3 from '../../static/image/frontV3.png';
@@ -51,6 +51,15 @@ class Landing extends Component {
   
   render() {
     const { errors } = this.state;
+    const { errorMessage } = this.props;
+    //Request failed with status code 401
+    //Network Error
+    let errorMessageText;
+    if (errorMessage === 'Request failed with status code 401') {
+      errorMessageText = 'Incorrect Credentials';
+    } else if (errorMessage === 'Network Error') {
+      errorMessageText = 'Network Error';
+    }
     return (
       <div id="landing-page">
         <div style={{height: '10vh'}}></div>
@@ -61,6 +70,8 @@ class Landing extends Component {
           <div className="two">
               <h1><b>Academic Connect</b></h1>
               <h4><b>Connect with professors, researchers, and scholars in the academia.</b></h4>
+
+              <div style={{color: 'red'}}>{errorMessageText}</div>
 
               <form onSubmit={this.onSubmit} method="post">
                   <label htmlFor="username"><b>Username</b></label>
@@ -82,12 +93,12 @@ class Landing extends Component {
                   <button type="submit">Login</button>
               </form>
 
-              <Link to="/register">
-                  Sign Up
-                </Link><br />
-                <Link to="/forgotpassword">
-                  Forgot Password
-                </Link>
+              <Link onClick={this.props.clearErrorMessage} to="/register">
+                Sign Up
+              </Link><br />
+              <Link onClick={this.props.clearErrorMessage} to="/forgotpassword">
+                Forgot Password
+              </Link>
             </div>
         </div>
       </div>
@@ -98,15 +109,16 @@ class Landing extends Component {
 Landing.propTypes = {
   login: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  security: PropTypes.object.isRequired
+  security: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   security: state.security,
   errors: state.errors,
+  errorMessage: state.security.errorMessage,
 });
 
 export default connect(
   mapStateToProps,
-  { login }
+  { login, clearErrorMessage }
 )(Landing);
