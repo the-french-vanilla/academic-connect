@@ -33,7 +33,7 @@ class Header extends Component {
           </li>
           <li className="nav-item">
               <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
-              <Link className="nav-link" to={'/messaging/thread/' + this.props.firstContactId}>Messaging <span className="sr-only">(current)</span></Link>
+              <Link className="nav-link" to="/messaging">Messaging <span className="sr-only">(current)</span></Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/connections">

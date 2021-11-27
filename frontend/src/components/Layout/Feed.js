@@ -6,7 +6,6 @@ import { createNewPost, getAllPosts } from "../../actions/postActions";
 import { getNumberOfConnections } from "../../actions/connectionActions";
 import { getNumberOfPublications } from "../../actions/publicationActions";
 import { getNumberOfGroups } from "../../actions/groupActions";
-import { getFirstContactId, getFirstOtherContactId } from "../../actions/contactActions";
 import PropTypes from "prop-types";
 
 class Feed extends Component {
@@ -27,11 +26,9 @@ class Feed extends Component {
     }
 
     this.props.getAllPosts(this.props.user.username);
-    this.props.getNumberOfConnections();
-    this.props.getNumberOfPublications();
+    // this.props.getNumberOfConnections();
+    // this.props.getNumberOfPublications();
     //this.props.getNumberOfGroups();
-    this.props.getFirstContactId();
-    this.props.getFirstOtherContactId();
   }
 
   test = (e) => {
@@ -220,6 +217,5 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logout, createNewPost, getAllPosts,
-    getNumberOfConnections, getNumberOfPublications, getNumberOfGroups,
-    getFirstContactId, getFirstOtherContactId }
+    getNumberOfConnections, getNumberOfPublications, getNumberOfGroups }
 )(Feed);

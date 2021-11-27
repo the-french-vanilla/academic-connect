@@ -19,9 +19,10 @@ import Connections from "./pages/Connections/index";
 import Pages from "./pages/Pages/index";
 import Groups from "./pages/Groups/index";
 import Events from "./pages/Events/index";
+import Messaging from "./pages/Messaging/index";
 import SearchResults from "./pages/SearchResults";
 import GroupProfile from "./components/Layout/GroupProfile";
-import Messaging from "./components/Layout/Messaging";
+// import Messaging from "./components/Layout/Messaging";
 
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
@@ -80,8 +81,9 @@ class App extends Component {
               <SecuredRoute exact path="/settings" component={UserSettings} />
               <SecuredRoute path="/ac/:username" component={UserProfile} />
               <SecuredRoute exact path="/group/:group_id" component={GroupProfile} />
-              <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} />
-
+              {/* <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} /> */}
+              
+              <SecuredRoute path="/messaging" component={Messaging} />
               <SecuredRoute path="/connections" component={Connections} />
               <SecuredRoute path="/pages" component={Pages} />
               <SecuredRoute path="/groups" component={Groups} />

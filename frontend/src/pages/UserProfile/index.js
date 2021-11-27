@@ -11,6 +11,7 @@ import {
   acceptConnectionRequest,
   deleteConnectionRequest 
 } from "../../actions/connectionRequestActions";
+import { createContactIfNotExist } from "../../actions/contactActions";
 
 import PostsTab from "./PostsTab";
 import ProfileTab from "./ProfileTab";
@@ -47,8 +48,8 @@ class UserProfile extends Component {
     this.props.deleteConnectionRequest(username, page);
   }
 
-  message() {
-    
+  message(username) {
+    this.props.createContactIfNotExist(username, this.props.history);
   }
 
   render() {
@@ -112,7 +113,7 @@ class UserProfile extends Component {
               <React.Fragment>
                 {connectionButton}
                 <div style={{float: 'left', margin: '10px'}}>
-                  <button onClick={this.message}>Message</button>
+                  <button onClick={() => this.message(userProfile.user.username)}>Message</button>
                 </div>
               </React.Fragment>
             )
@@ -393,6 +394,7 @@ export default connect(
     getIsConnected, 
     sendConnectionRequest,
     acceptConnectionRequest,
-    deleteConnectionRequest
+    deleteConnectionRequest,
+    createContactIfNotExist,
   }
 )(UserProfile);
