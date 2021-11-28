@@ -22,19 +22,19 @@ public class Reaction {
     private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Page page;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Post post;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Comment comment;
 	
 	@NotBlank(message = "Type is required")

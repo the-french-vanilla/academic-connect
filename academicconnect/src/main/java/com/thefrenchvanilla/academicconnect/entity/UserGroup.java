@@ -39,11 +39,11 @@ public class UserGroup {
 	private Boolean active;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Page page;
 
 	public UserGroup() {

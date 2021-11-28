@@ -1,13 +1,13 @@
 import axios from "axios";
-import { CREATE_NEW_POST, GET_ALL_POSTS } from "./types";
+import { CREATE_NEW_POST, GET_ALL_POSTS, GET_ALL_POSTS_IN_FEED } from "./types";
 
-export const createNewPost = (newPost, username) => async dispatch => {
+export const createNewPost = (newPost) => async dispatch => {
   await axios.post("http://localhost:8081/api/post", newPost);
   dispatch({
     type: CREATE_NEW_POST,
     payload: {}
   });
-  dispatch(getAllPosts(username));
+  dispatch(getAllPostsInFeed());
 };
 
 export const getAllPosts = (username) => async dispatch => {
@@ -17,3 +17,13 @@ export const getAllPosts = (username) => async dispatch => {
     payload: res.data
   });
 };
+
+export const getAllPostsInFeed = () => async dispatch => {
+  const res = await axios.get("http://localhost:8081/api/post/allinfeed");
+  dispatch({
+    type: GET_ALL_POSTS_IN_FEED,
+    payload: res.data
+  });
+  console.log(res.data)
+};
+

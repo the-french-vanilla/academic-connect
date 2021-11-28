@@ -20,7 +20,7 @@ public class Connection {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user1;
 	
 	@OneToOne

@@ -1,13 +1,20 @@
 package com.thefrenchvanilla.academicconnect.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.thefrenchvanilla.academicconnect.entity.Connection;
 import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
 import com.thefrenchvanilla.academicconnect.exception.PostIdException;
+import com.thefrenchvanilla.academicconnect.repository.ConnectionRepository;
 import com.thefrenchvanilla.academicconnect.repository.PostRepository;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 
@@ -16,6 +23,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+    
+    @Autowired
+    private ConnectionRepository connectionRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -50,6 +60,30 @@ public class PostService {
             User user = userRepository.findByUsername(username);
             Iterable<Post> posts = postRepository.findAllByUserOrderByCreateAtDesc(user);
             return posts;
+        } catch (Exception e) {
+        	e.printStackTrace();
+            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+        }
+    	
+    	return null;
+    }
+    
+    public Iterable<Post> findAllPostsInFeed(String username){
+        try {
+            User user = userRepository.findByUsername(username);
+            
+            Iterable<Connection> connections = connectionRepository.findAllByUser1(user);
+            
+            Set<User> users = new HashSet<User>();
+            users.add(user);
+            for (Connection connection : connections) {
+            	users.add(connection.getUser2());
+            }
+            
+            Iterable<Post> posts = postRepository.findAllByUserInOrderByCreateAtDesc(users);
+            
+            return posts;
+            
         } catch (Exception e) {
         	e.printStackTrace();
             //throw new PostIdException("Post ID '" + post.getId() + "' already exists");

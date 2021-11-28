@@ -15,11 +15,11 @@ public class SuggestedUser {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user1;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user2;
 
 	public SuggestedUser() {

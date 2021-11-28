@@ -98,43 +98,47 @@ class PostsTab extends Component {
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
             
-            <div className="container">
-              <div className="row">
-                <div className="col-8">
-                <div className="feed_and_add_section">
-                  <div className="create_post common_bg_feed">
-                    <div className="create_input d_flex">
-                      <div className="profile_thumb rounded-img">
-                        <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
+            {
+              (user.username === match.params.username) ? (
+                <div className="container">
+                  <div className="row">
+                    <div className="col-8">
+                    <div className="feed_and_add_section">
+                      <div className="create_post common_bg_feed">
+                        <div className="create_input d_flex">
+                          <div className="profile_thumb rounded-img">
+                            <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
+                          </div>
+                          <form onSubmit={this.test}>
+                            <input type="text" value={this.state.text} onChange={this.updateText} placeholder="What's New about today?"/>
+                          </form>
+                        </div>
+                        <div className="create_btn">
+                          <ul className="d_flex">
+                            <li className="d_flex_centre">
+                              <span><a href="#">
+                                <i className="fa fa-pencil-square-o"></i></a></span>
+                              <h6>What'sUp</h6>
+                            </li>
+                            <li className="d_flex_centre">
+                              <span><a href="#"><i className="fa fa-file-image-o"></i></a></span>
+                              <h6>Photo/Video</h6>
+                            </li>
+                            <li className="d_flex_centre">
+                              <span><a href="#"><i className="fa fa-video-camera"></i></a></span>
+                              <h6>Live Video</h6>
+                            </li>
+                          </ul>
+                          <button disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
+                        </div>
+                      </div>  
                       </div>
-                      <form onSubmit={this.test}>
-                        <input type="text" value={this.state.text} onChange={this.updateText} placeholder="What's New about today?"/>
-                      </form>
                     </div>
-                    <div className="create_btn">
-                      <ul className="d_flex">
-                        <li className="d_flex_centre">
-                          <span><a href="#">
-                            <i className="fa fa-pencil-square-o"></i></a></span>
-                          <h6>What'sUp</h6>
-                        </li>
-                        <li className="d_flex_centre">
-                          <span><a href="#"><i className="fa fa-file-image-o"></i></a></span>
-                          <h6>Photo/Video</h6>
-                        </li>
-                        <li className="d_flex_centre">
-                          <span><a href="#"><i className="fa fa-video-camera"></i></a></span>
-                          <h6>Live Video</h6>
-                        </li>
-                      </ul>
-                      <button disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
-                    </div>
-                  </div>  
+                    <div className="col-4"></div>
                   </div>
                 </div>
-                <div className="col-4"></div>
-              </div>
-            </div>
+              ) : null
+            }
 
             {
               posts.map((post) =>

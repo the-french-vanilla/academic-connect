@@ -56,6 +56,11 @@ public class PostController {
     	return postService.findAllPosts(username);
     }
     
+    @GetMapping("/allinfeed")
+    public Iterable<Post> getAllPostsInFeed(Principal principal) {
+    	return postService.findAllPostsInFeed(principal.getName());
+    }
+    
     @PatchMapping("/{id}")
     public ResponseEntity<?> updatePost(@Valid @RequestBody Post post, BindingResult result,
                                                @PathVariable Long id, Principal principal) {

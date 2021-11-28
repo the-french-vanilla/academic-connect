@@ -35,7 +35,7 @@ public class ResearchExperience {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 
     public ResearchExperience() {

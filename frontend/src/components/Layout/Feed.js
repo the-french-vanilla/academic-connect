@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
-import { createNewPost, getAllPosts } from "../../actions/postActions";
+import { createNewPost, getAllPostsInFeed } from "../../actions/postActions";
 import { getNumberOfConnections } from "../../actions/connectionActions";
 import { getNumberOfPublications } from "../../actions/publicationActions";
 import { getNumberOfGroups } from "../../actions/groupActions";
@@ -25,8 +25,8 @@ class Feed extends Component {
       this.props.history.push("/feed");
     }
 
-    this.props.getAllPosts(this.props.user.username);
-    // this.props.getNumberOfConnections();
+    this.props.getAllPostsInFeed();
+    this.props.getNumberOfConnections();
     // this.props.getNumberOfPublications();
     //this.props.getNumberOfGroups();
   }
@@ -55,7 +55,7 @@ class Feed extends Component {
       deleted: false
     };
 
-    this.props.createNewPost(PostRequest, this.props.user.username);
+    this.props.createNewPost(PostRequest);
 
     this.setState({
       text: ""
@@ -69,32 +69,41 @@ class Feed extends Component {
   }
 
   render() {
-    let posts = this.props.posts;
-
     const { numConnections, numPublications, numGroups }  = this.props;
-    const { user } = this.props;
-
-    const { firstContactId, firstOtherContactId } = this.props;
+    const { user, posts } = this.props;
 
     return (
       <div className="feed">
-
-       
-
-    <section className="part1">
-        <div className="profile">
-          <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" />
-        </div>
-        <h4>{user.firstName + ' ' + user.lastName}</h4>
-        
-        <h5>
-          <Link to={'/ac/' + user.username + '/connections'}>{numConnections} Connection{numConnections > 1 ? 's': ''}</Link><br />
-          <Link to={'/ac/' + user.username + '/publications'}>{numPublications} Publication{numPublications > 1 ? 's': ''}</Link><br />
-          <Link to={'/ac/' + user.username + '/groups'}>{numGroups} Group{numGroups > 1 ? 's': ''}</Link>
-        </h5>
-        <hr className="dashed" />
-        <h3 className="centre"><u>Trending News</u></h3>
-      </section>
+        <section className="part1">
+          <div className="profile">
+            <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" />
+          </div>
+          <h4>{user.firstName + ' ' + user.lastName}</h4>
+          
+          <h5>
+            {
+              numConnections > 0 ? 
+              <Link to={'/connections'}>{numConnections} Connection{numConnections === 1 ? '': 's'}</Link> :
+              <React.Fragment>{numConnections} Connection{numConnections === 1 ? '': 's'}</React.Fragment>
+            }
+          </h5>
+          <h5>
+            {
+              numPublications > 0 ? 
+              <Link to={'/ac/' + user.username + '/publications'}>{numPublications} Publication{numPublications === 1 ? '': 's'}</Link> :
+              <React.Fragment>{numPublications} Publication{numPublications === 1 ? '': 's'}</React.Fragment>
+            }
+          </h5>
+          <h5>
+            {
+              numGroups > 0 ? 
+              <Link to={'/ac/' + user.username + '/groups'}>{numGroups} Group{numGroups === 1 ? '': 's'}</Link> :
+              <React.Fragment>{numGroups} Group{numGroups === 1 ? '': 's'}</React.Fragment>
+            }
+          </h5>
+          <hr className="dashed" />
+          <h3 className="centre"><u>Trending News</u></h3>
+        </section>
       
 
         {/* <section className="post">
@@ -144,7 +153,7 @@ class Feed extends Component {
                           <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
                         </div>
                         <div style={{float: 'right'}}>
-                          <h4>{user.firstName + ' ' + user.lastName}</h4>
+                          <h4>{post.user.firstName + ' ' + post.user.lastName}</h4>
                           <h6>{post.createAt}</h6>
                         </div>
                         <div>
@@ -197,7 +206,7 @@ class Feed extends Component {
 
 Feed.propTypes = {
   logout: PropTypes.func.isRequired,
-  getAllPosts: PropTypes.func.isRequired,
+  getAllPostsInFeed: PropTypes.func.isRequired,
   createNewPost: PropTypes.func.isRequired,
   security: PropTypes.object.isRequired
 };
@@ -209,13 +218,10 @@ const mapStateToProps = state => ({
   numPublications: state.publicationReducer.numPublications,
   numGroups: state.groupReducer.numGroups,
   user: state.security.user,
-
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
 });
 
 export default connect(
   mapStateToProps,
-  { logout, createNewPost, getAllPosts,
+  { logout, createNewPost, getAllPostsInFeed,
     getNumberOfConnections, getNumberOfPublications, getNumberOfGroups }
 )(Feed);

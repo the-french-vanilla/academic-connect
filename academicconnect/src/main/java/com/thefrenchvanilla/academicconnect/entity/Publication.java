@@ -22,7 +22,7 @@ public class Publication {
     private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	@NotBlank(message = "Title is required")

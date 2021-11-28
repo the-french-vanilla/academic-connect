@@ -31,7 +31,7 @@ public class ChatMessage implements Comparable<ChatMessage> {
     private User user2;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
+	//@JsonIgnore
     private Contact contact;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

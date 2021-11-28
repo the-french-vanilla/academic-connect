@@ -1,4 +1,4 @@
-import { CREATE_NEW_POST, GET_ALL_POSTS } from "../actions/types";
+import { CREATE_NEW_POST, GET_ALL_POSTS, GET_ALL_POSTS_IN_FEED } from "../actions/types";
 
 const initialState = {
   posts: [],
@@ -14,6 +14,12 @@ export default function(state = initialState, action) {
       };
 
     case GET_ALL_POSTS:
+      return {
+        ...state,
+        posts: action.payload
+      };
+
+    case GET_ALL_POSTS_IN_FEED:
       return {
         ...state,
         posts: action.payload

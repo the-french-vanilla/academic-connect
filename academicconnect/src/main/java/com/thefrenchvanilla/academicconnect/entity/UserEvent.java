@@ -20,11 +20,11 @@ public class UserEvent {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private Event event;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

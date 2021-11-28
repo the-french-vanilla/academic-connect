@@ -8,6 +8,7 @@ export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
 // post
 export const CREATE_NEW_POST = "CREATE_NEW_POST";
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
+export const GET_ALL_POSTS_IN_FEED = "GET_ALL_POSTS_IN_FEED";
 
 // connections
 export const GET_ALL_CONNECTIONS = "GET_ALL_CONNECTIONS";

@@ -32,7 +32,7 @@ public class Page {
 	private Boolean active;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 
 	public Page() {

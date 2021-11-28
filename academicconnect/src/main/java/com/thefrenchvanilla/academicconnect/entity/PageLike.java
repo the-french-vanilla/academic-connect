@@ -20,11 +20,11 @@ public class PageLike {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private Page page;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

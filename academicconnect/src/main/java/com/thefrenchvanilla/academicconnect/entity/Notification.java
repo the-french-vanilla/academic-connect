@@ -22,7 +22,7 @@ public class Notification {
     private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 	
 	@NotBlank(message = "Message is required")

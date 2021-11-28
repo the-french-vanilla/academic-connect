@@ -36,15 +36,15 @@ public class Event {
 	private Date endDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private UserGroup userGroup;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Page page;
 	
 	private Boolean active;

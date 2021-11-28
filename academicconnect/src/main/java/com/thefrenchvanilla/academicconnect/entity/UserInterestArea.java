@@ -15,11 +15,11 @@ public class UserInterestArea {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private InterestArea interestArea;
 
 	public UserInterestArea() {

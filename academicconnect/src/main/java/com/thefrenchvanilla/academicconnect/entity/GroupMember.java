@@ -20,11 +20,11 @@ public class GroupMember {
     private Long id;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private User user;
 	
 	@OneToOne
-	@JsonIgnore
+	//@JsonIgnore
     private UserGroup userGroup;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

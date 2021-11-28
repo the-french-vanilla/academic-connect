@@ -18,7 +18,6 @@ class AllConnectionsTab extends Component {
 
   render() {
     const { connections } = this.props;
-    console.log(connections)
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">

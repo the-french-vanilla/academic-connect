@@ -18,7 +18,7 @@ public class TrendingNews {
     private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
+	//@JsonIgnore
     private Field field;
 	
 	@NotBlank(message = "Title is required")
