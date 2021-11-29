@@ -24,6 +24,5 @@ export const getAllPostsInFeed = () => async dispatch => {
     type: GET_ALL_POSTS_IN_FEED,
     payload: res.data
   });
-  console.log(res.data)
 };
 

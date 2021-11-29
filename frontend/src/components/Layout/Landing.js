@@ -96,9 +96,9 @@ class Landing extends Component {
               <Link onClick={this.props.clearErrorMessage} to="/register">
                 Sign Up
               </Link><br />
-              <Link onClick={this.props.clearErrorMessage} to="/forgotpassword">
+              {/* <Link onClick={this.props.clearErrorMessage} to="/forgotpassword">
                 Forgot Password
-              </Link>
+              </Link> */}
             </div>
         </div>
       </div>

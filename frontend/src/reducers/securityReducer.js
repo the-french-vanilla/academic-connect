@@ -1,9 +1,11 @@
-import { GET_ERROR_MESSAGE, CLEAR_ERROR_MESSAGE, SET_CURRENT_USER } from "../actions/types";
+import { GET_ERROR_MESSAGE, CLEAR_ERROR_MESSAGE, SET_CURRENT_USER,
+  GET_CURRENT_USERS } from "../actions/types";
 
 const initialState = {
   validToken: false,
   user: {},
   errorMessage: '',
+  currentUser: {},
 };
 
 const booleanActionPayload = payload => {
@@ -26,12 +28,17 @@ export default function(state = initialState, action) {
     case GET_ERROR_MESSAGE:
       return {
         ...state,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     case CLEAR_ERROR_MESSAGE:
       return {
         ...state,
-        errorMessage: ''
+        errorMessage: '',
+      };
+    case GET_CURRENT_USERS:
+      return {
+        ...state,
+        currentUser: action.payload,
       };
 
     default:

@@ -30,6 +30,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Please enter your first name")
     private String firstName;
     
+    private String middleName;
+    
     @NotBlank(message = "Please enter your last name")
     private String lastName;
     
@@ -50,6 +52,9 @@ public class User implements UserDetails {
     //@NotBlank(message = "Gender is required")
     private String gender;
     
+    @Column(nullable = true, length = 64)
+    private String profilePicture;
+    
     private Date createAt;
     
     private Date update_At;
@@ -68,7 +73,7 @@ public class User implements UserDetails {
 
 
     public User() {
-    	
+    	middleName = "";
     }
 
     public Long getId() {
@@ -95,7 +100,15 @@ public class User implements UserDetails {
         this.firstName = firstName;
     }
     
-    public String getLastName() {
+    public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getLastName() {
         return lastName;
     }
 
@@ -175,6 +188,21 @@ public class User implements UserDetails {
     @PreUpdate
     protected void onUpdate(){
         this.update_At = new Date();
+    }
+    
+    public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
+	@Transient
+    public String getPhotosImagePath() {
+        if (profilePicture == null || id == null) return null;
+         
+        return "/user-photos/" + id + "/" + profilePicture;
     }
 
     /*

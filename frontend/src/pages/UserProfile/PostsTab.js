@@ -12,7 +12,6 @@ class PostsTab extends Component {
     this.state = {
       text: ""
     };
-    // this.logout = this.logout.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateText = this.updateText.bind(this);

@@ -3,9 +3,11 @@ package com.thefrenchvanilla.academicconnect.controller;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
+import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 import com.thefrenchvanilla.academicconnect.security.JwtTokenProvider;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 import com.thefrenchvanilla.academicconnect.service.UserService;
+import com.thefrenchvanilla.academicconnect.utils.FileUploadUtil;
 import com.thefrenchvanilla.academicconnect.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +24,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.TOKEN_PREFIX;
+
+import java.io.IOException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,6 +45,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserValidator userValidator;
@@ -81,17 +92,39 @@ public class UserController {
         return  new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
     
+    @GetMapping("")
+    public ResponseEntity<?> getCurrentUser(Principal principal) {
+    	User user = userService.getCurrentUser(principal.getName());
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+    
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId){
-
     	User user = userService.findUserById(userId);
-
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @GetMapping("/all")
     public Iterable<User> getAllUsers() {
     	return userService.getAllUsers();
+    }
+    
+    @PostMapping("/profilepicture")
+    public ResponseEntity<?> saveProfilePicture(@RequestParam("username") String username,
+            @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    	
+    	User user = userRepository.findByUsername(username);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        user.setProfilePicture(fileName);
+        
+        
+        User savedUser = userRepository.save(user);
+ 
+        String uploadDir = "user-photos/" + savedUser.getId();
+ 
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+         
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
 

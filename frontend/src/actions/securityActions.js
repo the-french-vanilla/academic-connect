@@ -1,5 +1,6 @@
 import axios from "axios";
-import { GET_ERROR_MESSAGE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERROR_MESSAGE } from "./types";
+import { GET_ERROR_MESSAGE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERROR_MESSAGE,
+  GET_CURRENT_USERS } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -61,3 +62,11 @@ export const clearErrorMessage = () => dispatch => {
     payload: {}
   });
 };
+
+// export const getCurrentUser = () => async dispatch => {
+//   const res = await axios.get("http://localhost:8081/api/users");
+//   dispatch({
+//     type: GET_CURRENT_USERS,
+//     payload: res.data
+//   });
+// };

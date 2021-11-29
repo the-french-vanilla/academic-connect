@@ -90,6 +90,28 @@ button {
     width:500px;
     height:auto;
     margin: 20px;
+    /* padding: 20px 20px;
+    margin: 20px;
+    display:flex;
+    height:600px;
+    width:800px;
+    align-self:center;
+    justify-content:center;
+    background: url(./static/image/Backing.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%; */
+}
+.onebutton, .twobutton, .threebutton {
+  padding: 20px 20px;
+  margin: 20px;
+  display:flex;
+  height:600px;
+  width:800px;
+  align-self:center;
+  justify-content:center;
+  background: url(./static/image/Backing.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 /* Register Page */
@@ -103,7 +125,8 @@ button {
   background: linear-gradient(135deg, #4ed355, #b926be);
 }
 .main{
-  max-width: 500px;
+  /* max-width: 500px; */
+  max-width: 80%;
   width: 80%;
   background-color:white;
   padding: 40px 50px;
@@ -178,8 +201,9 @@ form .input-box span.details{
   border: 3px solid transparent;
   transition: all 0.3s ease;
 }
- #dot-1:checked ~ .category label .one,
- #dot-2:checked ~ .category label .two
+ #dot-1:checked ~ .category label .onebutton,
+ #dot-2:checked ~ .category label .twobutton,
+ #dot-3:checked ~ .category label .threebutton
 {
    background: #6759b6;
    border-color: #d9d9d9;

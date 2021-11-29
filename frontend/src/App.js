@@ -13,14 +13,14 @@ import ForgotPassword from "./components/UserManagement/ForgotPassword";
 import AccountRecovery from "./components/UserManagement/AccountRecovery";
 
 import Feed from "./components/Layout/Feed";
-import UserSettings from "./components/Layout/UserSettings";
 import UserProfile from "./pages/UserProfile/index";
 import Connections from "./pages/Connections/index";
 import Pages from "./pages/Pages/index";
 import Groups from "./pages/Groups/index";
 import Events from "./pages/Events/index";
 import Messaging from "./pages/Messaging/index";
-import SearchResults from "./pages/SearchResults";
+import SearchResults from "./pages/SearchResults/index";
+import Settings from "./pages/Settings/index";
 import GroupProfile from "./components/Layout/GroupProfile";
 // import Messaging from "./components/Layout/Messaging";
 
@@ -78,7 +78,7 @@ class App extends Component {
                 // Private Routes
               }
               <SecuredRoute exact path="/feed" component={Feed} />
-              <SecuredRoute exact path="/settings" component={UserSettings} />
+              <SecuredRoute exact path="/settings" component={Settings} />
               <SecuredRoute path="/ac/:username" component={UserProfile} />
               <SecuredRoute exact path="/group/:group_id" component={GroupProfile} />
               {/* <SecuredRoute exact path="/messaging/thread/:thread_id" component={Messaging} /> */}

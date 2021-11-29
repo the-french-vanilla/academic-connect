@@ -27,6 +27,7 @@ public class UserProfileService {
     public UserProfile findUserProfile(String username){
         //Only want to return the education if the user looking for it is the owner
         User user = userRepository.findByUsername(username);
+        System.out.println(username);
         UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
         if(userProfile == null){
             throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");

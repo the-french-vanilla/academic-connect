@@ -390,7 +390,8 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUserProfile, 
+  { 
+    getUserProfile, 
     getIsConnected, 
     sendConnectionRequest,
     acceptConnectionRequest,

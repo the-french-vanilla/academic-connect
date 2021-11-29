@@ -48,6 +48,14 @@ public class UserService {
 
     }
     
+    public User getCurrentUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new UserIdException("User ID '"+user.getId()+"' does not exist");
+        }
+        return user;
+	}
+    
     public User findUserById(Long userId){
 
         //Only want to return the education if the user looking for it is the owner
@@ -67,7 +75,7 @@ public class UserService {
     public Iterable<User> getAllUsers() {
     	return userRepository.findAll();
     }
-
+    
 }
 
 
