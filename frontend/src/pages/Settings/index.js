@@ -115,6 +115,15 @@ class Settings extends Component {
     // window.location.href = "/";
   }
 
+  onSubmitChangeProfilePicture(e) {
+    e.preventDefault();
+    const newUser = {
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+    };
+    console.log(newUser)
+  }
+
   onSubmitChangePassword(e) {
     e.preventDefault();
     const newUser = {

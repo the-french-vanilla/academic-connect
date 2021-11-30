@@ -1,10 +1,11 @@
 import { GET_ERROR_MESSAGE, CLEAR_ERROR_MESSAGE, SET_CURRENT_USER,
-  GET_CURRENT_USERS } from "../actions/types";
+  GET_PROFILE_PICTURE, GET_CURRENT_USERS } from "../actions/types";
 
 const initialState = {
   validToken: false,
   user: {},
   errorMessage: '',
+  profilePictureBinary: '',
   currentUser: {},
 };
 
@@ -34,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         errorMessage: '',
+      };
+    case GET_PROFILE_PICTURE:
+      return {
+        ...state,
+        profilePictureBinary: action.payload,
       };
     case GET_CURRENT_USERS:
       return {

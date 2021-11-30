@@ -5,11 +5,14 @@ import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 import com.thefrenchvanilla.academicconnect.security.JwtTokenProvider;
+import com.thefrenchvanilla.academicconnect.service.FilesStorageService;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
 import com.thefrenchvanilla.academicconnect.service.UserService;
 import com.thefrenchvanilla.academicconnect.utils.FileUploadUtil;
 import com.thefrenchvanilla.academicconnect.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +36,10 @@ import javax.validation.Valid;
 import static com.thefrenchvanilla.academicconnect.security.SecurityConstants.TOKEN_PREFIX;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/users")
@@ -45,6 +51,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    FilesStorageService storageService;
     
     @Autowired
     private UserRepository userRepository;
@@ -125,6 +134,23 @@ public class UserController {
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
          
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+    @GetMapping("/profilepicture/{username}")
+    public ResponseEntity<byte[]> getProfilePicture(@PathVariable String username) throws IOException {
+       
+       User user = userRepository.findByUsername(username);
+       
+       Resource file = storageService.load(user.getProfilePicture());
+       
+       byte[] bytes = Files.readAllBytes(Paths.get(file.getFile().getAbsolutePath()));
+
+       
+       byte[] base64encodedData = Base64.getEncoder().encode(bytes);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + 
+                		file.getFilename() + "\"")
+                .body(base64encodedData);
     }
 }
 

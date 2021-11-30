@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../../actions/securityActions";
+import { logout, getProfilePicture } from "../../actions/securityActions";
 import { createNewPost, getAllPostsInFeed } from "../../actions/postActions";
 import { getNumberOfConnections } from "../../actions/connectionActions";
 import { getNumberOfPublications } from "../../actions/publicationActions";
@@ -27,6 +27,7 @@ class Feed extends Component {
 
     this.props.getAllPostsInFeed();
     this.props.getNumberOfConnections();
+    this.props.getProfilePicture(this.props.user.username);
     // this.props.getNumberOfPublications();
     //this.props.getNumberOfGroups();
   }
@@ -70,13 +71,14 @@ class Feed extends Component {
 
   render() {
     const { numConnections, numPublications, numGroups }  = this.props;
-    const { user, posts } = this.props;
+    const { user, posts, profilePictureBinary } = this.props;
 
     return (
       <div className="feed">
         <section className="part1">
           <div className="profile">
-            <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" />
+            <img alt="" src={'data:image/gif;base64,' + profilePictureBinary} />
+            {/* <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" /> */}
           </div>
           <h4>{user.firstName + ' ' + user.lastName}</h4>
           
@@ -218,10 +220,11 @@ const mapStateToProps = state => ({
   numPublications: state.publicationReducer.numPublications,
   numGroups: state.groupReducer.numGroups,
   user: state.security.user,
+  profilePictureBinary: state.security.profilePictureBinary,
 });
 
 export default connect(
   mapStateToProps,
-  { logout, createNewPost, getAllPostsInFeed,
+  { logout, getProfilePicture, createNewPost, getAllPostsInFeed,
     getNumberOfConnections, getNumberOfPublications, getNumberOfGroups }
 )(Feed);

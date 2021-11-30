@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GET_ERROR_MESSAGE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERROR_MESSAGE,
-  GET_CURRENT_USERS } from "./types";
+  GET_PROFILE_PICTURE, GET_CURRENT_USERS } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -61,6 +61,21 @@ export const clearErrorMessage = () => dispatch => {
     type: CLEAR_ERROR_MESSAGE,
     payload: {}
   });
+};
+
+export const getProfilePicture = (username) => async dispatch => {
+  try {
+    const res = await axios.get("http://localhost:8081/api/users/profilepicture/" + username);
+    dispatch({
+      type: GET_PROFILE_PICTURE,
+      payload: res.data
+    });
+  } catch (err) {
+    // dispatch({
+    //   type: GET_ERRORS,
+    //   payload: err.response.data
+    // });
+  }
 };
 
 // export const getCurrentUser = () => async dispatch => {
