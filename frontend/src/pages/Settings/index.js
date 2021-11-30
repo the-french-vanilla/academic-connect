@@ -31,11 +31,15 @@ class Settings extends Component {
       password: "",
       confirmPassword: "",
       gender: "",
-      // profilePicture: this.props.profilePicture,
+      profilePicture: null,
       errorMessage: "",
+      errorMessageChangeProfilePicture: "",
+      errorMessageChangePassword: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmitChangeProfilePicture = this.onSubmitChangeProfilePicture.bind(this);
+    this.onSubmitChangePassword = this.onSubmitChangePassword.bind(this);
   }
 
   getCurrentUser = async () => {
@@ -113,6 +117,8 @@ class Settings extends Component {
     }
     if (errorMessage !== "") {
       this.setState({errorMessage: errorMessage});
+    } else {
+      this.setState({errorMessage: ""});
     }
 
     // const PostRequest = {
@@ -135,11 +141,35 @@ class Settings extends Component {
 
   onSubmitChangeProfilePicture(e) {
     e.preventDefault();
-    const newUser = {
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
-    };
-    console.log(newUser)
+    let errorMessageChangeProfilePicture = "";
+    if (this.state.profilePicture == null) {
+      errorMessageChangeProfilePicture = "Please upload a profile picture";
+    } else {
+      // Create an object of formData
+      const formData = new FormData();
+      formData.append("username", this.state.username);
+    
+      // Update the formData object
+      formData.append(
+        "image",
+        this.state.profilePicture,
+        this.state.profilePicture.name
+      );
+    
+      // Details of the uploaded file
+      //console.log(this.state.selectedFile);
+    
+      // Request made to the backend api
+      // Send formData object
+      axios.post("http://localhost:8081/api/users/profilepicture", formData);
+
+      //this.props.updateCurrentUser(formData);
+    }
+    if (errorMessageChangeProfilePicture !== "") {
+      this.setState({errorMessageChangeProfilePicture: errorMessageChangeProfilePicture});
+    } else {
+      this.setState({errorMessageChangeProfilePicture: ""});
+    }
   }
 
   onSubmitChangePassword(e) {
@@ -155,13 +185,17 @@ class Settings extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  onFileChange = event => {
+    this.setState({ profilePicture: event.target.files[0] });
+  };
+
   genderChanged(e) {
     this.setState({ gender: e.target.value })
   }
 
   render() {
     const { currentUser } = this.props;
-    const { errorMessage } = this.state;
+    const { errorMessage, errorMessageChangeProfilePicture, errorMessageChangePassword } = this.state;
     return (
       <div className="user-settings">
         <div style={{height: '10vh'}}></div>
@@ -214,9 +248,26 @@ class Settings extends Component {
         </div>
 
         <div className="container">
+          <h2>Change Profile Picture</h2>
+          <div className="row">
+            <div className="col-8">
+            <div style={{color: 'red'}}>{errorMessageChangeProfilePicture}</div>
+            <form onSubmit={this.onSubmitChangeProfilePicture}>
+              <div className="form-group">
+                <input type="file" className="form-control" id="profilePicture" name="profilePicture" onChange={this.onFileChange} placeholder="Upload a Profile Picture" required />
+              </div>
+              <button type="submit" className="btn btn-primary">Change Profile Picture</button>
+            </form>
+            </div>
+            <div className="col-4"></div>
+          </div>
+        </div>
+
+        <div className="container">
           <h2>Change Password</h2>
           <div className="row">
             <div className="col-8">
+            <div style={{color: 'red'}}>{errorMessageChangePassword}</div>
             <form onSubmit={this.onSubmitChangePassword}>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -226,7 +277,7 @@ class Settings extends Component {
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={this.state.confirmPassword} onChange={this.onChange} placeholder="Confirm Password" required />
               </div>
-              <button type="submit" className="btn btn-primary">Save</button>
+              <button type="submit" className="btn btn-primary">Change Password</button>
             </form>
             </div>
             <div className="col-4"></div>
