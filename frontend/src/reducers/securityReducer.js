@@ -1,5 +1,5 @@
 import { GET_ERROR_MESSAGE, CLEAR_ERROR_MESSAGE, SET_CURRENT_USER,
-  GET_PROFILE_PICTURE, GET_CURRENT_USERS } from "../actions/types";
+  GET_PROFILE_PICTURE, UPDATE_CURRENT_USER, GET_CURRENT_USERS } from "../actions/types";
 
 const initialState = {
   validToken: false,
@@ -40,6 +40,10 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profilePictureBinary: action.payload,
+      };
+    case UPDATE_CURRENT_USER:
+      return {
+        ...state,
       };
     case GET_CURRENT_USERS:
       return {

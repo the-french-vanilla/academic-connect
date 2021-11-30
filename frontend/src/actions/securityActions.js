@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GET_ERROR_MESSAGE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERROR_MESSAGE,
-  GET_PROFILE_PICTURE, GET_CURRENT_USERS } from "./types";
+  GET_PROFILE_PICTURE, UPDATE_CURRENT_USER, GET_CURRENT_USERS } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -77,6 +77,16 @@ export const getProfilePicture = (username) => async dispatch => {
     // });
   }
 };
+
+export const updateCurrentUser = (currentUser) => async dispatch => {
+  await axios.put("http://localhost:8081/api/users", currentUser);
+  dispatch({
+    type: UPDATE_CURRENT_USER,
+    payload: {}
+  });
+};
+
+
 
 // export const getCurrentUser = () => async dispatch => {
 //   const res = await axios.get("http://localhost:8081/api/users");

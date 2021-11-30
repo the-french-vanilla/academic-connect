@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// import { getCurrentUser } from "../../actions/securityActions";
+import { updateCurrentUser } from "../../actions/securityActions";
 
 import axios from "axios";
 
@@ -49,6 +49,7 @@ class Settings extends Component {
       this.setState({
         "username": currentUser.username,
         "firstName": currentUser.firstName,
+        "middleName": currentUser.middleName,
         "lastName": currentUser.lastName,
         "email": currentUser.email,
         "phoneNumber": currentUser.phoneNumber,
@@ -85,17 +86,33 @@ class Settings extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const newUser = {
-      username: this.state.username,
-      firstName: this.state.firstName,
-      middleName: this.state.middleName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      phoneNumber: this.state.phoneNumber,
-      gender: this.state.gender,
-    };
 
-    console.log(newUser)
+    let errorMessage = "";
+    if (this.state.username.length < 6) {
+      errorMessage = "Username must be at least 6 characters";
+    } else if (this.state.firstName.length < 2) {
+      errorMessage = "First name must be at least 2 characters";
+    } else if (this.state.middleName.length > 0 && this.state.middleName.length < 2) {
+      errorMessage = "Middle name must be at least 2 characters";
+    } else if (this.state.lastName.length < 2) {
+      errorMessage = "Last name must be at least 2 characters";
+    } else if (this.state.gender === "") {
+      errorMessage = "Gender is not selected";
+    } else {
+      // Create an object of formData
+      const formData = new FormData();
+      formData.append("username", this.state.username);
+      formData.append("firstName", this.state.firstName);
+      formData.append("middleName", this.state.middleName);
+      formData.append("lastName", this.state.lastName);
+      formData.append("email", this.state.email);
+      formData.append("phoneNumber", this.state.phoneNumber);
+      formData.append("gender", this.state.gender);
+      this.props.updateCurrentUser(formData);
+    }
+    if (errorMessage !== "") {
+      this.setState({errorMessage: errorMessage});
+    }
 
     // const PostRequest = {
     //   postId: 1,
@@ -221,5 +238,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  // { getCurrentUser }
+  { updateCurrentUser }
 )(Settings);
