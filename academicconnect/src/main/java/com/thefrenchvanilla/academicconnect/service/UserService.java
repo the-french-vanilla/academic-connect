@@ -75,6 +75,24 @@ public class UserService {
     public Iterable<User> getAllUsers() {
     	return userRepository.findAll();
     }
+
+	public User updateCurrentUser(String usernameNew, String firstName, String middleName, String lastName, String email,
+			String phoneNumber, String gender, String username) {
+		User user = null;
+		try {
+	        user = userRepository.findByUsername(username);
+	        user.setUsername(usernameNew);
+	        user.setFirstName(firstName);
+	        user.setMiddleName(middleName);
+	        user.setLastName(lastName);
+	        user.setEmail(email);
+	        user.setPhoneNumber(phoneNumber);
+	        user.setGender(gender);
+	        return userRepository.save(user);
+	    } catch (Exception e) {
+	    	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
+	    }
+	}
     
 }
 

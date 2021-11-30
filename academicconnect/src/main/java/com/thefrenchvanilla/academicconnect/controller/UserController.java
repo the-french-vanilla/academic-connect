@@ -1,5 +1,6 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
+import com.thefrenchvanilla.academicconnect.entity.Connection;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -151,6 +153,21 @@ public class UserController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + 
                 		file.getFilename() + "\"")
                 .body(base64encodedData);
+    }
+    
+    @PutMapping("")
+    public ResponseEntity<?> updateCurrentUser(@RequestParam("username") String username,
+    		@RequestParam("firstName") String firstName, @RequestParam("middleName") String middleName,
+    		@RequestParam("lastName") String lastName, @RequestParam("email") String email,
+    		@RequestParam("phoneNumber") String phoneNumber, @RequestParam("gender") String gender, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+
+        User user1 = userService.updateCurrentUser(username, firstName, middleName, lastName, 
+        		email, phoneNumber, gender, principal.getName());
+        return new ResponseEntity<User>(user1, HttpStatus.OK);
     }
 }
 
