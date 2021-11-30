@@ -93,6 +93,33 @@ public class UserService {
 	    	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
 	    }
 	}
+
+	public User changePassword(String currentPassword, String newPassword, String confirmPassword, String username) {
+		User user = null;
+		try {
+	        user = userRepository.findByUsername(username);
+	        //user.setUsername(usernameNew);
+	        
+	        
+	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	        String existingPassword = currentPassword;
+	        String dbPassword       = user.getPassword();
+
+	        if (passwordEncoder.matches(existingPassword, dbPassword)) {
+	            // Encode new password and store it
+	        	System.out.println("match");
+	        	//passwordEncoder.encode(newPassword);
+	        } else {
+	            // Report error 
+	        	System.out.println("not match");
+	        }
+
+	        //return userRepository.save(user);
+	        return null;
+	    } catch (Exception e) {
+	    	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
+	    }
+	}
     
 }
 

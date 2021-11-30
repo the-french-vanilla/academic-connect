@@ -28,7 +28,8 @@ class Settings extends Component {
       lastName: "",
       email: "",
       phoneNumber: "",
-      password: "",
+      currentPassword: "",
+      newPassword: "",
       confirmPassword: "",
       gender: "",
       profilePicture: null,
@@ -51,7 +52,6 @@ class Settings extends Component {
     // this.props.getCurrentUser();
 
     this.getCurrentUser().then(currentUser => {
-      console.log(currentUser.gender)
       this.setState({
         "username": currentUser.username,
         "firstName": currentUser.firstName,
@@ -174,11 +174,23 @@ class Settings extends Component {
 
   onSubmitChangePassword(e) {
     e.preventDefault();
-    const newUser = {
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
-    };
-    console.log(newUser)
+    let errorMessageChangePassword = "";
+    if (this.state.newPassword.length < 6) {
+      errorMessageChangePassword = "New password must be at least 6 characters";
+    } else if (this.state.newPassword !== this.state.confirmPassword) {
+      errorMessageChangePassword = "New password and confirm password does not match";
+    } else {
+      const formData = new FormData();
+      formData.append("currentPassword", this.state.currentPassword);
+      formData.append("newPassword", this.state.newPassword);
+      formData.append("confirmPassword", this.state.confirmPassword);
+      axios.post("http://localhost:8081/api/users/changepassword", formData);
+    }
+    if (errorMessageChangePassword !== "") {
+      this.setState({errorMessageChangePassword: errorMessageChangePassword});
+    } else {
+      this.setState({errorMessageChangePassword: ""});
+    }
   }
 
   onChange(e) {
@@ -270,8 +282,12 @@ class Settings extends Component {
             <div style={{color: 'red'}}>{errorMessageChangePassword}</div>
             <form onSubmit={this.onSubmitChangePassword}>
               <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" required />
+                <label htmlFor="currentPassword">Current Password</label>
+                <input type="password" className="form-control" id="currentPassword" name="currentPassword" value={this.state.currentPassword} onChange={this.onChange} placeholder="Current Password" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="newPassword">New Password</label>
+                <input type="password" className="form-control" id="newPassword" name="newPassword" value={this.state.newPassword} onChange={this.onChange} placeholder="New Password" required />
               </div>
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>

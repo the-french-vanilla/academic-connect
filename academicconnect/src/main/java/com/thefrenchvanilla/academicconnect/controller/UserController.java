@@ -181,6 +181,15 @@ public class UserController {
         		email, phoneNumber, gender, principal.getName());
         return new ResponseEntity<User>(user1, HttpStatus.OK);
     }
+    
+    @PostMapping("/changepassword")
+    public ResponseEntity<?> changePassword(@RequestParam("currentPassword") String currentPassword,
+    		@RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword,
+    		Principal principal) {
+
+        User user1 = userService.changePassword(currentPassword, newPassword, confirmPassword, principal.getName());
+        return new ResponseEntity<User>(user1, HttpStatus.OK);
+    }
 }
 
 //import java.util.List;
