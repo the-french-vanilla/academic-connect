@@ -3,6 +3,7 @@ package com.thefrenchvanilla.academicconnect.controller;
 import com.thefrenchvanilla.academicconnect.entity.User;
 import com.thefrenchvanilla.academicconnect.payload.JWTLoginSucessReponse;
 import com.thefrenchvanilla.academicconnect.payload.LoginRequest;
+import com.thefrenchvanilla.academicconnect.payload.ResponseMessage;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 import com.thefrenchvanilla.academicconnect.security.JwtTokenProvider;
 import com.thefrenchvanilla.academicconnect.service.FilesStorageService;
@@ -126,15 +127,27 @@ public class UserController {
     	User user = userRepository.findByUsername(username);
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         user.setProfilePicture(fileName);
+        userRepository.save(user);
+        
+        String message = "";
+        try {
+          storageService.save(multipartFile);
+
+          message = "Uploaded the file successfully: " + multipartFile.getOriginalFilename();
+          return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+          message = "Could not upload the file: " + multipartFile.getOriginalFilename() + "!";
+          return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
         
         
-        User savedUser = userRepository.save(user);
- 
-        String uploadDir = "user-photos/" + savedUser.getId();
- 
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+//        User savedUser = userRepository.save(user);
+// 
+//        String uploadDir = "user-photos/" + savedUser.getId();
+// 
+//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
          
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        //return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @GetMapping("/profilepicture/{username}")

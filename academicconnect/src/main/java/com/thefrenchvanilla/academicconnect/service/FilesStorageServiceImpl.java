@@ -30,16 +30,19 @@ public class FilesStorageServiceImpl implements FilesStorageService {
   @Override
   public void save(MultipartFile file) {
     try {
-    	//String filename = file.getName();
-    	//Path filePath = root.resolve(filename);
-        //Resource resource = new UrlResource(filePath.toUri());
-        //if (resource.exists() || resource.isReadable()) {
-            //return resource;
-        //} else {
-        	Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-        //}
-    	
-      
+    	String filename = file.getName();
+    	Path filePath = root.resolve(filename);
+        Resource resource = new UrlResource(filePath.toUri());
+//        if (resource.exists() || resource.isReadable()) {
+//            //return resource;
+//        } else {
+//        	Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+//        }
+        if (resource.isReadable()) {
+        	if (!resource.exists()) {
+        		Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+        	}
+        }
     } catch (Exception e) {
       throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
     }
