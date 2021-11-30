@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom
 import SecuredRoute from "../../securityUtils/SecureRoute";
 import { createNewPost, getAllPosts } from "../../actions/postActions";
 
+import Post from "../../components/Layout/Post";
+
 class PostsTab extends Component {
   constructor() {
     super();
@@ -58,7 +60,7 @@ class PostsTab extends Component {
 
   render() {
     //let posts = this.props.posts;
-    const { match, user, posts, isConnected } = this.props;
+    const { match, user, posts, isConnected, profilePictureBinary } = this.props;
 
     return (
       <div>
@@ -106,14 +108,14 @@ class PostsTab extends Component {
                       <div className="create_post common_bg_feed">
                         <div className="create_input d_flex">
                           <div className="profile_thumb rounded-img">
-                            <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
+                            <img alt="" height="20" width="20" src={'data:image/gif;base64,' + profilePictureBinary} />
                           </div>
                           <form onSubmit={this.test}>
                             <input type="text" value={this.state.text} onChange={this.updateText} placeholder="What's New about today?"/>
                           </form>
                         </div>
                         <div className="create_btn">
-                          <ul className="d_flex">
+                          {/* <ul className="d_flex">
                             <li className="d_flex_centre">
                               <span><a href="#">
                                 <i className="fa fa-pencil-square-o"></i></a></span>
@@ -127,7 +129,7 @@ class PostsTab extends Component {
                               <span><a href="#"><i className="fa fa-video-camera"></i></a></span>
                               <h6>Live Video</h6>
                             </li>
-                          </ul>
+                          </ul> */}
                           <button disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
                         </div>
                       </div>  
@@ -144,7 +146,8 @@ class PostsTab extends Component {
                 <div key={post.id} className="container">
                   <div className="row">
                     <div className="col-8">
-                      <div  className="card">
+                    <Post user={user} post={post} />
+                      {/* <div  className="card">
                         <div className="create_input d_flex">
                           <div className="profile_thumb rounded-img">
                             <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
@@ -157,7 +160,7 @@ class PostsTab extends Component {
                           <p>{post.text}</p>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-4"></div>
                   </div>
@@ -202,9 +205,10 @@ const mapStateToProps = state => ({
   numPublications: state.publicationReducer.numPublications,
   numGroups: state.groupReducer.numGroups,
   user: state.security.user,
+  profilePictureBinary: state.security.profilePictureBinary,
 
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
+  // firstContactId: state.contactReducer.firstContactId,
+  // firstOtherContactId: state.contactReducer.firstOtherContactId,
 });
 
 export default connect(

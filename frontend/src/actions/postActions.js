@@ -20,6 +20,7 @@ export const getAllPosts = (username) => async dispatch => {
 
 export const getAllPostsInFeed = () => async dispatch => {
   const res = await axios.get("http://localhost:8081/api/post/allinfeed");
+  console.log(res.data)
   dispatch({
     type: GET_ALL_POSTS_IN_FEED,
     payload: res.data

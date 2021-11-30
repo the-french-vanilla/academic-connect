@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecureRoute";
+import { getProfilePicture } from "../../actions/securityActions";
 import { getUserProfile } from "../../actions/userProfileActions";
 import { getIsConnected } from "../../actions/connectionActions";
 import { 
@@ -29,6 +30,7 @@ class UserProfile extends Component {
   componentDidMount() {
     const { match, user } = this.props;
     this.props.getUserProfile(match.params.username, user.username);
+    this.props.getProfilePicture(this.props.user.username);
 
     // if (user.username !== match.params.username) {
     //   this.props.getIsConnected(match.params.username);
@@ -53,7 +55,7 @@ class UserProfile extends Component {
   }
 
   render() {
-    const { match, user, userProfile, isConnected, 
+    const { match, user, userProfile, isConnected, profilePictureBinary,
       connectionRequestSent, connectionRequestReceived } = this.props;
 
     let connectionButton = null;
@@ -95,7 +97,7 @@ class UserProfile extends Component {
         <div style={{height: '10vh'}}></div>
 
         <div style={{overflow: 'hidden'}}>
-          <img src="" alt="" width="100" height="100" style={{float: 'left'}} />
+          <img alt="" src={'data:image/gif;base64,' + profilePictureBinary} width="100" height="100" style={{float: 'left'}} />
           { 
             userProfile != null ? (
               <div style={{float: 'left', margin: '10px'}}>
@@ -386,6 +388,7 @@ const mapStateToProps = state => ({
   isConnected: state.connectionReducer.isConnected,
   connectionRequestSent: state.connectionRequestReducer.connectionRequestSent,
   connectionRequestReceived: state.connectionRequestReducer.connectionRequestReceived,
+  profilePictureBinary: state.security.profilePictureBinary,
 });
 
 export default connect(
@@ -397,5 +400,6 @@ export default connect(
     acceptConnectionRequest,
     deleteConnectionRequest,
     createContactIfNotExist,
+    getProfilePicture,
   }
 )(UserProfile);

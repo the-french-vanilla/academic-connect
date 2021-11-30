@@ -8,6 +8,8 @@ import { getAllContacts, getContact } from "../../actions/contactActions";
 import { getAllChatMessages } from "../../actions/chatMessageActions";
 import SelectedContact from "./SelectedContact";
 
+import Contact from "../../components/Layout/Contact";
+
 class Messaging extends Component {
   componentDidMount() {
     // const { firstContactId, firstOtherContactId } = this.props;
@@ -36,7 +38,7 @@ class Messaging extends Component {
                   <div className="px-4 d-none d-md-block">
                     <div className="d-flex align-items-center">
                       <div className="flex-grow-1">
-                        <input type="text" className="form-control my-3" placeholder="Search..." />
+                        {/* <input type="text" className="form-control my-3" placeholder="Search..." /> */}
                       </div>
                     </div>
                   </div>
@@ -44,14 +46,7 @@ class Messaging extends Component {
                   {
                     contacts.map((contact) => 
                       <Link key={contact.id} onClick={() => this.getContact(contact.id)} className="list-group-item list-group-item-action border-0" to={match.path + '/thread/' + contact.id}>
-                        {/* <div className="badge bg-success float-right">5</div> */}
-                        <div className="d-flex align-items-start">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar5.png" className="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40" />
-                          <div className="flex-grow-1 ml-3">
-                            {contact.user2.firstName + ' ' + contact.user2.lastName}
-                            {/* <div className="small"><span className="fas fa-circle chat-online"></span> Online</div> */}
-                          </div>
-                        </div>
+                        <Contact contact={contact} />
                       </Link>
 
                       // <a href="#" key={contact.id} className="list-group-item list-group-item-action border-0">

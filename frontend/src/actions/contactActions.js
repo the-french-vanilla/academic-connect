@@ -4,6 +4,8 @@ import { GET_ERRORS, SET_FIRST_CONTACT_ID, SET_FIRST_OTHER_CONTACT_ID,
   CREATE_CONTACT_IF_NOT_EXIST } from "./types";
 import { getAllChatMessages } from './chatMessageActions';
 
+import { getProfilePicture } from "./securityActions";
+
 // export const getFirstContactId = () => async dispatch => {
 //   try {
 //     const res = await axios.get("http://localhost:8081/api/contact/firstContactId");
@@ -49,6 +51,7 @@ export const getContact = (contactId) => async dispatch => {
     payload: res.data
   });
   dispatch(getOtherContactId(contactId));
+  dispatch(getProfilePicture(res.data.user2.username));
 };
 
 export const getOtherContactId = (contactId) => async dispatch => {

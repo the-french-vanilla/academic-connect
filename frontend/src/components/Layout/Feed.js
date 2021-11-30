@@ -8,6 +8,8 @@ import { getNumberOfPublications } from "../../actions/publicationActions";
 import { getNumberOfGroups } from "../../actions/groupActions";
 import PropTypes from "prop-types";
 
+import Post from "../../components/Layout/Post";
+
 class Feed extends Component {
   constructor() {
     super();
@@ -120,14 +122,14 @@ class Feed extends Component {
                   <div className="create_post common_bg_feed">
                     <div className="create_input d_flex">
                       <div className="profile_thumb rounded-img">
-                        <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
+                        <img alt="" height="20" width="20" src={'data:image/gif;base64,' + profilePictureBinary} />
                       </div>
                       <form onSubmit={this.test}>
                         <input type="text" value={this.state.text} onChange={this.updateText} placeholder="What's New about today?"/>
                       </form>
                     </div>
                     <div className="create_btn">
-                      <ul className="d_flex">
+                      {/* <ul className="d_flex">
                         <li className="d_flex_centre">
                           <span><a href="#">
                             <i className="fa fa-pencil-square-o"></i></a></span>
@@ -141,28 +143,14 @@ class Feed extends Component {
                           <span><a href="#"><i className="fa fa-video-camera"></i></a></span>
                           <h6>Live Video</h6>
                         </li>
-                      </ul>
-                      <button disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
+                      </ul> */}
+                      <button disabled={this.state.text === "" ? 'disabled' : ''} onClick={this.onSubmit} className="btn btn-outline-success">Publish</button>
                     </div>
                   </div>
                 </div>
-
                 {
                   posts.map((post) =>
-                    <div key={post.id} className="card">
-                      <div className="create_input d_flex">
-                        <div className="profile_thumb rounded-img">
-                          <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="20" width="20" />
-                        </div>
-                        <div style={{float: 'right'}}>
-                          <h4>{post.user.firstName + ' ' + post.user.lastName}</h4>
-                          <h6>{post.createAt}</h6>
-                        </div>
-                        <div>
-                          <p>{post.text}</p>
-                        </div>
-                      </div>
-                    </div>
+                    <Post key={post.id} user={user} post={post} />
                   )
                 }
               </div>

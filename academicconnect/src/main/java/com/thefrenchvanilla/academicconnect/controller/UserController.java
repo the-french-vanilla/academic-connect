@@ -152,19 +152,20 @@ public class UserController {
     
     @GetMapping("/profilepicture/{username}")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable String username) throws IOException {
-       
        User user = userRepository.findByUsername(username);
-       
-       Resource file = storageService.load(user.getProfilePicture());
-       
-       byte[] bytes = Files.readAllBytes(Paths.get(file.getFile().getAbsolutePath()));
-
-       
-       byte[] base64encodedData = Base64.getEncoder().encode(bytes);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + 
-                		file.getFilename() + "\"")
-                .body(base64encodedData);
+       Resource file = null;
+       try {
+    	   file = storageService.load(user.getProfilePicture());
+       } catch (Exception e) {
+    	   file = storageService.load("user.jpeg");
+       } finally {
+    	   byte[] bytes = Files.readAllBytes(Paths.get(file.getFile().getAbsolutePath()));
+           byte[] base64encodedData = Base64.getEncoder().encode(bytes);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + 
+                    		file.getFilename() + "\"")
+                    .body(base64encodedData);
+       }
     }
     
     @PutMapping("")

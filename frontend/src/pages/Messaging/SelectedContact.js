@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createNewChatMessage } from "../../actions/chatMessageActions";
 import { getContact } from "../../actions/contactActions";
+import axios from "axios";
+
+import { getProfilePicture } from "../../actions/securityActions";
+import RightMessage from "../../components/Layout/RightMessage";
+import LeftMessage from "../../components/Layout/LeftMessage";
 
 class SelectedContact extends Component {
   constructor() {
@@ -11,7 +16,7 @@ class SelectedContact extends Component {
 
     this.state = {
       // activeContact: {},
-      text: ""
+      text: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -58,7 +63,7 @@ class SelectedContact extends Component {
   }
 
   render() {
-    const { contact, chatMessages } = this.props;
+    const { contact, chatMessages, profilePictureBinary } = this.props;
 
     if (contact == null) {
       return null;
@@ -69,7 +74,7 @@ class SelectedContact extends Component {
           <div className="py-2 px-4 border-bottom d-none d-lg-block">
             <div className="d-flex align-items-center py-1">
               <div className="position-relative">
-                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" className="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40" />
+                <img alt="" src={'data:image/gif;base64,' + profilePictureBinary} className="rounded-circle mr-1"  width="40" height="40" />
               </div>
               <div className="flex-grow-1 pl-3">
                 <strong>{contact.user2.firstName + ' ' + contact.user2.lastName}</strong>
@@ -90,29 +95,11 @@ class SelectedContact extends Component {
               chatMessages.map((chatMessage) => {
                 if (chatMessage.user1.id === contact.user1.id) {
                   return (
-                    <div key={chatMessage.id} className="chat-message-right mb-4">
-                      <div>
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" className="rounded-circle mr-1" alt="Chris Wood" width="40" height="40" />
-                        <div className="text-muted small text-nowrap mt-2">{chatMessage.createAt}</div>
-                      </div>
-                      <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                        <div className="font-weight-bold mb-1">You</div>
-                        {chatMessage.text}
-                      </div>
-                    </div>
+                    <RightMessage key={chatMessage.id} chatMessage={chatMessage} />
                   );
                 } else {
                   return (
-                    <div key={chatMessage.id} className="chat-message-left pb-4">
-                      <div>
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" className="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40" />
-                        <div className="text-muted small text-nowrap mt-2">{chatMessage.createAt}</div>
-                      </div>
-                      <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                        <div className="font-weight-bold mb-1">{chatMessage.user1.firstName + ' ' + chatMessage.user1.lastName}</div>
-                        {chatMessage.text}
-                      </div>
-                    </div>
+                    <LeftMessage key={chatMessage.id} chatMessage={chatMessage} />
                   );
                 }
               })
@@ -139,6 +126,7 @@ const mapStateToProps = state => ({
   contact: state.contactReducer.contact,
   otherContactId: state.contactReducer.otherContactId,
   chatMessages: state.chatMessageReducer.chatMessages,
+  profilePictureBinary: state.security.profilePictureBinary,
 
   // security: state.security,
   // posts: state.postReducer.posts,
@@ -153,5 +141,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createNewChatMessage, getContact }
+  { createNewChatMessage, getContact, getProfilePicture }
 )(SelectedContact);
