@@ -98,26 +98,24 @@ public class UserService {
 		User user = null;
 		try {
 	        user = userRepository.findByUsername(username);
-	        //user.setUsername(usernameNew);
-	        
 	        
 	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	        String existingPassword = currentPassword;
-	        String dbPassword       = user.getPassword();
+	        String dbPassword = user.getPassword();
 
-	        if (passwordEncoder.matches(existingPassword, dbPassword)) {
-	            // Encode new password and store it
-	        	System.out.println("match");
-	        	//passwordEncoder.encode(newPassword);
+	        if (!newPassword.equals(confirmPassword)) {
+	        	throw new EducationIdException("New password and confirm password does not match");
+	        } else if (!passwordEncoder.matches(existingPassword, dbPassword)) {
+	        	// Report error 
+	        	throw new EducationIdException("Current password and new password does not match");
 	        } else {
-	            // Report error 
-	        	System.out.println("not match");
+	        	// Encode new password and store it
+	        	user.setPassword(passwordEncoder.encode(newPassword));
+	        	return userRepository.save(user);
 	        }
-
-	        //return userRepository.save(user);
-	        return null;
+	        
 	    } catch (Exception e) {
-	    	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
+	    	throw new EducationIdException(e.getMessage());
 	    }
 	}
     

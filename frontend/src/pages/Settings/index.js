@@ -172,8 +172,9 @@ class Settings extends Component {
     }
   }
 
-  onSubmitChangePassword(e) {
+  async onSubmitChangePassword(e) {
     e.preventDefault();
+    let thisObj = this;
     let errorMessageChangePassword = "";
     if (this.state.newPassword.length < 6) {
       errorMessageChangePassword = "New password must be at least 6 characters";
@@ -184,7 +185,15 @@ class Settings extends Component {
       formData.append("currentPassword", this.state.currentPassword);
       formData.append("newPassword", this.state.newPassword);
       formData.append("confirmPassword", this.state.confirmPassword);
-      axios.post("http://localhost:8081/api/users/changepassword", formData);
+      
+      await axios.post("http://localhost:8081/api/users/changepassword", formData)
+        .catch(function (error) {
+          if (error.response) {
+            setTimeout(() => {
+              thisObj.setState({errorMessageChangePassword: error.response.data.message});
+            }, 500);
+          }
+        });
     }
     if (errorMessageChangePassword !== "") {
       this.setState({errorMessageChangePassword: errorMessageChangePassword});
@@ -283,15 +292,15 @@ class Settings extends Component {
             <form onSubmit={this.onSubmitChangePassword}>
               <div className="form-group">
                 <label htmlFor="currentPassword">Current Password</label>
-                <input type="password" className="form-control" id="currentPassword" name="currentPassword" value={this.state.currentPassword} onChange={this.onChange} placeholder="Current Password" required />
+                <input type="password" className="form-control" id="currentPassword" name="currentPassword" value={this.state.currentPassword} onChange={this.onChange} placeholder="Enter your Current Password" required />
               </div>
               <div className="form-group">
                 <label htmlFor="newPassword">New Password</label>
-                <input type="password" className="form-control" id="newPassword" name="newPassword" value={this.state.newPassword} onChange={this.onChange} placeholder="New Password" required />
+                <input type="password" className="form-control" id="newPassword" name="newPassword" value={this.state.newPassword} onChange={this.onChange} placeholder="Enter your New Password (at least 6 characters)" required />
               </div>
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={this.state.confirmPassword} onChange={this.onChange} placeholder="Confirm Password" required />
+                <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={this.state.confirmPassword} onChange={this.onChange} placeholder="Confirm your New Password" required />
               </div>
               <button type="submit" className="btn btn-primary">Change Password</button>
             </form>
