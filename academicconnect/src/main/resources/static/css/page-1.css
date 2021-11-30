@@ -91,7 +91,10 @@
      background: #6759b6;
      border-color: #d9d9d9;
    }
-   form input[type="radio"]{
+   /* form input[type="radio"]{
+     display: none;
+   } */
+   form #dot-1, form #dot-2, form #dot-3{
      display: none;
    }
    form .button{

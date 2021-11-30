@@ -32,6 +32,7 @@ class Settings extends Component {
       confirmPassword: "",
       gender: "",
       // profilePicture: this.props.profilePicture,
+      errorMessage: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -46,6 +47,7 @@ class Settings extends Component {
     // this.props.getCurrentUser();
 
     this.getCurrentUser().then(currentUser => {
+      console.log(currentUser.gender)
       this.setState({
         "username": currentUser.username,
         "firstName": currentUser.firstName,
@@ -86,7 +88,6 @@ class Settings extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
     let errorMessage = "";
     if (this.state.username.length < 6) {
       errorMessage = "Username must be at least 6 characters";
@@ -154,9 +155,13 @@ class Settings extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  genderChanged(e) {
+    this.setState({ gender: e.target.value })
+  }
+
   render() {
     const { currentUser } = this.props;
-    console.log(currentUser)
+    const { errorMessage } = this.state;
     return (
       <div className="user-settings">
         <div style={{height: '10vh'}}></div>
@@ -164,37 +169,42 @@ class Settings extends Component {
           <h2>User Settings</h2>
           <div className="row">
             <div className="col-8">
+            <div style={{color: 'red'}}>{errorMessage}</div>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input type="text" className="form-control" id="username" name="username" value={this.state.username} onChange={this.onChange} aria-describedby="usernameHelp" placeholder="Enter username" required />
+                <input type="text" className="form-control" id="username" name="username" value={this.state.username} onChange={this.onChange} aria-describedby="usernameHelp" placeholder="Enter your Username (at least 6 characters)" required />
               </div>
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" className="form-control" id="firstName" name="firstName" value={this.state.firstName} onChange={this.onChange} aria-describedby="firstNameHelp" placeholder="Enter first name" required />
+                <input type="text" className="form-control" id="firstName" name="firstName" value={this.state.firstName} onChange={this.onChange} aria-describedby="firstNameHelp" placeholder="Enter Your First Name (at least 2 characters)" required />
                 {/* <small id="firstNameHelp" className="form-text text-muted">First name</small> */}
               </div>
               <div className="form-group">
                 <label htmlFor="middleName">Middle Name</label>
-                <input type="text" className="form-control" id="middleName" name="middleName" value={this.state.middleName} onChange={this.onChange} aria-describedby="middleNameHelp" placeholder="Enter middle name" />
+                <input type="text" className="form-control" id="middleName" name="middleName" value={this.state.middleName} onChange={this.onChange} aria-describedby="middleNameHelp" placeholder="Enter Your Middle Name (at least 2 characters)" />
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" className="form-control" id="lastName" name="lastName" value={this.state.lastName} onChange={this.onChange} aria-describedby="lastNameHelp" placeholder="Enter last name" required />
+                <input type="text" className="form-control" id="lastName" name="lastName" value={this.state.lastName} onChange={this.onChange} aria-describedby="lastNameHelp" placeholder="Enter Your Last Name (at least 2 characters)" required />
                 {/* <small id="lastNameHelp" className="form-text text-muted">Last name</small> */}
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" className="form-control" id="email" name="email" value={this.state.email} onChange={this.onChange} aria-describedby="emailHelp" placeholder="Enter email" required />
+                <input type="email" className="form-control" id="email" name="email" value={this.state.email} onChange={this.onChange} aria-describedby="emailHelp" placeholder="Enter your Email" required />
                 {/* <small id="emailHelp" className="form-text text-muted">Email.</small> */}
               </div>
               <div className="form-group">
                 <label htmlFor="phoneNumber">Phone Number</label>
-                <input type="text" className="form-control" id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} onChange={this.onChange} aria-describedby="phoneNumberHelp" placeholder="Enter phone number" required />
+                <input type="text" className="form-control" id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} onChange={this.onChange} aria-describedby="phoneNumberHelp" placeholder="Enter your Phone Number" required />
               </div>
               <div className="form-group">
                 <label htmlFor="gender">Gender</label>
-                <input type="text" className="form-control" id="gender" name="gender" value={this.state.gender} onChange={this.onChange} aria-describedby="genderHelp" placeholder="Enter gender" required />
+                <div style={{height: '10px'}}></div>
+                {/* <input type="text" className="form-control" id="gender" name="gender" value={this.state.gender} onChange={this.onChange} aria-describedby="genderHelp" placeholder="Enter your Gender" required /> */}
+                <label className="radio-inline"><input type="radio" name="gender" value="M" checked={this.state.gender === 'M'} onChange={(e) => this.genderChanged(e)} />Male</label>
+                <label className="radio-inline"><input type="radio" name="gender" value="F" checked={this.state.gender === 'F'} onChange={(e) => this.genderChanged(e)} />Female</label>
+                <label className="radio-inline"><input type="radio" name="gender" value="U" checked={this.state.gender === 'U'} onChange={(e) => this.genderChanged(e)} />Unidentified</label>
               </div>
               <button type="submit" className="btn btn-primary">Save</button>
             </form>
