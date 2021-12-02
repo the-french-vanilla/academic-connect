@@ -31,6 +31,11 @@ class UserTile extends Component {
 
   connect(username) {
     this.props.sendConnectionRequest(username);
+
+    let params = (new URL(document.location)).searchParams;
+    let q = params.get("q");
+    //this.props.history.push("/search/results/?q=" + q);
+    window.location.href = "/search/results/?q=" + q;
   }
 
   accept(username, page, q) {

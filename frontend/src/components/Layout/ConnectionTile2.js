@@ -43,6 +43,7 @@ class ConnectionTile2 extends Component {
 
   unconnect(username) {
     this.props.unconnect(username);
+    window.location.href = "/connections";
   }
 
   message(username) {
@@ -60,7 +61,8 @@ class ConnectionTile2 extends Component {
       
       <React.Fragment>
         <div  className="container border round bg-light">
-          <button style={{width: '100px', float: 'right'}} onClick={() => this.unconnect(connection.user2.username)}>Unconnect</button>
+          <button style={{width: '100px', margin: '10px', float: 'right'}} onClick={() => this.unconnect(connection.user2.username)}>Unconnect</button>
+          <button style={{width: '100px', margin: '10px', float: 'right'}} onClick={() => this.message(connection.user2.username)}>Message</button>
           <img alt="" height="80" width="80" style={{padding: '10px', float: 'left'}} src={'data:image/gif;base64,' + this.state.profilePictureBinary} />
           {/* <div style={{padding: '10px'}}>
             <span><b>{connection.user2.firstName + ' ' + connection.user2.lastName}</b></span><br />
