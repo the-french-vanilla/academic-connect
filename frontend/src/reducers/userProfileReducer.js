@@ -1,7 +1,8 @@
-import { GET_USER_PROFILE, UPDATE_USER_PROFILE } from "../actions/types";
+import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE } from "../actions/types";
 
 const initialState = {
-  userProfile: null
+  userProfile: null,
+  userProfiles: []
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         userProfile: action.payload
+      };
+    case SEARCH_USER_PROFILES:
+      return {
+        ...state,
+        userProfiles: action.payload
       };
     case UPDATE_USER_PROFILE:
       return {

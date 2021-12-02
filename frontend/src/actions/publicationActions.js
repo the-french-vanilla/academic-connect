@@ -1,9 +1,9 @@
 import axios from "axios";
-import { GET_ERRORS, SET_NUM_PUBLICATIONS } from "./types";
+import { GET_ERRORS, SET_NUM_PUBLICATIONS, GET_ALL_PUBLICATIONS } from "./types";
 
-export const getNumberOfPublications = () => async dispatch => {
+export const getNumberOfPublications = (username) => async dispatch => {
   try {
-    const res = await axios.get("http://localhost:8081/api/publication/number");
+    const res = await axios.get("http://localhost:8081/api/publication/number/" + username);
     dispatch({
       type: SET_NUM_PUBLICATIONS,
       payload: res.data
@@ -16,3 +16,10 @@ export const getNumberOfPublications = () => async dispatch => {
   }
 };
 
+export const getAllPublications = (username) => async dispatch => {
+  const res = await axios.get("http://localhost:8081/api/publication/all/" + username);
+  dispatch({
+    type: GET_ALL_PUBLICATIONS,
+    payload: res.data
+  });
+};

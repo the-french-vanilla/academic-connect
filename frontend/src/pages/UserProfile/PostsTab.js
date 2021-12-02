@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecureRoute";
 import { createNewPost, getAllPosts } from "../../actions/postActions";
+import { getUserProfile } from "../../actions/userProfileActions";
 
 import Post from "../../components/Layout/Post";
 
@@ -20,8 +21,9 @@ class PostsTab extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, user } = this.props;
     this.props.getAllPosts(match.params.username);
+    this.props.getUserProfile(match.params.username, user.username);
   }
 
   test = (e) => {
@@ -67,31 +69,30 @@ class PostsTab extends Component {
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item" role="posts">
             {/* <a className="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Posts</a> */}
-            <Link className="nav-link active" to={'/ac/' + user.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="true">
+            <Link className="nav-link active" to={'/ac/' + match.params.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="true">
               Posts
             </Link>
           </li>
           <li className="nav-item" role="profile">
             {/* <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a> */}
-            <Link className="nav-link" to={'/ac/' + user.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
               Profile
             </Link>
           </li>
-          <li className="nav-item" role="publications">
-            {/* <a className="nav-link" id="publications-tab" data-toggle="tab" href="#publications" role="tab" aria-controls="publications" aria-selected="false">Publications</a> */}
-            <Link className="nav-link" to={'/ac/' + user.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="false">
+          {/* <li className="nav-item" role="publications">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="false">
               Publications
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item" role="connections">
             {/* <a className="nav-link" id="connections-tab" data-toggle="tab" href="#connections" role="tab" aria-controls="connections" aria-selected="false">Connections</a> */}
-            <Link className="nav-link" to={'/ac/' + user.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="false">
               Connections
             </Link>
           </li>
           <li className="nav-item" role="groups">
             {/* <a className="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="false">Groups</a> */}
-            <Link className="nav-link" to={'/ac/' + user.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
           </li>
@@ -213,5 +214,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createNewPost, getAllPosts }
+  { createNewPost, getAllPosts, getUserProfile }
 )(PostsTab);

@@ -3,35 +3,48 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
+import { getAllConnections, getNumberOfConnections } from "../../actions/connectionActions";
+
+import ConnectionTile from "../../components/Layout/ConnectionTile";
 
 class ConnectionsTab extends Component {
+  componentDidMount() {
+    const { match } = this.props;
+    this.props.getAllConnections(match.params.username);
+    this.props.getNumberOfConnections(match.params.username);
+  }
+
   render() {
-    const { user } = this.props;
+    const { match, user, connections, numConnections } = this.props;
+
+    console.log(connections)
+    console.log(numConnections)
+
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item" role="posts">
-            <Link className="nav-link" to={'/ac/' + user.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="false">
               Posts
             </Link>
           </li>
           <li className="nav-item" role="profile">
-            <Link className="nav-link" to={'/ac/' + user.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
               Profile
             </Link>
           </li>
-          <li className="nav-item" role="publications">
-            <Link className="nav-link" to={'/ac/' + user.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="false">
+          {/* <li className="nav-item" role="publications">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="false">
               Publications
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item" role="connections">
-            <Link className="nav-link active" to={'/ac/' + user.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="true">
+            <Link className="nav-link active" to={'/ac/' + match.params.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="true">
               Connections
             </Link>
           </li>
           <li className="nav-item" role="groups">
-            <Link className="nav-link" to={'/ac/' + user.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
           </li>
@@ -39,8 +52,19 @@ class ConnectionsTab extends Component {
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="connections" role="tabpanel" aria-labelledby="connections-tab">
             <div style={{height: '30px'}}></div>
+           
             <div className="container">
+              <h3>{numConnections} Connections</h3>
+
               <div className="row">
+              {
+                connections.map((connection) => 
+                  <ConnectionTile key={connection.id} connection={connection} />
+                )
+              }
+              </div>
+
+              {/* <div className="row">
                 <div className="col-6">
                   <div className="container border round bg-light">
                     <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
@@ -80,7 +104,7 @@ class ConnectionsTab extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -90,17 +114,19 @@ class ConnectionsTab extends Component {
 }
 
 const mapStateToProps = state => ({
-  security: state.security,
-  posts: state.postReducer.posts,
+  // security: state.security,
+  // posts: state.postReducer.posts,
+  connections: state.connectionReducer.connections,
   numConnections: state.connectionReducer.numConnections,
-  numPublications: state.publicationReducer.numPublications,
-  numGroups: state.groupReducer.numGroups,
+  // numPublications: state.publicationReducer.numPublications,
+  // numGroups: state.groupReducer.numGroups,
   user: state.security.user,
 
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
+  // firstContactId: state.contactReducer.firstContactId,
+  // firstOtherContactId: state.contactReducer.firstOtherContactId,
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { getAllConnections, getNumberOfConnections }
 )(ConnectionsTab);

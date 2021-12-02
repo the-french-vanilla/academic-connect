@@ -30,7 +30,7 @@ class UserProfile extends Component {
   componentDidMount() {
     const { match, user } = this.props;
     this.props.getUserProfile(match.params.username, user.username);
-    this.props.getProfilePicture(this.props.user.username);
+    this.props.getProfilePicture(match.params.username);
 
     // if (user.username !== match.params.username) {
     //   this.props.getIsConnected(match.params.username);

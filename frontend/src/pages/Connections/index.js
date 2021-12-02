@@ -16,7 +16,7 @@ class Connections extends Component {
       <div className="connections">
         <div style={{height: '10vh'}}></div>
 
-        <h1 className="h3 mb-3">Connections</h1>
+       
 
         <Switch>
           <SecuredRoute exact path={match.path + "/"} component={AllConnectionsTab} />

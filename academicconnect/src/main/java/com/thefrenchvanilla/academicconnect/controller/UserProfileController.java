@@ -44,6 +44,14 @@ public class UserProfileController {
         return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
     }
     
+    @GetMapping("/search/{username}")
+    public ResponseEntity<?> searchUserProfiles(@PathVariable String username, Principal principal) {
+
+    	Iterable<UserProfile> userProfile = userProfileService.searchUserProfiles(username, principal.getName());
+
+        return new ResponseEntity<Iterable<UserProfile>>(userProfile, HttpStatus.OK);
+    }
+    
     @PatchMapping("/{userId}")
     public ResponseEntity<?> updateUserProfile(@Valid @RequestBody UpdateUserProfileRequest updateAboutRequest, BindingResult result,
                                                @PathVariable Long userId, Principal principal) {

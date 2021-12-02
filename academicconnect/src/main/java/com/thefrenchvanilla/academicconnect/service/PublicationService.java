@@ -43,8 +43,15 @@ public class PublicationService {
         return publication;
     }
 
-    public Iterable<Publication> getAllPublications() {
-        return publicationRepository.findAll();
+    public Iterable<Publication> getAllPublications(String username) {
+        User user = null;
+    	try {
+            user = userRepository.findByUsername(username);
+            return publicationRepository.findAllByUser(user);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
+        }
     }
     
     public int getNumberPublications(String username) {

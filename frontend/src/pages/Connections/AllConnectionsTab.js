@@ -4,20 +4,25 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { 
   getAllConnections,
+  getNumberOfConnections,
   unconnect,
 } from "../../actions/connectionActions";
+import ConnectionTile2 from "../../components/Layout/ConnectionTile2";
 
 class AllConnectionsTab extends Component {
   componentDidMount() {
-    this.props.getAllConnections();
+    const { user } = this.props;
+    this.props.getAllConnections(user.username);
+    this.props.getNumberOfConnections(user.username);
   }
 
-  unconnect(username) {
-    this.props.unconnect(username);
-  }
+  // unconnect(username) {
+  //   this.props.unconnect(username);
+  // }
 
   render() {
-    const { connections } = this.props;
+    const { connections, numConnections } = this.props;
+    console.log(connections)
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -40,22 +45,24 @@ class AllConnectionsTab extends Component {
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="all-connections" role="tabpanel" aria-labelledby="all-connections-tab">
             
-          {
-            connections.length > 0 ? (
-              connections.map((connection) =>
-                <div key={connection.id} className="container border round bg-light">
-                  <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                  <div style={{padding: '10px'}}>
-                    <span><b>{connection.user2.firstName + ' ' + connection.user2.lastName}</b></span><br />
-                    <div className="col-9"></div>
-                    <div className="col-3">
-                      <button onClick={() => this.unconnect(connection.user2.username)}>Unconnect</button>
-                    </div>
-                  </div>
-                </div>
-              ) 
-            ) : <div>You do not have any connections. Start connecting with people.</div>
-          }
+          <div style={{height: '30px'}}></div>
+           
+          <div className="container">
+             <h3>{numConnections} Connections</h3>
+
+             <div className="row">
+             <div className="col">
+             {
+                connections.length > 0 ? (
+                  connections.map((connection) =>
+                    <ConnectionTile2 key={connection.id} connection={connection} />
+                  ) 
+                ) : <div>You do not have any connections. Start connecting with people.</div>
+              }
+              </div>
+             </div>
+          </div>
+          
 
           </div>
         </div>
@@ -65,6 +72,7 @@ class AllConnectionsTab extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.security.user,
   connections: state.connectionReducer.connections,
   // security: state.security,
   // posts: state.postReducer.posts,
@@ -79,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAllConnections, unconnect }
+  { getAllConnections, getNumberOfConnections, unconnect }
 )(AllConnectionsTab);

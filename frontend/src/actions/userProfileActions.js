@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_USER_PROFILE, UPDATE_USER_PROFILE } from "./types";
+import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE } from "./types";
 import { getIsConnected } from './connectionActions';
 
 export const getUserProfile = (username2, username) => async dispatch => {
@@ -12,6 +12,14 @@ export const getUserProfile = (username2, username) => async dispatch => {
   if (username !== username2) {
     dispatch(getIsConnected(username2));
   }
+};
+
+export const searchUserProfiles = (username) => async dispatch => {
+  const res = await axios.get("http://localhost:8081/api/profile/search/" + username);
+  dispatch({
+    type: SEARCH_USER_PROFILES,
+    payload: res.data
+  });
 };
 
 export const updateUserProfile = (userId) => async dispatch => {

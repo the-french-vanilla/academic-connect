@@ -1,9 +1,7 @@
 package com.thefrenchvanilla.academicconnect.controller;
 
-import com.thefrenchvanilla.academicconnect.entity.Notification;
 import com.thefrenchvanilla.academicconnect.entity.Publication;
 import com.thefrenchvanilla.academicconnect.service.MapValidationErrorService;
-import com.thefrenchvanilla.academicconnect.service.NotificationService;
 import com.thefrenchvanilla.academicconnect.service.PublicationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +41,14 @@ public class PublicationController {
         return new ResponseEntity<Publication>(notification, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public Iterable<Publication> getAllPublications() {
-    	return publicationService.getAllPublications();
+    @GetMapping("/all/{username}")
+    public Iterable<Publication> getAllPublications(@PathVariable String username) {
+    	return publicationService.getAllPublications(username);
     }
     
-    @GetMapping("/number")
-    public int getNumberPublications(Principal principal) {
-    	return publicationService.getNumberPublications(principal.getName());
+    @GetMapping("/number/{username}")
+    public int getNumberPublications(@PathVariable String username) {
+    	return publicationService.getNumberPublications(username);
     }
     
     @PutMapping("/{id}")

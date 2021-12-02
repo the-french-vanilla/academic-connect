@@ -24,16 +24,16 @@ public class Education {
     @NotBlank(message = "Institution is required")
     private String institution;
     
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     
     @NotBlank(message = "Accreditation is required")
     private String accreditation;
     
-    @NotBlank(message = "Description is required")
+    //@NotBlank(message = "Description is required")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

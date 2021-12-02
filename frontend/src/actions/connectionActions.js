@@ -2,9 +2,9 @@ import axios from "axios";
 import { GET_ERRORS, GET_ALL_CONNECTIONS, SET_NUM_CONNECTIONS, SET_IS_CONNECTED, UNCONNECT } from "./types";
 import { checkConnectionRequestSent, checkConnectionRequestReceived } from './connectionRequestActions';
 
-export const getAllConnections = () => async dispatch => {
+export const getAllConnections = (username) => async dispatch => {
   try {
-    const res = await axios.get("http://localhost:8081/api/connection/all");
+    const res = await axios.get("http://localhost:8081/api/connection/all/" + username);
     dispatch({
       type: GET_ALL_CONNECTIONS,
       payload: res.data
@@ -17,9 +17,9 @@ export const getAllConnections = () => async dispatch => {
   }
 };
 
-export const getNumberOfConnections = () => async dispatch => {
+export const getNumberOfConnections = (username) => async dispatch => {
   try {
-    const res = await axios.get("http://localhost:8081/api/connection/number");
+    const res = await axios.get("http://localhost:8081/api/connection/number/" + username);
     dispatch({
       type: SET_NUM_CONNECTIONS,
       payload: res.data
@@ -63,5 +63,5 @@ export const unconnect = (username) => async dispatch => {
     //   payload: err.response.data
     // });
   }
-  dispatch(getAllConnections());
+  //dispatch(getAllConnections(username));
 };

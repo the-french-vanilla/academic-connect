@@ -54,14 +54,14 @@ public class ConnectionController {
         return new ResponseEntity<Connection>(connection, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public Iterable<Connection> getAllConnections(Principal principal) {
-    	return connectionService.getAllConnections(principal.getName());
+    @GetMapping("/all/{username}")
+    public Iterable<Connection> getAllConnections(@PathVariable String username) {
+    	return connectionService.getAllConnections(username);
     }
     
-    @GetMapping("/number")
-    public int getNumberConnections(Principal principal) {
-    	return connectionService.getNumberConnections(principal.getName());
+    @GetMapping("/number/{username}")
+    public long getNumberConnections(@PathVariable String username) {
+    	return connectionService.getNumberConnections(username);
     }
     
     @PutMapping("/{id}")

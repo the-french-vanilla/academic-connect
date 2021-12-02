@@ -17,15 +17,13 @@ class SearchResults extends Component {
     return (
       <div className="search-results">
         <div style={{height: '10vh'}}></div>
-
-        <h1 className="h3 mb-3">Search Results</h1>
-
+        
         <Switch>
           <SecuredRoute exact path={match.path + "/"} component={AllResultsTab} />
           <SecuredRoute exact path={match.path + "/people"} component={PeopleTab} />
-          <SecuredRoute exact path={match.path + "/pages"} component={PagesTab} />
+          {/* <SecuredRoute exact path={match.path + "/pages"} component={PagesTab} /> */}
           <SecuredRoute exact path={match.path + "/groups"} component={GroupsTab} />
-          <SecuredRoute exact path={match.path + "/events"} component={EventsTab} />
+          {/* <SecuredRoute exact path={match.path + "/events"} component={EventsTab} /> */}
         </Switch>
 
       </div>

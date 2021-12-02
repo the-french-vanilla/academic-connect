@@ -9,6 +9,7 @@ import {
   deleteConnectionRequest,
   cancelConnectionRequest 
 } from "../../actions/connectionRequestActions";
+import ReceivedConnectionRequestTile from "../../components/Layout/ReceivedConnectionRequestTile";
 
 class ConnectionRequestsTab extends Component {
   constructor() {
@@ -20,13 +21,13 @@ class ConnectionRequestsTab extends Component {
     this.props.getReceivedConnectionRequests();
   }
 
-  accept(username, page) {
-    this.props.acceptConnectionRequest(username, page);
-  }
+  // accept(username, page) {
+  //   this.props.acceptConnectionRequest(username, page);
+  // }
 
-  delete(username, page) {
-    this.props.deleteConnectionRequest(username, page);
-  }
+  // delete(username, page) {
+  //   this.props.deleteConnectionRequest(username, page);
+  // }
 
   cancel(username) {
     this.props.cancelConnectionRequest(username);
@@ -58,29 +59,23 @@ class ConnectionRequestsTab extends Component {
             
             <div style={{height: '30px'}}></div>
 
+            <div className="container">
+
             <h4>Received Connection Requests</h4>
 
             {
               receivedConnectionRequests.length > 0 ? (
                 receivedConnectionRequests.map((receivedConnectionRequest) =>
-                  <div key={receivedConnectionRequest.id} className="container border round bg-light">
-                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                    <div style={{padding: '10px'}}>
-                      <span><b>{receivedConnectionRequest.user1.firstName + ' ' + receivedConnectionRequest.user1.lastName}</b></span><br />
-                      {/* <div id="spacing"></div>
-                      <span>Post-Doctoral Fellow</span><br />
-                      <div id="spacing"></div>
-                      <span>4 Mutual Connections</span> */}
-                      <div className="col-9"></div>
-                      <div className="col-3">
-                        <button onClick={() => this.accept(receivedConnectionRequest.user1.username, 'connections')}>Accept</button>
-                        <button onClick={() => this.delete(receivedConnectionRequest.user1.username, 'connections')}>Delete</button>
-                      </div>
-                    </div>
-                  </div>
+                  <ReceivedConnectionRequestTile key={receivedConnectionRequest.id} receivedConnectionRequest={receivedConnectionRequest} />
+                
                 ) 
               ) : <div>You have not send any connection requests.</div>
             }
+
+            </div>
+
+            <div className="container">
+
 
             <h4>Sent Connection Requests</h4>
 
@@ -88,9 +83,9 @@ class ConnectionRequestsTab extends Component {
               sendConnectionRequests.length > 0 ? (
                 sendConnectionRequests.map((sendConnectionRequest) =>
                   <div key={sendConnectionRequest.id} className="container border round bg-light">
-                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
+                    <img src="" alt="" width="80" height="80" style={{padding: '10px', float: 'left'}} />
                     <div style={{padding: '10px'}}>
-                      <span><b>{sendConnectionRequest.user1.firstName + ' ' + sendConnectionRequest.user1.lastName}</b></span><br />
+                      <span><b>{sendConnectionRequest.user2.firstName + ' ' + sendConnectionRequest.user2.lastName}</b></span><br />
                       {/* <div id="spacing"></div>
                       <span>Post-Doctoral Fellow</span><br />
                       <div id="spacing"></div>
@@ -104,6 +99,8 @@ class ConnectionRequestsTab extends Component {
                 ) 
               ) : <div>You have not send any connection requests.</div>
             }
+
+            </div>
 
           </div>
         </div>

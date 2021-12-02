@@ -6,33 +6,33 @@ import { logout } from "../../actions/securityActions";
 
 class PublicationsTab extends Component {
   render() {
-    const { user } = this.props;
+    const { match, user } = this.props;
 
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item" role="posts">
-            <Link className="nav-link" to={'/ac/' + user.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="false">
               Posts
             </Link>
           </li>
           <li className="nav-item" role="profile">
-            <Link className="nav-link" to={'/ac/' + user.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
               Profile
             </Link>
           </li>
           <li className="nav-item" role="publications">
-            <Link className="nav-link active" to={'/ac/' + user.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="true">
+            <Link className="nav-link active" to={'/ac/' + match.params.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="true">
               Publications
             </Link>
           </li>
           <li className="nav-item" role="connections">
-            <Link className="nav-link" to={'/ac/' + user.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="false">
               Connections
             </Link>
           </li>
           <li className="nav-item" role="groups">
-            <Link className="nav-link" to={'/ac/' + user.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
+            <Link className="nav-link" to={'/ac/' + match.params.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
           </li>

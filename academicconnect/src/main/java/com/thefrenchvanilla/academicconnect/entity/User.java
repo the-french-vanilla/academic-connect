@@ -59,6 +59,18 @@ public class User implements UserDetails {
     
     private Date update_At;
     
+    @Transient
+	private int numMutualConnections;
+	
+	@Transient
+	private boolean connected;
+	
+	@Transient
+	private boolean connectionRequestSent;
+	
+	@Transient
+	private boolean connectionRequestReceived;
+    
    
     
 //    @ManyToMany(cascade={CascadeType.ALL})
@@ -209,7 +221,39 @@ public class User implements UserDetails {
     UserDetails interface methods
      */
 
-    @Override
+    public int getNumMutualConnections() {
+		return numMutualConnections;
+	}
+
+	public void setNumMutualConnections(int numMutualConnections) {
+		this.numMutualConnections = numMutualConnections;
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	public boolean isConnectionRequestSent() {
+		return connectionRequestSent;
+	}
+
+	public void setConnectionRequestSent(boolean connectionRequestSent) {
+		this.connectionRequestSent = connectionRequestSent;
+	}
+
+	public boolean isConnectionRequestReceived() {
+		return connectionRequestReceived;
+	}
+
+	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
+		this.connectionRequestReceived = connectionRequestReceived;
+	}
+
+	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", createAt=" + createAt

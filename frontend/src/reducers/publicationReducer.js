@@ -1,7 +1,8 @@
-import { SET_NUM_PUBLICATIONS } from "../actions/types";
+import { SET_NUM_PUBLICATIONS, GET_ALL_PUBLICATIONS } from "../actions/types";
 
 const initialState = {
   numPublications: 0,
+  publications: [],
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         numPublications: action.payload,
+      };
+    case GET_ALL_PUBLICATIONS:
+      return {
+        ...state,
+        publications: action.payload,
       };
 
     default:

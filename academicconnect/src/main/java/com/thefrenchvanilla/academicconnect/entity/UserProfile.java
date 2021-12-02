@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,18 @@ public class UserProfile {
 	private String headline;
 	
 	private String about;
+	
+	@Transient
+	private int numMutualConnections;
+	
+	@Transient
+	private boolean connected;
+	
+	@Transient
+	private boolean connectionRequestSent;
+	
+	@Transient
+	private boolean connectionRequestReceived;
 	
 	@OneToOne
 	//@JsonIgnore
@@ -78,6 +91,38 @@ public class UserProfile {
 
 	public void setAbout(String about) {
 		this.about = about;
+	}
+
+	public int getNumMutualConnections() {
+		return numMutualConnections;
+	}
+
+	public void setNumMutualConnections(int numMutualConnections) {
+		this.numMutualConnections = numMutualConnections;
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	public boolean isConnectionRequestSent() {
+		return connectionRequestSent;
+	}
+
+	public void setConnectionRequestSent(boolean connectionRequestSent) {
+		this.connectionRequestSent = connectionRequestSent;
+	}
+
+	public boolean isConnectionRequestReceived() {
+		return connectionRequestReceived;
+	}
+
+	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
+		this.connectionRequestReceived = connectionRequestReceived;
 	}
 
 }

@@ -2,9 +2,18 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { searchUserProfiles } from "../../actions/userProfileActions";
+
+import UserTile from "../../components/Layout/UserTile";
 
 class AllResultsTab extends Component {
+  componentDidMount() {
+    let params = (new URL(document.location)).searchParams;
+    let q = params.get("q");
+    this.props.searchUserProfiles(q);
+  }
   render() {
+    const { userProfiles } = this.props;
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -18,25 +27,39 @@ class AllResultsTab extends Component {
               People
             </Link>
           </li>
-          <li className="nav-item" role="pages">
+          {/* <li className="nav-item" role="pages">
             <Link className="nav-link" to="/search/results/pages" id="pages-tab" data-toggle="tab" role="tab" aria-controls="pages" aria-selected="false">
               Pages
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item" role="groups">
             <Link className="nav-link" to="/search/results/groups" id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
           </li>
-          <li className="nav-item" role="events">
+          {/* <li className="nav-item" role="events">
             <Link className="nav-link" to="/search/results/events" id="events-tab" data-toggle="tab" role="tab" aria-controls="events" aria-selected="false">
               Events
             </Link>
-          </li>
+          </li> */}
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="all-results" role="tabpanel" aria-labelledby="all-results-tab">
-            All Results
+
+            <div style={{height: '30px'}}></div>
+            <div className="container">
+              <h3>People</h3>
+              
+                {
+                  userProfiles.map((userProfile) => 
+                    <UserTile key={userProfile.id} userProfile={userProfile} />
+                  )
+                }
+              
+              <div style={{height: '30px'}}></div>
+
+            </div>
+
           </div>
         </div>
       </div>
@@ -45,6 +68,7 @@ class AllResultsTab extends Component {
 }
 
 const mapStateToProps = state => ({
+  userProfiles: state.userProfileReducer.userProfiles,
   // security: state.security,
   // posts: state.postReducer.posts,
   // numConnections: state.connectionReducer.numConnections,
@@ -57,5 +81,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { searchUserProfiles }
 )(AllResultsTab);

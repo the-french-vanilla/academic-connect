@@ -41,9 +41,9 @@ public class EducationController {
         return new ResponseEntity<Education>(education, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public Iterable<Education> getAllEducations() {
-    	return educationService.getAllEducations();
+    @GetMapping("/all/{username}")
+    public Iterable<Education> getAllEducations(@PathVariable String username) {
+    	return educationService.getAllEducations(username);
     }
     
     @PutMapping("/{id}")

@@ -28,9 +28,9 @@ class Feed extends Component {
     }
 
     this.props.getAllPostsInFeed();
-    this.props.getNumberOfConnections();
+    this.props.getNumberOfConnections(this.props.user.username);
     this.props.getProfilePicture(this.props.user.username);
-    // this.props.getNumberOfPublications();
+    this.props.getNumberOfPublications(this.props.user.username);
     //this.props.getNumberOfGroups();
   }
 
@@ -79,7 +79,7 @@ class Feed extends Component {
       <div className="feed">
         <section className="part1">
           <div className="profile">
-            <img alt="" src={'data:image/gif;base64,' + profilePictureBinary} />
+            <img alt="" style={{maxWidth: '200px', maxHeight: '200px'}} src={'data:image/gif;base64,' + profilePictureBinary} />
             {/* <img src="/Users/deeppatel/Desktop/terry.jpeg" alt="" height="125px" width="145px" /> */}
           </div>
           <h4>{user.firstName + ' ' + user.lastName}</h4>

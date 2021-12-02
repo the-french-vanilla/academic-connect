@@ -10,8 +10,8 @@ export const createNewEducation = (newEducation) => async dispatch => {
   dispatch(getAllEducations());
 };
 
-export const getAllEducations = () => async dispatch => {
-  const res = await axios.get("http://localhost:8081/api/education/all");
+export const getAllEducations = (username) => async dispatch => {
+  const res = await axios.get("http://localhost:8081/api/education/all/" + username);
   dispatch({
     type: GET_ALL_EDUCATIONS,
     payload: res.data

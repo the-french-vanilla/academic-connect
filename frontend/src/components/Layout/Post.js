@@ -32,7 +32,7 @@ class Post extends Component {
           </div>
           <div style={{float: 'right'}}>
             <Link className="nav-link" to={'/ac/' + post.user.username}>
-              <h4>{post.user.firstName + ' ' + post.user.lastName}</h4>
+              <h6>{post.user.firstName + ' ' + post.user.lastName}</h6>
             </Link>
             <h6>{post.createAt}</h6>
           </div>

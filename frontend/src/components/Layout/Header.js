@@ -2,13 +2,30 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { searchUserProfiles } from "../../actions/userProfileActions";
 import { logout } from "../../actions/securityActions";
+import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
   constructor() {
     super();
+    this.state = {
+      searchValue: ""
+    }
 
+    this.search = this.search.bind(this);
     this.logout = this.logout.bind(this);
+  }
+
+  searchOnchange(e) {
+    this.setState({ searchValue: e.target.value });
+  }
+
+  search(e) {
+    e.preventDefault();
+
+    this.props.history.push("/search/results/?q=" + this.state.searchValue);
+    this.props.searchUserProfiles(this.state.searchValue);
   }
 
   logout() {
@@ -28,11 +45,11 @@ class Header extends Component {
             </Link>
           </li> */}
           <li className="nav-item">
-              <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
+              {/* <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span>  */}
               <Link className="nav-link" to="/feed">Notification <span className="sr-only">(current)</span></Link>
           </li>
           <li className="nav-item">
-              <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span> 
+              {/* <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span>  */}
               <Link className="nav-link" to="/messaging">Messaging <span className="sr-only">(current)</span></Link>
           </li>
           <li className="nav-item">
@@ -40,21 +57,21 @@ class Header extends Component {
               Connections
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="/pages">
               Pages
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link className="nav-link" to="/groups">
               Groups
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="/events">
               Events
             </Link>
-          </li>
+          </li> */}
         </ul>
 
 
@@ -63,11 +80,12 @@ class Header extends Component {
           <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form> */}
 
-        <form className="navbar-form navbar-right" role="search" id="navBarSearchForm" type="get" >
+        <form className="navbar-form navbar-right" role="search" id="navBarSearchForm" type="get" onSubmit={this.search}>
           <div className="input-group" id ="searchA">
-            <input id="wish_title1" type="text" className="form-control" placeholder="Search" name="wish_title1" />
+            <input id="wish_title1" type="text" value={this.state.searchValue} 
+              onChange={(e) => this.searchOnchange(e)} className="form-control" placeholder="Search" name="wish_title1" />
             <span className="input-group-btn">
-              <button className="btn btn-primary">
+              <button type="submit" disabled={this.state.searchValue === "" ? "disabled" : ""} className="btn btn-primary">
                 <i className="glyphicon glyphicon-search"></i>Search
               </button>
             </span>
@@ -230,7 +248,7 @@ const mapStateToProps = state => ({
   firstContactId: state.contactReducer.firstContactId,
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-  { logout }
-)(Header);
+  { logout, searchUserProfiles }
+)(Header));

@@ -34,6 +34,7 @@ export const SET_NUM_GROUPS = "SET_NUM_GROUPS";
 
 // publications
 export const SET_NUM_PUBLICATIONS = "SET_NUM_PUBLICATIONS";
+export const GET_ALL_PUBLICATIONS = "GET_ALL_PUBLICATIONS";
 
 // contacts
 export const SET_FIRST_CONTACT_ID = "SET_FIRST_CONTACT_ID";
@@ -53,4 +54,5 @@ export const GET_ALL_EDUCATIONS = "GET_ALL_EDUCATIONS";
 
 // user profile
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
+export const SEARCH_USER_PROFILES = "SEARCH_USER_PROFILES";
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";

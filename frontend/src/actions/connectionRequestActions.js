@@ -5,6 +5,7 @@ import { GET_ERRORS, SEND_CONNECTION_REQUEST, CHECK_CONNECTION_REQUEST_SENT,
   ACCEPT_CONNECTION_REQUEST, DELETE_CONNECTION_REQUEST, CANCEL_CONNECTION_REQUEST } from "./types";
 import { getUserProfile } from "./userProfileActions";
 import { getIsConnected } from "./connectionActions";
+import { searchUserProfiles } from "./userProfileActions";
 
 export const sendConnectionRequest = (username) => async dispatch => {
   try {
@@ -100,6 +101,8 @@ export const acceptConnectionRequest = (username, page) => async dispatch => {
   } else if (page === 'userProfile') {
     dispatch(getUserProfile(username));
     dispatch(getIsConnected(username));
+  } else if (page === 'searchResults') {
+    dispatch(searchUserProfiles(username));
   }
 };
 

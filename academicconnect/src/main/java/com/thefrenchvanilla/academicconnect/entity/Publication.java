@@ -29,7 +29,7 @@ public class Publication {
 	private String title;
 	
 	//@NotBlank(message = "Date is required")
-	@JsonFormat(pattern = "yyyy-mm-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
 	@NotBlank(message = "Authors is required")

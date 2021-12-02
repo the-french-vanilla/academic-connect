@@ -43,8 +43,15 @@ public class EducationService {
         return education;
     }
 
-    public Iterable<Education> getAllEducations() {
-        return educationRepository.findAll();
+    public Iterable<Education> getAllEducations(String username) {
+    	User user = null;
+    	try {
+            user = userRepository.findByUsername(username);
+            return educationRepository.findAllByUser(user);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	throw new EducationIdException("User ID '" + user.getId() + "' already exists");
+        }
     }
 
     public void deleteEducation(Long id) {
