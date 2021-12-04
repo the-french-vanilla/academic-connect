@@ -79,7 +79,6 @@ public class UserProfileService {
             	connected = true;
     		}
             
-            
             boolean connectionRequestSent = connectionRequestRepository.existsByUser1AndUser2(user, user2);
             boolean connectionRequestReceived = connectionRequestRepository.existsByUser1AndUser2(user2, user);
             

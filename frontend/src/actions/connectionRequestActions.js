@@ -4,12 +4,12 @@ import { GET_ERRORS, SEND_CONNECTION_REQUEST, CHECK_CONNECTION_REQUEST_SENT,
   GET_SEND_CONNECTION_REQUESTS, GET_RECEIVED_CONNECTION_REQUESTS,
   ACCEPT_CONNECTION_REQUEST, DELETE_CONNECTION_REQUEST, CANCEL_CONNECTION_REQUEST } from "./types";
 import { getUserProfile } from "./userProfileActions";
-import { getIsConnected } from "./connectionActions";
+import { getAllConnections, getIsConnected } from "./connectionActions";
 import { searchUserProfiles } from "./userProfileActions";
 
-export const sendConnectionRequest = (username) => async dispatch => {
+export const sendConnectionRequest = (username2, username, page, q) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8081/api/connectionrequest/", { username });
+    const res = await axios.post("http://localhost:8081/api/connectionrequest/", { "username": username2 });
     dispatch({
       type: SEND_CONNECTION_REQUEST,
       payload: res.data
@@ -19,6 +19,16 @@ export const sendConnectionRequest = (username) => async dispatch => {
     //   type: GET_ERRORS,
     //   payload: err.response.data
     // });
+  }
+
+  if (page === 'connections') {
+    dispatch(getReceivedConnectionRequests(username));
+  } else if (page === 'userProfile') {
+    dispatch(getUserProfile(username));
+    dispatch(getIsConnected(username));
+    dispatch(getAllConnections(username));
+  } else if (page === 'searchResults') {
+    dispatch(searchUserProfiles(username));
   }
 };
 
@@ -82,9 +92,9 @@ export const getReceivedConnectionRequests = (username) => async dispatch => {
   }
 };
 
-export const acceptConnectionRequest = (username, page) => async dispatch => {
+export const acceptConnectionRequest = (username2, username, page, q) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8081/api/connectionrequest/accept", { username });
+    const res = await axios.post("http://localhost:8081/api/connectionrequest/accept", { "username": username2 });
     dispatch({
       type: ACCEPT_CONNECTION_REQUEST,
       payload: res.data
@@ -96,19 +106,20 @@ export const acceptConnectionRequest = (username, page) => async dispatch => {
     // });
   }
 
-  if (page === 'connections') {
+  if ('connectionRequest') {
     dispatch(getReceivedConnectionRequests(username));
   } else if (page === 'userProfile') {
     dispatch(getUserProfile(username));
     dispatch(getIsConnected(username));
+    dispatch(getAllConnections(username));
   } else if (page === 'searchResults') {
     dispatch(searchUserProfiles(username));
   }
 };
 
-export const deleteConnectionRequest = (username, page) => async dispatch => {
+export const deleteConnectionRequest = (username2, username, page, q) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8081/api/connectionrequest/delete", { username });
+    const res = await axios.post("http://localhost:8081/api/connectionrequest/delete", { "username": username2 });
     dispatch({
       type: DELETE_CONNECTION_REQUEST,
       payload: res.data
@@ -120,11 +131,14 @@ export const deleteConnectionRequest = (username, page) => async dispatch => {
     // });
   }
 
-  if (page === 'connections') {
+  if ('connectionRequest') {
     dispatch(getReceivedConnectionRequests(username));
   } else if (page === 'userProfile') {
     dispatch(getUserProfile(username));
     dispatch(getIsConnected(username));
+    dispatch(getAllConnections(username));
+  } else if (page === 'searchResults') {
+    dispatch(searchUserProfiles(username));
   }
 };
 

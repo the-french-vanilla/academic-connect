@@ -8,12 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Connection {
+public class Connection implements Comparable<Connection> {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +32,21 @@ public class Connection {
     private Date createAt;
 	
 	private Boolean active;
+	
+	@Transient
+	private String headline;
+	
+	@Transient
+	private int numMutualConnections;
+	
+	@Transient
+	private boolean connected;
+	
+	@Transient
+	private boolean connectionRequestSent;
+	
+	@Transient
+	private boolean connectionRequestReceived;
 
 	public Connection() {
 		active = true;
@@ -79,6 +95,51 @@ public class Connection {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public String getHeadline() {
+		return headline;
+	}
+
+	public void setHeadline(String headline) {
+		this.headline = headline;
+	}
+
+	public int getNumMutualConnections() {
+		return numMutualConnections;
+	}
+
+	public void setNumMutualConnections(int numMutualConnections) {
+		this.numMutualConnections = numMutualConnections;
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	public boolean isConnectionRequestSent() {
+		return connectionRequestSent;
+	}
+
+	public void setConnectionRequestSent(boolean connectionRequestSent) {
+		this.connectionRequestSent = connectionRequestSent;
+	}
+
+	public boolean isConnectionRequestReceived() {
+		return connectionRequestReceived;
+	}
+
+	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
+		this.connectionRequestReceived = connectionRequestReceived;
+	}
+
+	@Override
+	public int compareTo(Connection o) {
+		return user2.getFirstName().compareTo(o.getUser2().getFirstName());
 	}
 	
 }

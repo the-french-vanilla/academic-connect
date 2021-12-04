@@ -1,5 +1,8 @@
 package com.thefrenchvanilla.academicconnect.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,12 @@ import com.thefrenchvanilla.academicconnect.entity.Connection;
 import com.thefrenchvanilla.academicconnect.entity.ConnectionRequest;
 import com.thefrenchvanilla.academicconnect.entity.Post;
 import com.thefrenchvanilla.academicconnect.entity.User;
+import com.thefrenchvanilla.academicconnect.entity.UserProfile;
 import com.thefrenchvanilla.academicconnect.exception.EducationIdException;
 import com.thefrenchvanilla.academicconnect.exception.PostIdException;
 import com.thefrenchvanilla.academicconnect.repository.ConnectionRepository;
 import com.thefrenchvanilla.academicconnect.repository.ConnectionRequestRepository;
+import com.thefrenchvanilla.academicconnect.repository.UserProfileRepository;
 import com.thefrenchvanilla.academicconnect.repository.UserRepository;
 
 @Service
@@ -26,6 +31,9 @@ public class ConnectionRequestService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     public ConnectionRequest createOrUpdateConnectionRequest(String username2, String username) {
     	ConnectionRequest connectionRequest = new ConnectionRequest();
@@ -65,29 +73,105 @@ public class ConnectionRequestService {
 	}
     
     public Iterable<ConnectionRequest> getSentConnectionRequests(String username) {
-    	Iterable<ConnectionRequest> connectionRequest = null;
-        try {
-            User user = userRepository.findByUsername(username);
-            connectionRequest = connectionRequestRepository.findAllByUser1(user);
+    	User user = userRepository.findByUsername(username);
+    	List<Connection> connections = connectionRepository.findAllByUser1(user);
+    	List<String> usernames = new ArrayList<String>();
+    	for (Connection connection : connections) {
+    		usernames.add(connection.getUser2().getUsername());
+    	}
+    	
+//    	User user2 = userRepository.findByUsername(username2);
+//        List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+//        Collections.sort(connections2);
+    	
+    	List<ConnectionRequest> sentConnectionRequests = connectionRequestRepository.findAllByUser1(user);
+        
+        for (ConnectionRequest sentConnectionRequest : sentConnectionRequests) {
+        	User user2 = sentConnectionRequest.getUser2();
+        	List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+        	List<String> usernames2 = new ArrayList<String>();
+        	for (Connection connection2 : connections2) {
+        		usernames2.add(connection2.getUser2().getUsername());
+        	}
+        	
+        	List<String> mutualUsernames = new ArrayList<String>();
+            for (String usr : usernames) {
+                if (usernames2.contains(usr)) {
+                	mutualUsernames.add(usr);
+                }
+            }
+
+            UserProfile userProfile2 = userProfileRepository.getByUserId(user2.getId());
             
-        } catch (Exception e) {
-        	e.printStackTrace();
-            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+            sentConnectionRequest.setHeadline(userProfile2.getHeadline());
+            sentConnectionRequest.setNumMutualConnections(mutualUsernames.size());
         }
-        return connectionRequest;
+        
+//        if(userProfile == null){
+//            throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
+//        }
+        return sentConnectionRequests;
+//    	Iterable<ConnectionRequest> connectionRequest = null;
+//        try {
+//            User user = userRepository.findByUsername(username);
+//            connectionRequest = connectionRequestRepository.findAllByUser1(user);
+//            
+//        } catch (Exception e) {
+//        	e.printStackTrace();
+//            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+//        }
+//        return connectionRequest;
 	}
 
 	public Iterable<ConnectionRequest> getReceivedConnectionRequests(String username) {
-		Iterable<ConnectionRequest> connectionRequest = null;
-        try {
-            User user = userRepository.findByUsername(username);
-            connectionRequest = connectionRequestRepository.findAllByUser2(user);
+		User user = userRepository.findByUsername(username);
+    	List<Connection> connections = connectionRepository.findAllByUser1(user);
+    	List<String> usernames = new ArrayList<String>();
+    	for (Connection connection : connections) {
+    		usernames.add(connection.getUser2().getUsername());
+    	}
+    	
+//    	User user2 = userRepository.findByUsername(username2);
+//        List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+//        Collections.sort(connections2);
+    	
+    	List<ConnectionRequest> receivedConnectionRequests = connectionRequestRepository.findAllByUser2(user);
+        
+        for (ConnectionRequest receivedConnectionRequest : receivedConnectionRequests) {
+        	User user2 = receivedConnectionRequest.getUser1();
+        	List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+        	List<String> usernames2 = new ArrayList<String>();
+        	for (Connection connection2 : connections2) {
+        		usernames2.add(connection2.getUser2().getUsername());
+        	}
+        	
+        	List<String> mutualUsernames = new ArrayList<String>();
+            for (String usr : usernames) {
+                if (usernames2.contains(usr)) {
+                	mutualUsernames.add(usr);
+                }
+            }
+
+            UserProfile userProfile2 = userProfileRepository.getByUserId(user2.getId());
             
-        } catch (Exception e) {
-        	e.printStackTrace();
-            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+            receivedConnectionRequest.setHeadline(userProfile2.getHeadline());
+            receivedConnectionRequest.setNumMutualConnections(mutualUsernames.size());
         }
-        return connectionRequest;
+        
+//        if(userProfile == null){
+//            throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
+//        }
+        return receivedConnectionRequests;
+//		Iterable<ConnectionRequest> connectionRequest = null;
+//        try {
+//            User user = userRepository.findByUsername(username);
+//            connectionRequest = connectionRequestRepository.findAllByUser2(user);
+//            
+//        } catch (Exception e) {
+//        	e.printStackTrace();
+//            //throw new PostIdException("Post ID '" + post.getId() + "' already exists");
+//        }
+//        return connectionRequest;
 	}
 	
 	public void acceptConnectionRequest(String username2, String username) {

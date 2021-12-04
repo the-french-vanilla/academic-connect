@@ -4,42 +4,28 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
 
-class ConnectionsTab extends Component {
+class MutualConnectionsTab extends Component {
   render() {
     const { match, user } = this.props;
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
-          <li className="nav-item" role="posts">
-            <Link className="nav-link" to={'/ac/' + match.params.username} id="posts-tab" data-toggle="tab" role="tab" aria-controls="posts" aria-selected="false">
-              Posts
+          <li className="nav-item" role="all-connections">
+            <Link className="nav-link" to={match.path} id="all-connections-tab" data-toggle="tab" role="tab" aria-controls="all-connections" aria-selected="false">
+              All Connections
             </Link>
           </li>
-          <li className="nav-item" role="profile">
-            <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">
-              Profile
-            </Link>
-          </li>
-          {/* <li className="nav-item" role="publications">
-            <Link className="nav-link" to={'/ac/' + match.params.username + '/publications'} id="publications-tab" data-toggle="tab" role="tab" aria-controls="publications" aria-selected="false">
-              Publications
-            </Link>
-          </li> */}
-          <li className="nav-item" role="connections">
-            <Link className="nav-link active" to={'/ac/' + match.params.username + '/connections'} id="connections-tab" data-toggle="tab" role="tab" aria-controls="connections" aria-selected="true">
-              Connections
-            </Link>
-          </li>
-          <li className="nav-item" role="groups">
-            <Link className="nav-link" to={'/ac/' + match.params.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
-              Groups
+          <li className="nav-item" role="mutual-connections">
+            <Link className="nav-link active" to={match.path + '/mutual'} id="mutual-connections-tab" data-toggle="tab" role="tab" aria-controls="mutual-connections" aria-selected="true">
+              Mutual Connections
             </Link>
           </li>
         </ul>
         <div className="tab-content" id="myTabContent">
-          <div className="tab-pane fade show active" id="connections" role="tabpanel" aria-labelledby="connections-tab">
+          <div className="tab-pane fade show active" id="mutual-connections" role="tabpanel" aria-labelledby="mutual-connections-tab">
             <div style={{height: '30px'}}></div>
-            <div className="container">
+            <h1>Mutual Connections</h1>
+            {/* <div className="container">
               <div className="row">
                 <div className="col-6">
                   <div className="container border round bg-light">
@@ -81,7 +67,7 @@ class ConnectionsTab extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -91,16 +77,16 @@ class ConnectionsTab extends Component {
 
 const mapStateToProps = state => ({
   security: state.security,
-  posts: state.postReducer.posts,
-  numConnections: state.connectionReducer.numConnections,
-  numPublications: state.publicationReducer.numPublications,
-  numGroups: state.groupReducer.numGroups,
+  // posts: state.postReducer.posts,
+  // numConnections: state.connectionReducer.numConnections,
+  // numPublications: state.publicationReducer.numPublications,
+  // numGroups: state.groupReducer.numGroups,
   user: state.security.user,
 
-  firstContactId: state.contactReducer.firstContactId,
-  firstOtherContactId: state.contactReducer.firstOtherContactId,
+  // firstContactId: state.contactReducer.firstContactId,
+  // firstOtherContactId: state.contactReducer.firstOtherContactId,
 });
 
 export default connect(
   mapStateToProps
-)(ConnectionsTab);
+)(MutualConnectionsTab);

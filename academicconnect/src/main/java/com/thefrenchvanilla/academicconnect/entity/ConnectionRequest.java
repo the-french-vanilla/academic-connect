@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,6 +32,12 @@ public class ConnectionRequest {
     private Date createAt;
 	
 	private String status;
+	
+	@Transient
+	private String headline;
+	
+	@Transient
+	private int numMutualConnections;
 
 	public ConnectionRequest() {
 		status = "pending";
@@ -79,6 +86,22 @@ public class ConnectionRequest {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getHeadline() {
+		return headline;
+	}
+
+	public void setHeadline(String headline) {
+		this.headline = headline;
+	}
+
+	public int getNumMutualConnections() {
+		return numMutualConnections;
+	}
+
+	public void setNumMutualConnections(int numMutualConnections) {
+		this.numMutualConnections = numMutualConnections;
 	}
 	
 }

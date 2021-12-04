@@ -59,17 +59,17 @@ public class User implements UserDetails {
     
     private Date update_At;
     
-    @Transient
-	private int numMutualConnections;
-	
-	@Transient
-	private boolean connected;
-	
-	@Transient
-	private boolean connectionRequestSent;
-	
-	@Transient
-	private boolean connectionRequestReceived;
+//    @Transient
+//	private int numMutualConnections;
+//	
+//	@Transient
+//	private boolean connected;
+//	
+//	@Transient
+//	private boolean connectionRequestSent;
+//	
+//	@Transient
+//	private boolean connectionRequestReceived;
     
    
     
@@ -221,37 +221,37 @@ public class User implements UserDetails {
     UserDetails interface methods
      */
 
-    public int getNumMutualConnections() {
-		return numMutualConnections;
-	}
-
-	public void setNumMutualConnections(int numMutualConnections) {
-		this.numMutualConnections = numMutualConnections;
-	}
-
-	public boolean isConnected() {
-		return connected;
-	}
-
-	public void setConnected(boolean connected) {
-		this.connected = connected;
-	}
-
-	public boolean isConnectionRequestSent() {
-		return connectionRequestSent;
-	}
-
-	public void setConnectionRequestSent(boolean connectionRequestSent) {
-		this.connectionRequestSent = connectionRequestSent;
-	}
-
-	public boolean isConnectionRequestReceived() {
-		return connectionRequestReceived;
-	}
-
-	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
-		this.connectionRequestReceived = connectionRequestReceived;
-	}
+//    public int getNumMutualConnections() {
+//		return numMutualConnections;
+//	}
+//
+//	public void setNumMutualConnections(int numMutualConnections) {
+//		this.numMutualConnections = numMutualConnections;
+//	}
+//
+//	public boolean isConnected() {
+//		return connected;
+//	}
+//
+//	public void setConnected(boolean connected) {
+//		this.connected = connected;
+//	}
+//
+//	public boolean isConnectionRequestSent() {
+//		return connectionRequestSent;
+//	}
+//
+//	public void setConnectionRequestSent(boolean connectionRequestSent) {
+//		this.connectionRequestSent = connectionRequestSent;
+//	}
+//
+//	public boolean isConnectionRequestReceived() {
+//		return connectionRequestReceived;
+//	}
+//
+//	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
+//		this.connectionRequestReceived = connectionRequestReceived;
+//	}
 
 	@Override
 	public String toString() {

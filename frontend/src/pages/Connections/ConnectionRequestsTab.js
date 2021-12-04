@@ -10,6 +10,7 @@ import {
   cancelConnectionRequest 
 } from "../../actions/connectionRequestActions";
 import ReceivedConnectionRequestTile from "../../components/Layout/ReceivedConnectionRequestTile";
+import SentConnectionRequestTile from "../../components/Layout/SentConnectionRequestTile";
 
 class ConnectionRequestsTab extends Component {
   constructor() {
@@ -34,7 +35,10 @@ class ConnectionRequestsTab extends Component {
   }
 
   render() {
-    const { sendConnectionRequests, receivedConnectionRequests } = this.props;
+    const { sentConnectionRequests, receivedConnectionRequests } = this.props;
+
+    console.log(sentConnectionRequests)
+
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -69,7 +73,7 @@ class ConnectionRequestsTab extends Component {
                   <ReceivedConnectionRequestTile key={receivedConnectionRequest.id} receivedConnectionRequest={receivedConnectionRequest} />
                 
                 ) 
-              ) : <div>You have not send any connection requests.</div>
+              ) : <div>You have not received any connection requests.</div>
             }
 
             </div>
@@ -80,25 +84,14 @@ class ConnectionRequestsTab extends Component {
             <h4>Sent Connection Requests</h4>
 
             {
-              sendConnectionRequests.length > 0 ? (
-                sendConnectionRequests.map((sendConnectionRequest) =>
-                  <div key={sendConnectionRequest.id} className="container border round bg-light">
-                    <img src="" alt="" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                    <div style={{padding: '10px'}}>
-                      <span><b>{sendConnectionRequest.user2.firstName + ' ' + sendConnectionRequest.user2.lastName}</b></span><br />
-                      {/* <div id="spacing"></div>
-                      <span>Post-Doctoral Fellow</span><br />
-                      <div id="spacing"></div>
-                      <span>4 Mutual Connections</span> */}
-                      <div className="col-9"></div>
-                      <div className="col-3">
-                        <button onClick={() => this.cancel(sendConnectionRequest.user2.username)}>Cancel</button>
-                      </div>
-                    </div>
-                  </div>
+              sentConnectionRequests.length > 0 ? (
+                sentConnectionRequests.map((sentConnectionRequest) =>
+                  <SentConnectionRequestTile key={sentConnectionRequest.id} sentConnectionRequest={sentConnectionRequest} />
+                
                 ) 
               ) : <div>You have not send any connection requests.</div>
             }
+
 
             </div>
 
@@ -110,7 +103,7 @@ class ConnectionRequestsTab extends Component {
 }
 
 const mapStateToProps = state => ({
-  sendConnectionRequests: state.connectionRequestReducer.sendConnectionRequests,
+  sentConnectionRequests: state.connectionRequestReducer.sentConnectionRequests,
   receivedConnectionRequests: state.connectionRequestReducer.receivedConnectionRequests,
   // security: state.security,
   // posts: state.postReducer.posts,

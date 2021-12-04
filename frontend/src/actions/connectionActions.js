@@ -50,9 +50,9 @@ export const getIsConnected = (username) => async dispatch => {
   dispatch(checkConnectionRequestReceived(username));
 };
 
-export const unconnect = (username) => async dispatch => {
+export const unconnect = (username2, username) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8081/api/connection/unconnect", { username });
+    const res = await axios.post("http://localhost:8081/api/connection/unconnect", { "username": username2 });
     dispatch({
       type: UNCONNECT,
       payload: res.data
@@ -63,5 +63,5 @@ export const unconnect = (username) => async dispatch => {
     //   payload: err.response.data
     // });
   }
-  //dispatch(getAllConnections(username));
+  dispatch(getAllConnections(username));
 };

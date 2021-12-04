@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Switch, Link } from "react-router-dom";
 import SecuredRoute from "../../securityUtils/SecureRoute";
 import { getProfilePicture } from "../../actions/securityActions";
 import { getUserProfile } from "../../actions/userProfileActions";
@@ -17,7 +16,8 @@ import { createContactIfNotExist } from "../../actions/contactActions";
 import PostsTab from "./PostsTab";
 import ProfileTab from "./ProfileTab";
 import PublicationsTab from "./PublicationsTab";
-import ConnectionsTab from "./ConnectionsTab";
+import AllConnectionsTab from "./AllConnectionsTab";
+import MutualConnectionsTab from "./MutualConnectionsTab";
 import GroupsTab from "./GroupsTab";
 
 class UserProfile extends Component {
@@ -128,7 +128,8 @@ class UserProfile extends Component {
           <SecuredRoute exact path={match.path + "/"} component={PostsTab} />
           <SecuredRoute exact path={match.path + "/profile"} component={ProfileTab} />
           <SecuredRoute exact path={match.path + "/publications"} component={PublicationsTab} />
-          <SecuredRoute exact path={match.path + "/connections"} component={ConnectionsTab} />
+          <SecuredRoute exact path={match.path + "/connections"} component={AllConnectionsTab} />
+          <SecuredRoute exact path={match.path + "/connections/mutual"} component={MutualConnectionsTab} />
           <SecuredRoute exact path={match.path + "/groups"} component={GroupsTab} />
         </Switch>
    

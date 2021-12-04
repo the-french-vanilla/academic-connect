@@ -5,11 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 import { getIsConnected, unconnect } from "../../actions/connectionActions";
-import { 
-  sendConnectionRequest,
-  acceptConnectionRequest,
-  deleteConnectionRequest 
-} from "../../actions/connectionRequestActions";
+
 import { createContactIfNotExist } from "../../actions/contactActions";
 
 class ConnectionTile2 extends Component {
@@ -19,7 +15,7 @@ class ConnectionTile2 extends Component {
       profilePictureBinary: null
     };
 
-    // this.connect = this.connect.bind(this);
+    // this.unconnect = this.unconnect.bind(this);
     this.message = this.message.bind(this);
   }
 
@@ -29,21 +25,8 @@ class ConnectionTile2 extends Component {
     this.setState({ profilePictureBinary: res.data });
   }
 
-  // connect(username) {
-  //   this.props.sendConnectionRequest(username);
-  // }
-
-  // accept(username, page, q) {
-  //   this.props.acceptConnectionRequest(username, page, q);
-  // }
-
-  // delete(username, page) {
-  //   this.props.deleteConnectionRequest(username, page);
-  // }
-
-  unconnect(username) {
-    this.props.unconnect(username);
-    window.location.href = "/connections";
+  unconnect(username2, username) {
+    this.props.unconnect(username2, username);
   }
 
   message(username) {
@@ -51,42 +34,58 @@ class ConnectionTile2 extends Component {
   }
 
   render() {
-    const { connection, user } = this.props;
-    console.log(connection)
+    const { match, connection, user } = this.props;
+    // console.log(connection)
 
     let params = (new URL(document.location)).searchParams;
     let q = params.get("q");
 
+    let messageButton = (
+      <div style={{float: 'right', margin: '10px'}}>
+        <button onClick={() => this.message(connection.user2.username)}>Message</button>
+      </div>
+    );
+    // let connectButton = (
+    //   <button style={{width: '100px', margin: '10px', float: 'right'}} onClick={() => this.connect(connection.user2.username)}>Connect</button>
+    // );
+
+
+    let unconnectButton = null;
+    unconnectButton = (
+      <div style={{float: 'right', margin: '10px'}}>
+        <button onClick={() => this.unconnect(connection.user2.username, connection.user1.username)}>Unconnect</button>
+      </div>
+    );
+
     return (
       
       <React.Fragment>
-        <div  className="container border round bg-light">
-          <button style={{width: '100px', margin: '10px', float: 'right'}} onClick={() => this.unconnect(connection.user2.username)}>Unconnect</button>
-          <button style={{width: '100px', margin: '10px', float: 'right'}} onClick={() => this.message(connection.user2.username)}>Message</button>
+        <div className="container border round bg-light" style={{minHeight: '100px'}}>
+          
+          {
+            (user.username !== connection.user2.username) ? messageButton : null
+          }
+
+          {
+            unconnectButton 
+          }
+
           <img alt="" height="80" width="80" style={{padding: '10px', float: 'left'}} src={'data:image/gif;base64,' + this.state.profilePictureBinary} />
-          {/* <div style={{padding: '10px'}}>
-            <span><b>{connection.user2.firstName + ' ' + connection.user2.lastName}</b></span><br />
-            <div className="col-9"></div>
-            <div className="col-3">
-              <button onClick={() => this.unconnect(connection.user2.username)}>Unconnect</button>
-            </div>
-          </div> */}
-          <Link className="nav-link" to={'/ac/' + connection.user2.username}>
+          <div style={{padding: '10px'}}>
+            <Link className="nav-link" to={'/ac/' + connection.user2.username}>
               <span><b>{connection.user2.firstName + " " + connection.user2.lastName}</b></span>
             </Link>
-            <br />
-            <div id="spacing"></div>
-            <span>{connection.user2.headline}</span><br />
-            <div id="spacing"></div>
+            <div>{connection.headline}</div>
             {
               (connection.numMutualConnections > 0) ? 
                 <span>{connection.numMutualConnections} Mutual Connection{connection.numMutualConnections === 1 ? '' : 's'}</span> : null
             }
-            
+          </div>
+          
         </div>
         <div style={{height: '30px'}}></div>
-      
       </React.Fragment>
+      
     );
 
   }
@@ -110,10 +109,7 @@ export default withRouter(connect(
   mapStateToProps,
   { 
     getIsConnected, 
-    sendConnectionRequest,
-    acceptConnectionRequest,
-    deleteConnectionRequest,
-    createContactIfNotExist,
     unconnect,
+    createContactIfNotExist,
   }
 )(ConnectionTile2));

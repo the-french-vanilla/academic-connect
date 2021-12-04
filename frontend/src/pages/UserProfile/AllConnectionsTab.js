@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { BrowserRouter as Router, Route, Routes, Switch, Link } from "react-router-dom";
+import SecuredRoute from "../../securityUtils/SecureRoute";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
 import { getAllConnections, getNumberOfConnections } from "../../actions/connectionActions";
 
 import ConnectionTile from "../../components/Layout/ConnectionTile";
 
-class ConnectionsTab extends Component {
+class AllConnectionsTab extends Component {
   componentDidMount() {
     const { match } = this.props;
     this.props.getAllConnections(match.params.username);
@@ -17,8 +18,8 @@ class ConnectionsTab extends Component {
   render() {
     const { match, user, connections, numConnections } = this.props;
 
-    console.log(connections)
-    console.log(numConnections)
+    // console.log(connections)
+    // console.log(numConnections)
 
     return (
       <div>
@@ -52,59 +53,38 @@ class ConnectionsTab extends Component {
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="connections" role="tabpanel" aria-labelledby="connections-tab">
             <div style={{height: '30px'}}></div>
-           
+
             <div className="container">
-              <h3>{numConnections} Connections</h3>
+
+              <ul className="nav nav-tabs" id="myTab" role="tablist">
+                <li className="nav-item" role="all-connections">
+                  <Link className="nav-link active" to={'/ac/' + match.params.username} id="all-connections-tab" data-toggle="tab" role="tab" aria-controls="all-connections" aria-selected="true">
+                    All Connections ({numConnections})
+                  </Link>
+                </li>
+                { 
+                  (user.username !== match.params.username) ? (
+                    <li className="nav-item" role="mutual-connections">
+                      <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="mutual-connections-tab" data-toggle="tab" role="tab" aria-controls="mutual-connections" aria-selected="false">
+                        Mutual Connections
+                      </Link>
+                    </li>
+                  ) : null
+                }
+              </ul>
+
+              <div style={{height: '30px'}}></div>
 
               <div className="row">
+              <div className="col">
               {
                 connections.map((connection) => 
                   <ConnectionTile key={connection.id} connection={connection} />
                 )
               }
               </div>
-
-              {/* <div className="row">
-                <div className="col-6">
-                  <div className="container border round bg-light">
-                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                    <div style={{padding: '10px'}}>
-                      <span><b>Alex Aravind</b></span><br />
-                      <div id="spacing"></div>
-                      <span>Post-Doctoral Fellow</span><br />
-                      <div id="spacing"></div>
-                      <span>4 Mutual Connections</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="container border round bg-light">
-                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                    <div style={{padding: '10px'}}>
-                      <span><b>Alex Aravind</b></span><br />
-                      <div id="spacing"></div>
-                      <span>Post-Doctoral Fellow</span><br />
-                      <div id="spacing"></div>
-                      <span>4 Mutual Connections</span>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <div style={{height: '30px'}}></div>
-              <div className="row">
-                <div className="col-6">
-                  <div className="container border round bg-light">
-                    <img src="" alt="Alex Aravind" width="80" height="80" style={{padding: '10px', float: 'left'}} />
-                    <div style={{padding: '10px'}}>
-                      <span><b>Alex Aravind</b></span><br />
-                      <div id="spacing"></div>
-                      <span>Post-Doctoral Fellow</span><br />
-                      <div id="spacing"></div>
-                      <span>4 Mutual Connections</span>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
+
             </div>
           </div>
         </div>
@@ -129,4 +109,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getAllConnections, getNumberOfConnections }
-)(ConnectionsTab);
+)(AllConnectionsTab);

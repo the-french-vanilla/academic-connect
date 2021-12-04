@@ -55,8 +55,8 @@ public class ConnectionController {
     }
 
     @GetMapping("/all/{username}")
-    public Iterable<Connection> getAllConnections(@PathVariable String username) {
-    	return connectionService.getAllConnections(username);
+    public Iterable<Connection> getAllConnections(@PathVariable String username, Principal principal) {
+    	return connectionService.getAllConnections(username, principal.getName());
     }
     
     @GetMapping("/number/{username}")

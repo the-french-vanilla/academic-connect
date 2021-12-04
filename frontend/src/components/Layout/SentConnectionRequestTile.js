@@ -6,13 +6,11 @@ import axios from "axios";
 
 import { getIsConnected } from "../../actions/connectionActions";
 import { 
-  sendConnectionRequest,
-  acceptConnectionRequest,
-  deleteConnectionRequest 
+  cancelConnectionRequest,
 } from "../../actions/connectionRequestActions";
 import { createContactIfNotExist } from "../../actions/contactActions";
 
-class ReceivedConnectionRequestTile extends Component {
+class SentConnectionRequestTile extends Component {
   constructor() {
     super();
     this.state = {
@@ -24,17 +22,13 @@ class ReceivedConnectionRequestTile extends Component {
   }
 
   async componentDidMount() {
-    const { receivedConnectionRequest } = this.props;
-    const res = await axios.get("http://localhost:8081/api/users/profilepicture/" + receivedConnectionRequest.user1.username);
+    const { sentConnectionRequest } = this.props;
+    const res = await axios.get("http://localhost:8081/api/users/profilepicture/" + sentConnectionRequest.user2.username);
     this.setState({ profilePictureBinary: res.data });
   }
 
-  accept(username2, username, page, q) {
-    this.props.acceptConnectionRequest(username2, username, page, q);
-  }
-
-  delete(username2, username, page, q) {
-    this.props.deleteConnectionRequest(username2, username, page, q);
+  cancel(username) {
+    this.props.cancelConnectionRequest(username);
   }
 
   message(username) {
@@ -42,7 +36,7 @@ class ReceivedConnectionRequestTile extends Component {
   }
 
   render() {
-    const { match, receivedConnectionRequest, user } = this.props;
+    const { match, sentConnectionRequest, user } = this.props;
     // console.log(connection)
 
     let params = (new URL(document.location)).searchParams;
@@ -50,7 +44,7 @@ class ReceivedConnectionRequestTile extends Component {
 
     let messageButton = (
       <div style={{float: 'right', margin: '10px'}}>
-        <button onClick={() => this.message(receivedConnectionRequest.user1.username)}>Message</button>
+        <button onClick={() => this.message(sentConnectionRequest.user2.username)}>Message</button>
       </div>
     );
     // let connectButton = (
@@ -60,16 +54,10 @@ class ReceivedConnectionRequestTile extends Component {
 
     let connectionButton = null;
     connectionButton = (
-      <React.Fragment>
-        <div style={{float: 'right', margin: '10px'}}>
-          <button onClick={() => this.delete(receivedConnectionRequest.user1.username, receivedConnectionRequest.user2.username, 'connectionRequest')}>Reject Connection Request</button>
-        </div>
-        <div style={{float: 'right', margin: '10px'}}>
-          <button onClick={() => this.accept(receivedConnectionRequest.user1.username, receivedConnectionRequest.user2.username, 'connectionRequest')}>Accept Connection Request</button>
-        </div>
-      </React.Fragment>
+      <div style={{float: 'right', margin: '10px'}}>
+        <button onClick={() => this.cancel(sentConnectionRequest.user2.username)}>Cancel</button>
+      </div>
     );
-    
 
     return (
       
@@ -81,16 +69,15 @@ class ReceivedConnectionRequestTile extends Component {
           }
           {connectionButton}
 
-
           <img alt="" height="80" width="80" style={{padding: '10px', float: 'left'}} src={'data:image/gif;base64,' + this.state.profilePictureBinary} />
           <div style={{padding: '10px'}}>
-            <Link className="nav-link" to={'/ac/' + receivedConnectionRequest.user1.username}>
-              <span><b>{receivedConnectionRequest.user1.firstName + " " + receivedConnectionRequest.user1.lastName}</b></span>
+            <Link className="nav-link" to={'/ac/' + sentConnectionRequest.user2.username}>
+              <span><b>{sentConnectionRequest.user2.firstName + " " + sentConnectionRequest.user2.lastName}</b></span>
             </Link>
-            <div>{receivedConnectionRequest.headline}</div>
+            <div>{sentConnectionRequest.headline}</div>
             {
-              (receivedConnectionRequest.numMutualConnections > 0) ? 
-                <span>{receivedConnectionRequest.numMutualConnections} Mutual Connection{receivedConnectionRequest.numMutualConnections === 1 ? '' : 's'}</span> : null
+              (sentConnectionRequest.numMutualConnections > 0) ? 
+                <span>{sentConnectionRequest.numMutualConnections} Mutual Connection{sentConnectionRequest.numMutualConnections === 1 ? '' : 's'}</span> : null
             }
           </div>
           
@@ -103,7 +90,7 @@ class ReceivedConnectionRequestTile extends Component {
   }
 }
 
-ReceivedConnectionRequestTile.propTypes = {
+SentConnectionRequestTile.propTypes = {
   // logout: PropTypes.func.isRequired,
   // security: PropTypes.object.isRequired
 };
@@ -121,9 +108,7 @@ export default withRouter(connect(
   mapStateToProps,
   { 
     getIsConnected, 
-    sendConnectionRequest,
-    acceptConnectionRequest,
-    deleteConnectionRequest,
+    cancelConnectionRequest,
     createContactIfNotExist,
   }
-)(ReceivedConnectionRequestTile));
+)(SentConnectionRequestTile));

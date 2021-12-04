@@ -5,7 +5,7 @@ import { SEND_CONNECTION_REQUEST, CHECK_CONNECTION_REQUEST_SENT,
 const initialState = {
   connectionRequestSent: false,
   connectionRequestReceived: false,
-  sendConnectionRequests: [],
+  sentConnectionRequests: [],
   receivedConnectionRequests: [],
 };
 
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
     case GET_SEND_CONNECTION_REQUESTS:
       return {
         ...state,
-        sendConnectionRequests: action.payload,
+        sentConnectionRequests: action.payload,
       };
     case GET_RECEIVED_CONNECTION_REQUESTS:
       return {
