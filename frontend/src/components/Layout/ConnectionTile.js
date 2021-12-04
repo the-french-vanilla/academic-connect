@@ -20,7 +20,7 @@ class ConnectionTile extends Component {
     };
 
     // this.connect = this.connect.bind(this);
-    this.message = this.message.bind(this);
+    // this.message = this.message.bind(this);
   }
 
   async componentDidMount() {
@@ -35,10 +35,18 @@ class ConnectionTile extends Component {
 
   accept(username2, username, page, q) {
     this.props.acceptConnectionRequest(username2, username, page, q);
+
+    // let params = (new URL(document.location)).searchParams;
+    //let q = params.get("q");
+    window.location.href = "/search/results/?q=" + q;
   }
 
   delete(username2, username, page, q) {
     this.props.deleteConnectionRequest(username2, username, page, q);
+    
+    // let params = (new URL(document.location)).searchParams;
+    //let q = params.get("q");
+    window.location.href = "/search/results/?q=" + q;
   }
 
   message(username) {

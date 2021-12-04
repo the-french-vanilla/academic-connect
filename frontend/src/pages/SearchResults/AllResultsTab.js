@@ -14,16 +14,18 @@ class AllResultsTab extends Component {
   }
   render() {
     const { userProfiles } = this.props;
+    let params = (new URL(document.location)).searchParams;
+    let q = params.get("q");
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item" role="all-results">
-            <Link className="nav-link active" to="/search/results" id="all-results-tab" data-toggle="tab" role="tab" aria-controls="all-results" aria-selected="true">
+            <Link className="nav-link active" to={'/search/results/?q=' + q} id="all-results-tab" data-toggle="tab" role="tab" aria-controls="all-results" aria-selected="true">
               All Results
             </Link>
           </li>
           <li className="nav-item" role="people">
-            <Link className="nav-link" to="/search/results/people" id="people-tab" data-toggle="tab" role="tab" aria-controls="people" aria-selected="false">
+            <Link className="nav-link" to={'/search/results/people/?q=' + q} id="people-tab" data-toggle="tab" role="tab" aria-controls="people" aria-selected="false">
               People
             </Link>
           </li>

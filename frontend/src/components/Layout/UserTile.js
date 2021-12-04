@@ -19,8 +19,10 @@ class UserTile extends Component {
       profilePictureBinary: null
     };
 
-    this.connect = this.connect.bind(this);
-    this.message = this.message.bind(this);
+    // this.connect = this.connect.bind(this);
+    // this.accept = this.accept.bind(this);
+    // this.delete = this.delete.bind(this);
+    // this.message = this.message.bind(this);
   }
 
   async componentDidMount() {
@@ -29,21 +31,21 @@ class UserTile extends Component {
     this.setState({ profilePictureBinary: res.data });
   }
 
-  connect(username) {
-    this.props.sendConnectionRequest(username);
+  connect(username2, username, page, q) {
+    this.props.sendConnectionRequest(username2, username, page, q);
 
-    let params = (new URL(document.location)).searchParams;
-    let q = params.get("q");
-    //this.props.history.push("/search/results/?q=" + q);
-    window.location.href = "/search/results/?q=" + q;
+    // let params = (new URL(document.location)).searchParams;
+    // let q = params.get("q");
+    // //this.props.history.push("/search/results/?q=" + q);
+    // window.location.href = "/search/results/?q=" + q;
   }
 
-  accept(username, page, q) {
-    this.props.acceptConnectionRequest(username, page, q);
+  accept(username2, username, page, q) {
+    this.props.acceptConnectionRequest(username2, username, page, q);
   }
 
-  delete(username, page) {
-    this.props.deleteConnectionRequest(username, page);
+  delete(username2, username, page, q) {
+    this.props.deleteConnectionRequest(username2, username, page, q);
   }
 
   message(username) {
@@ -69,17 +71,17 @@ class UserTile extends Component {
         connectionButton = (
           <React.Fragment>
             <div style={{float: 'right', margin: '10px'}}>
-              <button onClick={() => this.accept(userProfile.user.username, 'searchResults', q)}>Accept Connection Request</button>
+              <button onClick={() => this.delete(userProfile.user.username, user.username, 'searchResults', q)}>Reject Connection Request</button>
             </div>
             <div style={{float: 'right', margin: '10px'}}>
-              <button onClick={() => this.delete(userProfile.user.username, 'searchResults', q)}>Reject Connection Request</button>
+              <button onClick={() => this.accept(userProfile.user.username, user.username, 'searchResults', q)}>Accept Connection Request</button>
             </div>
           </React.Fragment>
         );
       } else {
         connectionButton = (
           <div style={{float: 'right', margin: '10px'}}>
-            <button onClick={() => this.connect(userProfile.user.username)}>Connect</button>
+            <button onClick={() => this.connect(userProfile.user.username, user.username, 'searchResults', q)}>Connect</button>
           </div>
         );
       }

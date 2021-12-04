@@ -20,7 +20,7 @@ class ReceivedConnectionRequestTile extends Component {
     };
 
     // this.connect = this.connect.bind(this);
-    this.message = this.message.bind(this);
+    // this.message = this.message.bind(this);
   }
 
   async componentDidMount() {

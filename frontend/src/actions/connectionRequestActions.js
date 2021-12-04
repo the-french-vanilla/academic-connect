@@ -28,7 +28,7 @@ export const sendConnectionRequest = (username2, username, page, q) => async dis
     dispatch(getIsConnected(username));
     dispatch(getAllConnections(username));
   } else if (page === 'searchResults') {
-    dispatch(searchUserProfiles(username));
+    dispatch(searchUserProfiles(q));
   }
 };
 
@@ -106,6 +106,8 @@ export const acceptConnectionRequest = (username2, username, page, q) => async d
     // });
   }
 
+  dispatch(searchUserProfiles(q)); // 
+
   if ('connectionRequest') {
     dispatch(getReceivedConnectionRequests(username));
   } else if (page === 'userProfile') {
@@ -113,7 +115,7 @@ export const acceptConnectionRequest = (username2, username, page, q) => async d
     dispatch(getIsConnected(username));
     dispatch(getAllConnections(username));
   } else if (page === 'searchResults') {
-    dispatch(searchUserProfiles(username));
+    dispatch(searchUserProfiles(q));
   }
 };
 
@@ -131,6 +133,8 @@ export const deleteConnectionRequest = (username2, username, page, q) => async d
     // });
   }
 
+  dispatch(searchUserProfiles(q)); // 
+
   if ('connectionRequest') {
     dispatch(getReceivedConnectionRequests(username));
   } else if (page === 'userProfile') {
@@ -138,7 +142,7 @@ export const deleteConnectionRequest = (username2, username, page, q) => async d
     dispatch(getIsConnected(username));
     dispatch(getAllConnections(username));
   } else if (page === 'searchResults') {
-    dispatch(searchUserProfiles(username));
+    dispatch(searchUserProfiles(q));
   }
 };
 

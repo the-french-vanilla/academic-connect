@@ -16,7 +16,7 @@ class ConnectionTile2 extends Component {
     };
 
     // this.unconnect = this.unconnect.bind(this);
-    this.message = this.message.bind(this);
+    // this.message = this.message.bind(this);
   }
 
   async componentDidMount() {
