@@ -18,6 +18,15 @@ class ProfileTab extends Component {
   render() {
     const { match, user, userProfile, educations, publications, numPublications } = this.props;
 
+    let aboutHTML = null;
+    if (userProfile == null) {
+      return null;
+    } else if (userProfile.about == null) {
+      aboutHTML = <p>There's nothing interesting about {userProfile.user.firstName}</p>;
+    } else {
+      aboutHTML = <p>{userProfile.about}</p>;
+    }
+
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -55,10 +64,12 @@ class ProfileTab extends Component {
             <h4>About</h4>
 
             <div className="container border round bg-light">
-            <p>{(userProfile != null) ? userProfile.about : null}</p>
+            {aboutHTML}
             </div>
 
-            <h4>Education</h4>
+            {
+              educations.length > 0 ? <h4>Education</h4> : null
+            }
 
             {
               educations.map((education) =>
@@ -75,7 +86,9 @@ class ProfileTab extends Component {
               )
             }
 
-            <h4>Publications</h4>
+            {
+              publications.length > 0 ? <h4>Publications</h4> : null
+            }
 
             {
               publications.map((publication) =>
