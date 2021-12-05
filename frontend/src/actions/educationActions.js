@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS, UPDATE_EDUCATION } from "./types";
+import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS, UPDATE_EDUCATION, DELETE_EDUCATION } from "./types";
 
 export const createNewEducation = (institution, accreditation, startDate, endDate, description, username) => async dispatch => {
   await axios.post("http://localhost:8081/api/education", { institution, accreditation, startDate, endDate, description });
@@ -27,4 +27,14 @@ export const updateEducation = (id, institution, accreditation, startDate, endDa
   });
   dispatch(getAllEducations(username));
   window.$('#modalUpdateEducationForm').modal('hide');
+};
+
+export const deleteEducation = (id, username) => async dispatch => {
+  await axios.delete("http://localhost:8081/api/education/" + id);
+  dispatch({
+    type: DELETE_EDUCATION,
+    payload: {}
+  });
+  dispatch(getAllEducations(username));
+  window.$('#modalDeleteEducationForm').modal('hide');
 };

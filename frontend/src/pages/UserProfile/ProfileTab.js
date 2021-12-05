@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../../actions/userProfileActions";
-import { createNewEducation, getAllEducations, updateEducation } from "../../actions/educationActions";
+import { createNewEducation, getAllEducations, updateEducation, deleteEducation } from "../../actions/educationActions";
 import { getNumberOfPublications, getAllPublications } from "../../actions/publicationActions";
 
 class ProfileTab extends Component {
@@ -25,6 +25,7 @@ class ProfileTab extends Component {
     this.updateHeadlineAboutOnSubmit = this.updateHeadlineAboutOnSubmit.bind(this);
     this.addEducationOnSubmit = this.addEducationOnSubmit.bind(this);
     this.updateEducationOnSubmit = this.updateEducationOnSubmit.bind(this);
+    this.deleteEducationOnSubmit = this.deleteEducationOnSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +70,17 @@ class ProfileTab extends Component {
 
     this.props.updateEducation(this.state.educationId, this.state.institution, this.state.accreditation,
       this.state.startDate, this.state.endDate, this.state.description, this.props.user.username);
+  }
+
+  deleteEducation(educationId, institution, accreditation, startDate, endDate, description) {
+    this.setState({ educationId: educationId, institution: institution, accreditation: accreditation, 
+      startDate: startDate, endDate: endDate, description: description });
+  }
+
+  deleteEducationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.deleteEducation(this.state.educationId, this.props.user.username);
   }
 
   render() {
@@ -159,7 +171,8 @@ class ProfileTab extends Component {
                         (user.username === match.params.username) ? (
                           <React.Fragment>
                             <div style={{float: 'right', margin: '10px'}}>
-                              <button data-toggle="modal" data-target="#modalDeleteEducationForm">Delete</button>
+                              <button onClick={() => this.deleteEducation(education.id, education.institution, education.accreditation, education.startDate, education.endDate, education.description)} 
+                                data-toggle="modal" data-target="#modalDeleteEducationForm">Delete</button>
                             </div>
                             <div style={{float: 'right', margin: '10px'}}>
                               <button onClick={() => this.updateEducation(education.id, education.institution, education.accreditation, education.startDate, education.endDate, education.description)} 
@@ -389,6 +402,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalDeleteEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.deleteEducationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Delete Education</h4>
@@ -400,10 +414,11 @@ class ProfileTab extends Component {
                   Are you sure?
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-danger">Delete</button>
-                  <button className="btn btn-default">Cancel</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-danger">Update</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
@@ -520,5 +535,6 @@ export default connect(
   { 
     createNewEducation, getAllEducations, getNumberOfPublications,
     getAllPublications, getUserProfile, updateUserProfile, updateEducation,
+    deleteEducation,
   }
 )(ProfileTab);

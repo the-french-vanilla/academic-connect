@@ -1,4 +1,4 @@
-import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS, UPDATE_EDUCATION } from "../actions/types";
+import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS, UPDATE_EDUCATION, DELETE_EDUCATION } from "../actions/types";
 
 const initialState = {
   educations: [],
@@ -20,6 +20,11 @@ export default function(state = initialState, action) {
       };
 
     case UPDATE_EDUCATION:
+      return {
+        ...state,
+      };
+
+    case DELETE_EDUCATION:
       return {
         ...state,
       };
