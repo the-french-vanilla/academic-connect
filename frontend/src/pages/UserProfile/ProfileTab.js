@@ -58,73 +58,388 @@ class ProfileTab extends Component {
         </ul>
         <div className="tab-content" id="myTabContent"></div>
           <div className="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            
-            <div style={{height: '30px'}}></div>
 
-            <h4>About</h4>
+            <div className="container">
 
-            <div className="container border round bg-light">
-            {aboutHTML}
-            </div>
+              <div style={{height: '30px'}}></div>
 
-            {
-              educations.length > 0 ? <h4>Education</h4> : null
-            }
+              <h4>About</h4>
 
-            {
-              educations.map((education) =>
-                <div key={education.id} >
-                  <div className="container border round bg-light">
-                    <span><b>{education.institution} </b></span>({education.startDate + ' to ' + education.endDate})
-                    <div style={{height: '10px'}}></div>
-                    {education.accreditation}
-                    <div style={{height: '10px'}}></div>
-                    <span>{education.description}</span>
+              <div className="container border round bg-light" style={{minHeight: '100px'}}>
+                {
+                  (user.username === match.params.username) ? (
+                    <div style={{float: 'right', margin: '10px'}}>
+                      <button data-toggle="modal" data-target="#modalUpdateAboutForm">Update</button>
+                    </div>
+                  ) : null
+                }
+                {aboutHTML}
+              </div>
+
+              {
+                (user.username === match.params.username) ? (
+                  <div style={{float: 'right', margin: '10px'}}>
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddEducationForm">
+                      Add Education
+                    </a>
                   </div>
-                  <div style={{height: '30px'}}></div>
-                </div>
-              )
-            }
+                ) : null
+              }
 
-            {
-              publications.length > 0 ? <h4>Publications</h4> : null
-            }
+              <div style={{height: '30px'}}></div>
 
-            {
-              publications.map((publication) =>
-                <div key={publication.id}>
-                  <div className="container border round bg-light">
-                    <span style={{float: 'right'}}>{publication.date}</span>
-                    <span><b>{publication.title}</b></span><br />
-                    <div id="spacing"></div>
-                    <span>{publication.authors}</span>
+              {
+                educations.length > 0 ? <h4>Education</h4> : null
+              }
+
+              <div style={{height: '10px'}}></div>
+
+              {
+                educations.map((education) =>
+                  <div key={education.id} >
+                    <div className="container border round bg-light" style={{minHeight: '100px'}}>
+                      {
+                        (user.username === match.params.username) ? (
+                          <React.Fragment>
+                            <div style={{float: 'right', margin: '10px'}}>
+                              <button data-toggle="modal" data-target="#modalDeleteEducationForm">Delete</button>
+                            </div>
+                            <div style={{float: 'right', margin: '10px'}}>
+                              <button data-toggle="modal" data-target="#modalUpdateEducationForm">Update</button>
+                            </div>
+                          </React.Fragment>
+                        ) : null
+                      }
+                      <div style={{margin: '10px'}}>
+                        <span style={{float: 'right'}}>{education.startDate + ' to ' + education.endDate}</span>
+                        <span><b>{education.institution} </b></span>
+                        <div style={{height: '10px'}}></div>
+                        {education.accreditation}
+                        <div style={{height: '10px'}}></div>
+                        <span>{education.description}</span>
+                      </div>
+                    </div>
+                    <div style={{height: '30px'}}></div>
                   </div>
-                  <div style={{height: '30px'}}></div>
-                </div>
-              )
-            }
+                )
+              }
 
-            <div style={{height: '30px'}}></div>
+              {
+                (user.username === match.params.username) ? (
+                  <div style={{float: 'right', margin: '10px'}}>
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddPublicationForm">
+                      Add Publication
+                    </a>
+                  </div>
+                ) : null
+              }
 
-            {/* <div className="container border round bg-light">
-              <span><b>Publications</b></span>
-              <span style={{float: 'right'}}>{numPublications}</span><br />
-              <span><b>Citations</b></span>
-              <span style={{float: 'right'}}>233</span>
+              <div style={{height: '30px'}}></div>
+
+              {
+                publications.length > 0 ? <h4>Publications</h4> : null
+              }
+
+              <div style={{height: '10px'}}></div>
+
+              {
+                publications.map((publication) =>
+                  <div key={publication.id}>
+                    <div className="container border round bg-light" style={{minHeight: '100px'}}>
+                      {
+                        (user.username === match.params.username) ? (
+                          <React.Fragment>
+                            <div style={{float: 'right', margin: '10px'}}>
+                              <button data-toggle="modal" data-target="#modalDeletePublicationForm">Delete</button>
+                            </div>
+                            <div style={{float: 'right', margin: '10px'}}>
+                              <button data-toggle="modal" data-target="#modalUpdatePublicationForm">Update</button>
+                            </div>
+                          </React.Fragment>
+                        ) : null
+                      }
+                      <div style={{margin: '10px'}}>
+                        <span style={{float: 'right'}}>{publication.date}</span>
+                        <span><b>{publication.title}</b></span><br />
+                        <div id="spacing"></div>
+                        <span>{publication.authors}</span>
+                      </div>
+                    </div>
+                    <div style={{height: '30px'}}></div>
+                  </div>
+                )
+              }
+
+              <div style={{height: '30px'}}></div>
+
+              {/* <div className="container border round bg-light">
+                <span><b>Publications</b></span>
+                <span style={{float: 'right'}}>{numPublications}</span><br />
+                <span><b>Citations</b></span>
+                <span style={{float: 'right'}}>233</span>
+              </div>
+
+              <div style={{height: '30px'}}></div>
+
+              <div className="container border round bg-light">
+                <span><b>Co-authors:</b></span><br />
+                <span>G. M. Adam Pazdor</span><br />
+                <span>Trevor L. Cook</span><br />
+                <span>Edson M. Dela Cruz</span><br />
+                <span>Patrick M. J. Dubois</span><br />
+                <span>Zhao Han</span>
+              </div> */}
+
             </div>
-
-            <div style={{height: '30px'}}></div>
-
-            <div className="container border round bg-light">
-              <span><b>Co-authors:</b></span><br />
-              <span>G. M. Adam Pazdor</span><br />
-              <span>Trevor L. Cook</span><br />
-              <span>Edson M. Dela Cruz</span><br />
-              <span>Patrick M. J. Dubois</span><br />
-              <span>Zhao Han</span>
-            </div> */}
 
           </div>
+
+          {/* Update About modal */}
+
+          <div className="modal fade" id="modalUpdateAboutForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Update About</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <textarea id="defaultForm-about" className="form-control validate" style={{minHeight: '150px'}} />
+                    {/* <label data-error="wrong" data-success="right" for="defaultForm-about">About</label> */}
+                  </div>
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-default">Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Add Education modal */}
+
+          <div className="modal fade" id="modalAddEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Add Education</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-institution">Institution</label>
+                    <input type="text" id="defaultForm-institution" className="form-control validate" />
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-accreditation">Accreditation</label>
+                    <input type="text" id="defaultForm-accreditation" className="form-control validate" />
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-start-date">Start Date</label>
+                    <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-end-date">End Date</label>
+                    <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
+                  </div>
+                  
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-description">Description</label>
+                    <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
+                  </div>
+
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-default">Add Education</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Update Education Modal */}
+
+          <div className="modal fade" id="modalUpdateEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Update Education</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-institution">Institution</label>
+                    <input type="text" id="defaultForm-institution" className="form-control validate" />
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-accreditation">Accreditation</label>
+                    <input type="text" id="defaultForm-accreditation" className="form-control validate" />
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-start-date">Start Date</label>
+                    <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
+                  </div>
+
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-end-date">End Date</label>
+                    <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
+                  </div>
+                  
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-description">Description</label>
+                    <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
+                  </div>
+
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-default">Update Education</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Delete Education Modal */}
+
+          <div className="modal fade" id="modalDeleteEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Delete Education</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  Are you sure?
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-default">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Add Publication Modal */}
+
+          <div className="modal fade" id="modalAddPublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Add Publication</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-title">Title</label>
+                    <input type="text" id="defaultForm-title" className="form-control validate" />
+                  </div>
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-publication-date">Publication Date</label>
+                    <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
+                  </div>
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-authors">Authors</label>
+                    <input type="text" id="defaultForm-authors" className="form-control validate" />
+                  </div>
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-default">Add Publication</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Update Publication Modal */}
+
+          <div className="modal fade" id="modalUpdatePublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Update Publication</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-title">Title</label>
+                    <input type="text" id="defaultForm-title" className="form-control validate" />
+                  </div>
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-publication-date">Publication Date</label>
+                    <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
+                  </div>
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-lock prefix grey-text"></i> */}
+                    <label data-error="wrong" data-success="right" for="defaultForm-authors">Authors</label>
+                    <input type="text" id="defaultForm-authors" className="form-control validate" />
+                  </div>
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-default">Update Publication</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Delete Publication Modal */}
+
+          <div className="modal fade" id="modalDeletePublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <h4 className="modal-title w-100 font-weight-bold">Delete Publication</h4>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body mx-3">
+                  Are you sure?
+                </div>
+                <div className="modal-footer d-flex justify-content-center">
+                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-default">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
       </div>
     );
   }

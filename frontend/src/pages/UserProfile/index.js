@@ -106,7 +106,7 @@ class UserProfile extends Component {
               </div>
             ) : null
           }
-          {
+          {/* {
             (user.username === match.params.username) ? (
               <div style={{float: 'left', margin: '10px'}}>
                 <button>Update Profile</button>
@@ -119,6 +119,16 @@ class UserProfile extends Component {
                 </div>
               </React.Fragment>
             )
+          } */}
+          {
+            (user.username !== match.params.username) ? (
+              <React.Fragment>
+                {connectionButton}
+                <div style={{float: 'left', margin: '10px'}}>
+                  <button onClick={() => this.message(userProfile.user.username)}>Message</button>
+                </div>
+              </React.Fragment>
+            ) : null
           }
           
           
