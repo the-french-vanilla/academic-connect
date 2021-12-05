@@ -1,4 +1,4 @@
-import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS } from "../actions/types";
+import { CREATE_NEW_EDUCATION, GET_ALL_EDUCATIONS, UPDATE_EDUCATION } from "../actions/types";
 
 const initialState = {
   educations: [],
@@ -17,6 +17,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         educations: action.payload
+      };
+
+    case UPDATE_EDUCATION:
+      return {
+        ...state,
       };
 
     default:

@@ -1,5 +1,4 @@
 import axios from "axios";
-import $ from 'jquery';
 import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE } from "./types";
 import { getIsConnected } from './connectionActions';
 

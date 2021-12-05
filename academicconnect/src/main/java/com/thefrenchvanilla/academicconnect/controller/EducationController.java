@@ -46,7 +46,18 @@ public class EducationController {
     	return educationService.getAllEducations(username);
     }
     
-    @PutMapping("/{id}")
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updateEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+//
+//        Education education1 = educationService.createOrUpdateEducation(education, principal.getName());
+//        return new ResponseEntity<Education>(education1, HttpStatus.OK);
+//    }
+    
+    @PutMapping("")
     public ResponseEntity<?> updateEducation(@Valid @RequestBody Education education, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {

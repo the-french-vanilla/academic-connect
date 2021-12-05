@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../../actions/userProfileActions";
-import { createNewEducation, getAllEducations } from "../../actions/educationActions";
+import { createNewEducation, getAllEducations, updateEducation } from "../../actions/educationActions";
 import { getNumberOfPublications, getAllPublications } from "../../actions/publicationActions";
 
 class ProfileTab extends Component {
@@ -12,10 +12,19 @@ class ProfileTab extends Component {
     this.state = {
       headline: "",
       about: "",
+
+      educationId: 0,
+      institution: "",
+      accreditation: "",
+      startDate: "", // YYYY-MM-DD
+      endDate: "",
+      description: "",
     };
 
     this.onChange = this.onChange.bind(this);
     this.updateHeadlineAboutOnSubmit = this.updateHeadlineAboutOnSubmit.bind(this);
+    this.addEducationOnSubmit = this.addEducationOnSubmit.bind(this);
+    this.updateEducationOnSubmit = this.updateEducationOnSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -36,12 +45,30 @@ class ProfileTab extends Component {
 
   updateHeadlineAboutOnSubmit(e) {
     e.preventDefault();
-
-    // console.log(this.state.headline)
-    // console.log(this.state.about)
-    // console.log('updateHeadlineAboutOnSubmit')
-
     this.props.updateUserProfile(this.state.headline, this.state.about, this.props.user.username);
+  }
+
+  addEducation() {
+    this.setState({ institution: "", accreditation: "", startDate: "", endDate: "", description: "" });
+  }
+
+  addEducationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.createNewEducation(this.state.institution, this.state.accreditation,
+      this.state.startDate, this.state.endDate, this.state.description, this.props.user.username);
+  }
+
+  updateEducation(educationId, institution, accreditation, startDate, endDate, description) {
+    this.setState({ educationId: educationId, institution: institution, accreditation: accreditation, 
+      startDate: startDate, endDate: endDate, description: description });
+  }
+
+  updateEducationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.updateEducation(this.state.educationId, this.state.institution, this.state.accreditation,
+      this.state.startDate, this.state.endDate, this.state.description, this.props.user.username);
   }
 
   render() {
@@ -109,7 +136,7 @@ class ProfileTab extends Component {
               {
                 (user.username === match.params.username) ? (
                   <div style={{float: 'right', margin: '10px'}}>
-                    <a href="" className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddEducationForm">
+                    <a href="" onClick={() => this.addEducation()} className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddEducationForm">
                       Add Education
                     </a>
                   </div>
@@ -135,7 +162,8 @@ class ProfileTab extends Component {
                               <button data-toggle="modal" data-target="#modalDeleteEducationForm">Delete</button>
                             </div>
                             <div style={{float: 'right', margin: '10px'}}>
-                              <button data-toggle="modal" data-target="#modalUpdateEducationForm">Update</button>
+                              <button onClick={() => this.updateEducation(education.id, education.institution, education.accreditation, education.startDate, education.endDate, education.description)} 
+                                data-toggle="modal" data-target="#modalUpdateEducationForm">Update</button>
                             </div>
                           </React.Fragment>
                         ) : null
@@ -263,6 +291,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalAddEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.addEducationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Add Education</h4>
@@ -274,38 +303,35 @@ class ProfileTab extends Component {
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-institution">Institution</label>
-                    <input type="text" id="defaultForm-institution" className="form-control validate" />
+                    <input type="text" id="defaultForm-institution" name="institution" onChange={this.onChange} value={this.state.institution} className="form-control validate" />
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-accreditation">Accreditation</label>
-                    <input type="text" id="defaultForm-accreditation" className="form-control validate" />
+                    <input type="text" id="defaultForm-accreditation" name="accreditation" onChange={this.onChange} value={this.state.accreditation} className="form-control validate" />
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-start-date">Start Date</label>
-                    <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-start-date" name="startDate" onChange={this.onChange} value={this.state.startDate} className="form-control validate"></input>
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-end-date">End Date</label>
-                    <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-end-date" name="endDate" onChange={this.onChange} value={this.state.endDate} className="form-control validate"></input>
                   </div>
-                  
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-description">Description</label>
-                    <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
+                    <textarea id="defaultForm-description" name="description" onChange={this.onChange} value={this.state.description} className="form-control validate" style={{minHeight: '150px'}} />
                   </div>
-
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-default">Add Education</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-default">Add Education</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
@@ -314,6 +340,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalUpdateEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.updateEducationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Update Education</h4>
@@ -325,38 +352,35 @@ class ProfileTab extends Component {
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-institution">Institution</label>
-                    <input type="text" id="defaultForm-institution" className="form-control validate" />
+                    <input type="text" id="defaultForm-institution" name="institution" onChange={this.onChange} value={this.state.institution} className="form-control validate" />
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-accreditation">Accreditation</label>
-                    <input type="text" id="defaultForm-accreditation" className="form-control validate" />
+                    <input type="text" id="defaultForm-accreditation" name="accreditation" onChange={this.onChange} value={this.state.accreditation} className="form-control validate" />
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-start-date">Start Date</label>
-                    <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-start-date" name="startDate" onChange={this.onChange} value={this.state.startDate} className="form-control validate"></input>
                   </div>
-
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-end-date">End Date</label>
-                    <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-end-date" name="endDate" onChange={this.onChange} value={this.state.endDate} className="form-control validate"></input>
                   </div>
-                  
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-description">Description</label>
-                    <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
+                    <textarea id="defaultForm-description" name="description" onChange={this.onChange} value={this.state.description} className="form-control validate" style={{minHeight: '150px'}} />
                   </div>
-
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-default">Update Education</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-default">Update</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
@@ -495,6 +519,6 @@ export default connect(
   mapStateToProps,
   { 
     createNewEducation, getAllEducations, getNumberOfPublications,
-    getAllPublications, getUserProfile, updateUserProfile,
+    getAllPublications, getUserProfile, updateUserProfile, updateEducation,
   }
 )(ProfileTab);

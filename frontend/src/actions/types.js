@@ -51,6 +51,7 @@ export const GET_ALL_CHAT_MESSAGES = "GET_ALL_CHAT_MESSAGES";
 // education
 export const CREATE_NEW_EDUCATION = "CREATE_NEW_EDUCATION";
 export const GET_ALL_EDUCATIONS = "GET_ALL_EDUCATIONS";
+export const UPDATE_EDUCATION = "UPDATE_EDUCATION";
 
 // user profile
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
