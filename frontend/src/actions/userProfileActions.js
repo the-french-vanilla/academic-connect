@@ -1,4 +1,5 @@
 import axios from "axios";
+import $ from 'jquery';
 import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE } from "./types";
 import { getIsConnected } from './connectionActions';
 
@@ -22,10 +23,12 @@ export const searchUserProfiles = (username) => async dispatch => {
   });
 };
 
-export const updateUserProfile = (userId) => async dispatch => {
-  const res = await axios.patch("http://localhost:8081/api/profile/" + userId);
+export const updateUserProfile = (headline, about, username) => async dispatch => {
+  const res = await axios.patch("http://localhost:8081/api/profile", {headline, about});
   dispatch({
     type: UPDATE_USER_PROFILE,
     payload: res.data
   });
+  dispatch(getUserProfile(username, username));
+  window.$('#modalUpdateHeadlineAboutForm').modal('hide');
 };

@@ -2,17 +2,46 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserProfile } from "../../actions/userProfileActions";
+import { getUserProfile, updateUserProfile } from "../../actions/userProfileActions";
 import { createNewEducation, getAllEducations } from "../../actions/educationActions";
 import { getNumberOfPublications, getAllPublications } from "../../actions/publicationActions";
 
 class ProfileTab extends Component {
+  constructor() {
+    super();
+    this.state = {
+      headline: "",
+      about: "",
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.updateHeadlineAboutOnSubmit = this.updateHeadlineAboutOnSubmit.bind(this);
+  }
+
   componentDidMount() {
     const { match, user } = this.props;
     this.props.getUserProfile(match.params.username, user.username);
     this.props.getAllEducations(match.params.username);
     this.props.getAllPublications(match.params.username);
     this.props.getNumberOfPublications();
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  updateHeadlineAbout(headline, about) {
+    this.setState({ headline: headline, about: about });
+  }
+
+  updateHeadlineAboutOnSubmit(e) {
+    e.preventDefault();
+
+    // console.log(this.state.headline)
+    // console.log(this.state.about)
+    // console.log('updateHeadlineAboutOnSubmit')
+
+    this.props.updateUserProfile(this.state.headline, this.state.about, this.props.user.username);
   }
 
   render() {
@@ -61,25 +90,26 @@ class ProfileTab extends Component {
 
             <div className="container">
 
+              {
+                (user.username === match.params.username) ? (
+                  <div style={{float: 'right', margin: '10px'}}>
+                    <button onClick={() => this.updateHeadlineAbout(userProfile.headline, userProfile.about)} data-toggle="modal" data-target="#modalUpdateHeadlineAboutForm">Update</button>
+                  </div>
+                ) : null
+              }
+
               <div style={{height: '30px'}}></div>
 
               <h4>About</h4>
 
               <div className="container border round bg-light" style={{minHeight: '100px'}}>
-                {
-                  (user.username === match.params.username) ? (
-                    <div style={{float: 'right', margin: '10px'}}>
-                      <button data-toggle="modal" data-target="#modalUpdateAboutForm">Update</button>
-                    </div>
-                  ) : null
-                }
                 {aboutHTML}
               </div>
 
               {
                 (user.username === match.params.username) ? (
                   <div style={{float: 'right', margin: '10px'}}>
-                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddEducationForm">
+                    <a href="" className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddEducationForm">
                       Add Education
                     </a>
                   </div>
@@ -89,7 +119,7 @@ class ProfileTab extends Component {
               <div style={{height: '30px'}}></div>
 
               {
-                educations.length > 0 ? <h4>Education</h4> : null
+                (educations.length > 0 || user.username === match.params.username) ? <h4>Education</h4> : null
               }
 
               <div style={{height: '10px'}}></div>
@@ -127,7 +157,7 @@ class ProfileTab extends Component {
               {
                 (user.username === match.params.username) ? (
                   <div style={{float: 'right', margin: '10px'}}>
-                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddPublicationForm">
+                    <a href="" className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddPublicationForm">
                       Add Publication
                     </a>
                   </div>
@@ -137,7 +167,7 @@ class ProfileTab extends Component {
               <div style={{height: '30px'}}></div>
 
               {
-                publications.length > 0 ? <h4>Publications</h4> : null
+                (publications.length > 0 || user.username === match.params.username) ? <h4>Publications</h4> : null
               }
 
               <div style={{height: '10px'}}></div>
@@ -196,9 +226,10 @@ class ProfileTab extends Component {
 
           {/* Update About modal */}
 
-          <div className="modal fade" id="modalUpdateAboutForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalUpdateHeadlineAboutForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.updateHeadlineAboutOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Update About</h4>
@@ -209,20 +240,27 @@ class ProfileTab extends Component {
                 <div className="modal-body mx-3">
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <textarea id="defaultForm-about" className="form-control validate" style={{minHeight: '150px'}} />
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-headline">Headline</label>
+                    <input type="text" id="defaultForm-headline" name="headline" onChange={this.onChange} value={this.state.headline} className="form-control validate" />
+                  </div>
+                  <div className="md-form mb-5">
+                    {/* <i className="fas fa-envelope prefix grey-text"></i> */}
+                    <textarea id="defaultForm-about" name="about" onChange={this.onChange} value={this.state.about} className="form-control validate" style={{minHeight: '150px'}} />
                     {/* <label data-error="wrong" data-success="right" for="defaultForm-about">About</label> */}
                   </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-default">Update</button>
+                  <button type="submit" className="btn btn-default">Update</button>
+                  {/* <input type="submit" className="btn btn-default" value="Update" /> */}
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
           {/* Add Education modal */}
 
-          <div className="modal fade" id="modalAddEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalAddEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -235,31 +273,31 @@ class ProfileTab extends Component {
                 <div className="modal-body mx-3">
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-institution">Institution</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-institution">Institution</label>
                     <input type="text" id="defaultForm-institution" className="form-control validate" />
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-accreditation">Accreditation</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-accreditation">Accreditation</label>
                     <input type="text" id="defaultForm-accreditation" className="form-control validate" />
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-start-date">Start Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-start-date">Start Date</label>
                     <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-end-date">End Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-end-date">End Date</label>
                     <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
                   </div>
                   
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-description">Description</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-description">Description</label>
                     <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
                   </div>
 
@@ -273,7 +311,7 @@ class ProfileTab extends Component {
 
           {/* Update Education Modal */}
 
-          <div className="modal fade" id="modalUpdateEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalUpdateEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -286,31 +324,31 @@ class ProfileTab extends Component {
                 <div className="modal-body mx-3">
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-institution">Institution</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-institution">Institution</label>
                     <input type="text" id="defaultForm-institution" className="form-control validate" />
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-accreditation">Accreditation</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-accreditation">Accreditation</label>
                     <input type="text" id="defaultForm-accreditation" className="form-control validate" />
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-start-date">Start Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-start-date">Start Date</label>
                     <input type="date" id="defaultForm-start-date" className="form-control validate"></input>
                   </div>
 
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-end-date">End Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-end-date">End Date</label>
                     <input type="date" id="defaultForm-end-date" className="form-control validate"></input>
                   </div>
                   
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-description">Description</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-description">Description</label>
                     <textarea id="defaultForm-description" className="form-control validate" style={{minHeight: '150px'}} />
                   </div>
 
@@ -324,7 +362,7 @@ class ProfileTab extends Component {
 
           {/* Delete Education Modal */}
 
-          <div className="modal fade" id="modalDeleteEducationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalDeleteEducationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -347,7 +385,7 @@ class ProfileTab extends Component {
 
           {/* Add Publication Modal */}
 
-          <div className="modal fade" id="modalAddPublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalAddPublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -360,17 +398,17 @@ class ProfileTab extends Component {
                 <div className="modal-body mx-3">
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-title">Title</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-title">Title</label>
                     <input type="text" id="defaultForm-title" className="form-control validate" />
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-publication-date">Publication Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-publication-date">Publication Date</label>
                     <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-authors">Authors</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-authors">Authors</label>
                     <input type="text" id="defaultForm-authors" className="form-control validate" />
                   </div>
                 </div>
@@ -383,7 +421,7 @@ class ProfileTab extends Component {
 
           {/* Update Publication Modal */}
 
-          <div className="modal fade" id="modalUpdatePublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalUpdatePublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -396,17 +434,17 @@ class ProfileTab extends Component {
                 <div className="modal-body mx-3">
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-title">Title</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-title">Title</label>
                     <input type="text" id="defaultForm-title" className="form-control validate" />
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-publication-date">Publication Date</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-publication-date">Publication Date</label>
                     <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
-                    <label data-error="wrong" data-success="right" for="defaultForm-authors">Authors</label>
+                    <label data-error="wrong" data-success="right" htmlFor="defaultForm-authors">Authors</label>
                     <input type="text" id="defaultForm-authors" className="form-control validate" />
                   </div>
                 </div>
@@ -419,7 +457,7 @@ class ProfileTab extends Component {
 
           {/* Delete Publication Modal */}
 
-          <div className="modal fade" id="modalDeletePublicationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          <div className="modal fade" id="modalDeletePublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -457,6 +495,6 @@ export default connect(
   mapStateToProps,
   { 
     createNewEducation, getAllEducations, getNumberOfPublications,
-    getAllPublications, getUserProfile, 
+    getAllPublications, getUserProfile, updateUserProfile,
   }
 )(ProfileTab);

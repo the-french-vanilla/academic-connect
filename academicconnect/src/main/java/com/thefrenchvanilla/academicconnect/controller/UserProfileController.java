@@ -52,17 +52,30 @@ public class UserProfileController {
         return new ResponseEntity<Iterable<UserProfile>>(userProfile, HttpStatus.OK);
     }
     
-    @PatchMapping("/{userId}")
+//    @PatchMapping("/{userId}")
+//    public ResponseEntity<?> updateUserProfile(@Valid @RequestBody UpdateUserProfileRequest updateAboutRequest, BindingResult result,
+//                                               @PathVariable Long userId, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+//
+//        UserProfile userProfile1 = userProfileService.updateUserProfile(userId, updateAboutRequest.getAbout(), updateAboutRequest.getHeadline());
+//        UpdateUserProfileResponse updateAboutResponse = new UpdateUserProfileResponse(userId, userProfile1.getHeadline(), userProfile1.getAbout());
+//        return new ResponseEntity<UpdateUserProfileResponse>(updateAboutResponse, HttpStatus.OK);
+//    }
+    
+    @PatchMapping("")
     public ResponseEntity<?> updateUserProfile(@Valid @RequestBody UpdateUserProfileRequest updateAboutRequest, BindingResult result,
-                                               @PathVariable Long userId, Principal principal) {
+                                               Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
         	return errorMap;
         }
 
-        UserProfile userProfile1 = userProfileService.updateUserProfile(userId, updateAboutRequest.getAbout(), updateAboutRequest.getHeadline());
-        UpdateUserProfileResponse updateAboutResponse = new UpdateUserProfileResponse(userId, userProfile1.getHeadline(), userProfile1.getAbout());
-        return new ResponseEntity<UpdateUserProfileResponse>(updateAboutResponse, HttpStatus.OK);
+        UserProfile userProfile1 = userProfileService.updateUserProfile(updateAboutRequest.getHeadline(), updateAboutRequest.getAbout(), principal.getName());
+        //UpdateUserProfileResponse updateAboutResponse = new UpdateUserProfileResponse(userProfile1.getUser().getId(), userProfile1.getHeadline(), userProfile1.getAbout());
+        return new ResponseEntity<UserProfile>(userProfile1, HttpStatus.OK);
     }
     
 }

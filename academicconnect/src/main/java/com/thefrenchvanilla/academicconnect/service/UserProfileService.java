@@ -94,9 +94,23 @@ public class UserProfileService {
         return userProfiles;
 	}
 
-    public UserProfile updateUserProfile(Long userId, String headline, String about){
+//    public UserProfile updateUserProfile(Long userId, String headline, String about){
+//    	//Only want to return the education if the user looking for it is the owner
+//        User user = userRepository.getById(userId);
+//        UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
+//        if(userProfile == null){
+//            throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
+//        }
+//        userProfile.setHeadline(headline);
+//        userProfile.setAbout(about);
+//        userProfileRepository.save(userProfile);
+//        
+//        return userProfile;
+//    }
+    
+    public UserProfile updateUserProfile(String headline, String about, String username){
     	//Only want to return the education if the user looking for it is the owner
-        User user = userRepository.getById(userId);
+        User user = userRepository.findByUsername(username);
         UserProfile userProfile = userProfileRepository.findByUserId(user.getId());
         if(userProfile == null){
             throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
