@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserProfile, updateUserProfile } from "../../actions/userProfileActions";
 import { createNewEducation, getAllEducations, updateEducation, deleteEducation } from "../../actions/educationActions";
-import { getNumberOfPublications, getAllPublications } from "../../actions/publicationActions";
+import { createNewPublication, getAllPublications, updatePublication, deletePublication } from "../../actions/publicationActions";
 
 class ProfileTab extends Component {
   constructor() {
@@ -19,6 +19,11 @@ class ProfileTab extends Component {
       startDate: "", // YYYY-MM-DD
       endDate: "",
       description: "",
+
+      publicationId: 0,
+      title: "",
+      date: "",
+      authors: "",
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,6 +31,9 @@ class ProfileTab extends Component {
     this.addEducationOnSubmit = this.addEducationOnSubmit.bind(this);
     this.updateEducationOnSubmit = this.updateEducationOnSubmit.bind(this);
     this.deleteEducationOnSubmit = this.deleteEducationOnSubmit.bind(this);
+    this.addPublicationOnSubmit = this.addPublicationOnSubmit.bind(this);
+    this.updatePublicationOnSubmit = this.updatePublicationOnSubmit.bind(this);
+    this.deletePublicationOnSubmit = this.deletePublicationOnSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +41,7 @@ class ProfileTab extends Component {
     this.props.getUserProfile(match.params.username, user.username);
     this.props.getAllEducations(match.params.username);
     this.props.getAllPublications(match.params.username);
-    this.props.getNumberOfPublications();
+    // this.props.getNumberOfPublications();
   }
 
   onChange(e) {
@@ -83,8 +91,42 @@ class ProfileTab extends Component {
     this.props.deleteEducation(this.state.educationId, this.props.user.username);
   }
 
+  addPublication() {
+    this.setState({ title: "", date: "", authors: "" });
+  }
+
+  addPublicationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.createNewPublication(this.state.title, this.state.date, this.state.authors,
+      this.props.user.username);
+  }
+
+  updatePublication(publicationId, title, date, authors) {
+    this.setState({ publicationId: publicationId, title: title, date: date, 
+      authors: authors });
+  }
+
+  updatePublicationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.updatePublication(this.state.publicationId, this.state.title, 
+      this.state.date, this.state.authors, this.props.user.username);
+  }
+
+  deletePublication(publicationId, title, date, authors) {
+    this.setState({ publicationId: publicationId, title: title, 
+      date: date, authors: authors });
+  }
+
+  deletePublicationOnSubmit(e) {
+    e.preventDefault();
+
+    this.props.deletePublication(this.state.publicationId, this.props.user.username);
+  }
+
   render() {
-    const { match, user, userProfile, educations, publications, numPublications } = this.props;
+    const { match, user, userProfile, educations, publications } = this.props;
 
     let aboutHTML = null;
     if (userProfile == null) {
@@ -198,7 +240,7 @@ class ProfileTab extends Component {
               {
                 (user.username === match.params.username) ? (
                   <div style={{float: 'right', margin: '10px'}}>
-                    <a href="" className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddPublicationForm">
+                    <a href="" onClick={() => this.addPublication()} className="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddPublicationForm">
                       Add Publication
                     </a>
                   </div>
@@ -221,10 +263,10 @@ class ProfileTab extends Component {
                         (user.username === match.params.username) ? (
                           <React.Fragment>
                             <div style={{float: 'right', margin: '10px'}}>
-                              <button data-toggle="modal" data-target="#modalDeletePublicationForm">Delete</button>
+                              <button data-toggle="modal" onClick={() => this.deletePublication(publication.id, publication.title, publication.date, publication.authors)} data-target="#modalDeletePublicationForm">Delete</button>
                             </div>
                             <div style={{float: 'right', margin: '10px'}}>
-                              <button data-toggle="modal" data-target="#modalUpdatePublicationForm">Update</button>
+                              <button data-toggle="modal" onClick={() => this.updatePublication(publication.id, publication.title, publication.date, publication.authors)} data-target="#modalUpdatePublicationForm">Update</button>
                             </div>
                           </React.Fragment>
                         ) : null
@@ -415,7 +457,7 @@ class ProfileTab extends Component {
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                   {/* <button className="btn btn-default">Add Education</button> */}
-                  <button type="submit" className="btn btn-danger">Update</button>
+                  <button type="submit" className="btn btn-danger">Delete</button>
                 </div>
               </div>
               </form>
@@ -427,6 +469,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalAddPublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.addPublicationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Add Publication</h4>
@@ -438,23 +481,25 @@ class ProfileTab extends Component {
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-title">Title</label>
-                    <input type="text" id="defaultForm-title" className="form-control validate" />
+                    <input type="text" id="defaultForm-title" name="title" onChange={this.onChange} value={this.state.title} className="form-control validate" />
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-publication-date">Publication Date</label>
-                    <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-publication-date" name="date" onChange={this.onChange} value={this.state.date} className="form-control validate"></input>
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-authors">Authors</label>
-                    <input type="text" id="defaultForm-authors" className="form-control validate" />
+                    <input type="text" id="defaultForm-authors" name="authors" onChange={this.onChange} value={this.state.authors} className="form-control validate" />
                   </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-default">Add Publication</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-default">Add Publication</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
@@ -463,6 +508,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalUpdatePublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.updatePublicationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Update Publication</h4>
@@ -474,23 +520,25 @@ class ProfileTab extends Component {
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-title">Title</label>
-                    <input type="text" id="defaultForm-title" className="form-control validate" />
+                    <input type="text" id="defaultForm-title" name="title" onChange={this.onChange} value={this.state.title} className="form-control validate" />
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-envelope prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-publication-date">Publication Date</label>
-                    <input type="date" id="defaultForm-publication-date" className="form-control validate"></input>
+                    <input type="date" id="defaultForm-publication-date" name="date" onChange={this.onChange} value={this.state.date} className="form-control validate"></input>
                   </div>
                   <div className="md-form mb-5">
                     {/* <i className="fas fa-lock prefix grey-text"></i> */}
                     <label data-error="wrong" data-success="right" htmlFor="defaultForm-authors">Authors</label>
-                    <input type="text" id="defaultForm-authors" className="form-control validate" />
+                    <input type="text" id="defaultForm-authors" name="authors" onChange={this.onChange} value={this.state.authors} className="form-control validate" />
                   </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-default">Update Publication</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-default">Update</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
 
@@ -499,6 +547,7 @@ class ProfileTab extends Component {
           <div className="modal fade" id="modalDeletePublicationForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true">
             <div className="modal-dialog" role="document">
+              <form onSubmit={this.deletePublicationOnSubmit}>
               <div className="modal-content">
                 <div className="modal-header text-center">
                   <h4 className="modal-title w-100 font-weight-bold">Delete Publication</h4>
@@ -510,10 +559,11 @@ class ProfileTab extends Component {
                   Are you sure?
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-danger">Delete</button>
-                  <button className="btn btn-default">Cancel</button>
+                  {/* <button className="btn btn-default">Add Education</button> */}
+                  <button type="submit" className="btn btn-danger">Delete</button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
           
@@ -525,7 +575,6 @@ class ProfileTab extends Component {
 const mapStateToProps = state => ({
   educations: state.educationReducer.educations,
   user: state.security.user,  
-  numPublications: state.publicationReducer.numPublications,
   userProfile: state.userProfileReducer.userProfile,
   publications: state.publicationReducer.publications,
 });
@@ -533,8 +582,8 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { 
-    createNewEducation, getAllEducations, getNumberOfPublications,
+    createNewEducation, getAllEducations,
     getAllPublications, getUserProfile, updateUserProfile, updateEducation,
-    deleteEducation,
+    deleteEducation, createNewPublication, updatePublication, deletePublication,
   }
 )(ProfileTab);

@@ -51,7 +51,18 @@ public class PublicationController {
     	return publicationService.getNumberPublications(username);
     }
     
-    @PutMapping("/{id}")
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updatePublication(@Valid @RequestBody Publication publication, BindingResult result, Principal principal) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) {
+//        	return errorMap;
+//        }
+//
+//        Publication notification1 = publicationService.createOrUpdatePublication(publication, principal.getName());
+//        return new ResponseEntity<Publication>(notification1, HttpStatus.OK);
+//    }
+    
+    @PutMapping("")
     public ResponseEntity<?> updatePublication(@Valid @RequestBody Publication publication, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) {
