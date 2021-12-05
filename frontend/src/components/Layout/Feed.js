@@ -94,7 +94,7 @@ class Feed extends Component {
           <h5>
             {
               numPublications > 0 ? 
-              <Link to={'/ac/' + user.username + '/publications'}>{numPublications} Publication{numPublications === 1 ? '': 's'}</Link> :
+              <Link to={'/ac/' + user.username + '/profile'}>{numPublications} Publication{numPublications === 1 ? '': 's'}</Link> :
               <React.Fragment>{numPublications} Publication{numPublications === 1 ? '': 's'}</React.Fragment>
             }
           </h5>

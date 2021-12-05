@@ -12,6 +12,7 @@ class AllResultsTab extends Component {
     let q = params.get("q");
     this.props.searchUserProfiles(q);
   }
+  
   render() {
     const { userProfiles } = this.props;
     let params = (new URL(document.location)).searchParams;
@@ -50,6 +51,8 @@ class AllResultsTab extends Component {
 
             <div style={{height: '30px'}}></div>
             <div className="container">
+              <h3>Search results for "{q}"</h3>
+              <div style={{height: '30px'}}></div>
               <h3>People</h3>
               
                 {

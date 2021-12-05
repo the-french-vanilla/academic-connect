@@ -59,9 +59,19 @@ public class ConnectionController {
     	return connectionService.getAllConnections(username, principal.getName());
     }
     
+    @GetMapping("/mutual/{username}")
+    public Iterable<Connection> getMutualConnections(@PathVariable String username, Principal principal) {
+    	return connectionService.getMutualConnections(username, principal.getName());
+    }
+    
     @GetMapping("/number/{username}")
     public long getNumberConnections(@PathVariable String username) {
     	return connectionService.getNumberConnections(username);
+    }
+    
+    @GetMapping("/number/mutual/{username}")
+    public long getNumberMutualConnections(@PathVariable String username, Principal principal) {
+    	return connectionService.getNumberMutualConnections(username, principal.getName());
     }
     
     @PutMapping("/{id}")

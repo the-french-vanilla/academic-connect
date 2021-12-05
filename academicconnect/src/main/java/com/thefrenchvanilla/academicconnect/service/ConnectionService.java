@@ -147,10 +147,75 @@ public class ConnectionService {
 //        return connections;
     }
     
-    public int getNumberConnections(String username) {
+    public Iterable<Connection> getMutualConnections(String username2, String username) {
+    	User user = userRepository.findByUsername(username);
+    	List<Connection> connections = connectionRepository.findAllByUser1(user);
+    	List<String> usernames = new ArrayList<String>();
+    	for (Connection connection : connections) {
+    		usernames.add(connection.getUser2().getUsername());
+    	}
+    	
+    	User user2 = userRepository.findByUsername(username2);
+        List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+        //Collections.sort(connections2);
+        List<String> usernames2 = new ArrayList<String>();
+    	for (Connection connection2 : connections2) {
+    		usernames2.add(connection2.getUser2().getUsername());
+    	}
+        
+        List<String> mutualUsernames = new ArrayList<String>();
+        for (String usr : usernames) {
+            if (usernames2.contains(usr)) {
+            	mutualUsernames.add(usr);
+            }
+        }
+        
+        List<User> users = userRepository.findAllByUsernameIn(mutualUsernames);
+        List<Connection> mutualConnections =connectionRepository.findAllByUser1AndUser2In(user2, users);
+        
+        
+        for (Connection mutualConnection : mutualConnections) {
+        	User user3 = mutualConnection.getUser2();
+        	List<Connection> connections3 = connectionRepository.findAllByUser1(user3);
+        	List<String> usernames3 = new ArrayList<String>();
+        	for (Connection connection3 : connections3) {
+        		usernames3.add(connection3.getUser2().getUsername());
+        	}
+        	
+        	List<String> mutualUsernames3 = new ArrayList<String>();
+            for (String usr : usernames) {
+                if (usernames3.contains(usr)) {
+                	mutualUsernames3.add(usr);
+                }
+            }
+            
+            boolean connected = false;
+            if (connectionRepository.countByUser1AndUser2(user, user3) > 0) {
+            	connected = true;
+    		}
+            
+            boolean connectionRequestSent = connectionRequestRepository.existsByUser1AndUser2(user, user3);
+            boolean connectionRequestReceived = connectionRequestRepository.existsByUser1AndUser2(user3, user);
+            
+            UserProfile userProfile3 = userProfileRepository.getByUserId(user3.getId());
+            
+            mutualConnection.setHeadline(userProfile3.getHeadline());
+            mutualConnection.setNumMutualConnections(mutualUsernames.size());
+            mutualConnection.setConnectionRequestSent(connectionRequestSent);
+            mutualConnection.setConnectionRequestReceived(connectionRequestReceived);
+            mutualConnection.setConnected(connected);
+        }
+        
+//        if(userProfile == null){
+//            throw new UserProfileException("User Profile id '"+userProfile.getId()+"' does not exist");
+//        }
+        return mutualConnections;
+	}
+    
+    public long getNumberConnections(String username) {
     	try {
             User user = userRepository.findByUsername(username);
-            int numConnections = connectionRepository.findAllByUser1(user).size();
+            long numConnections = connectionRepository.countByUser1(user);
             return numConnections;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -159,6 +224,35 @@ public class ConnectionService {
     	
     	return 0;
     }
+    
+    public long getNumberMutualConnections(String username2, String username) {
+    	User user = userRepository.findByUsername(username);
+    	List<Connection> connections = connectionRepository.findAllByUser1(user);
+    	List<String> usernames = new ArrayList<String>();
+    	for (Connection connection : connections) {
+    		usernames.add(connection.getUser2().getUsername());
+    	}
+    	
+    	User user2 = userRepository.findByUsername(username2);
+        List<Connection> connections2 = connectionRepository.findAllByUser1(user2);
+        //Collections.sort(connections2);
+        List<String> usernames2 = new ArrayList<String>();
+    	for (Connection connection2 : connections2) {
+    		usernames2.add(connection2.getUser2().getUsername());
+    	}
+        
+        List<String> mutualUsernames = new ArrayList<String>();
+        for (String usr : usernames) {
+            if (usernames2.contains(usr)) {
+            	mutualUsernames.add(usr);
+            }
+        }
+        
+        List<User> users = userRepository.findAllByUsernameIn(mutualUsernames);
+        long numMutualConnections = connectionRepository.countByUser1AndUser2In(user2, users);
+        
+        return numMutualConnections;
+	}
 
     public void deleteConnection(Long id) {
     	Connection connection = connectionRepository.findById(id).get();

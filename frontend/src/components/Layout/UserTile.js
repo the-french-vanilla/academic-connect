@@ -105,10 +105,7 @@ class UserTile extends Component {
             <Link className="nav-link" to={'/ac/' + userProfile.user.username}>
               <span><b>{userProfile.user.firstName + " " + userProfile.user.lastName}</b></span>
             </Link>
-            <br />
-            <div id="spacing"></div>
-            <span>{userProfile.headline}</span><br />
-            <div id="spacing"></div>
+            <div>{userProfile.headline}</div>
             {
               ((userProfile.numMutualConnections > 0) && (userProfile.user.username !== user.username)) ? 
                 <span>{userProfile.numMutualConnections} Mutual Connection{userProfile.numMutualConnections === 1 ? '' : 's'}</span> : null

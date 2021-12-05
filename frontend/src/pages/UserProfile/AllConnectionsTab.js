@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Switch, Link } from "react-rout
 import SecuredRoute from "../../securityUtils/SecureRoute";
 import { connect } from "react-redux";
 import { logout } from "../../actions/securityActions";
-import { getAllConnections, getNumberOfConnections } from "../../actions/connectionActions";
+import { getAllConnections, getNumberOfConnections, getNumberOfMutualConnections } from "../../actions/connectionActions";
 
 import ConnectionTile from "../../components/Layout/ConnectionTile";
 
@@ -13,10 +13,11 @@ class AllConnectionsTab extends Component {
     const { match } = this.props;
     this.props.getAllConnections(match.params.username);
     this.props.getNumberOfConnections(match.params.username);
+    this.props.getNumberOfMutualConnections(match.params.username);
   }
 
   render() {
-    const { match, user, connections, numConnections } = this.props;
+    const { match, user, connections, numConnections, numMutualConnections } = this.props;
 
     // console.log(connections)
     // console.log(numConnections)
@@ -58,15 +59,15 @@ class AllConnectionsTab extends Component {
 
               <ul className="nav nav-tabs" id="myTab" role="tablist">
                 <li className="nav-item" role="all-connections">
-                  <Link className="nav-link active" to={'/ac/' + match.params.username} id="all-connections-tab" data-toggle="tab" role="tab" aria-controls="all-connections" aria-selected="true">
+                  <Link className="nav-link active" to={'/ac/' + match.params.username + '/connections'} id="all-connections-tab" data-toggle="tab" role="tab" aria-controls="all-connections" aria-selected="true">
                     All Connections ({numConnections})
                   </Link>
                 </li>
                 { 
                   (user.username !== match.params.username) ? (
                     <li className="nav-item" role="mutual-connections">
-                      <Link className="nav-link" to={'/ac/' + match.params.username + '/profile'} id="mutual-connections-tab" data-toggle="tab" role="tab" aria-controls="mutual-connections" aria-selected="false">
-                        Mutual Connections
+                      <Link className="nav-link" to={'/ac/' + match.params.username + '/connections/mutual'} id="mutual-connections-tab" data-toggle="tab" role="tab" aria-controls="mutual-connections" aria-selected="false">
+                        Mutual Connections ({numMutualConnections})
                       </Link>
                     </li>
                   ) : null
@@ -98,6 +99,7 @@ const mapStateToProps = state => ({
   // posts: state.postReducer.posts,
   connections: state.connectionReducer.connections,
   numConnections: state.connectionReducer.numConnections,
+  numMutualConnections: state.connectionReducer.numMutualConnections,
   // numPublications: state.publicationReducer.numPublications,
   // numGroups: state.groupReducer.numGroups,
   user: state.security.user,
@@ -108,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAllConnections, getNumberOfConnections }
+  { getAllConnections, getNumberOfConnections, getNumberOfMutualConnections }
 )(AllConnectionsTab);

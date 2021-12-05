@@ -1,5 +1,6 @@
 import axios from "axios";
-import { GET_ERRORS, GET_ALL_CONNECTIONS, SET_NUM_CONNECTIONS, SET_IS_CONNECTED, UNCONNECT } from "./types";
+import { GET_ERRORS, GET_ALL_CONNECTIONS, GET_MUTUAL_CONNECTIONS, 
+  SET_NUM_CONNECTIONS, SET_NUM_MUTUAL_CONNECTIONS, SET_IS_CONNECTED, UNCONNECT } from "./types";
 import { checkConnectionRequestSent, checkConnectionRequestReceived } from './connectionRequestActions';
 
 export const getAllConnections = (username) => async dispatch => {
@@ -17,11 +18,41 @@ export const getAllConnections = (username) => async dispatch => {
   }
 };
 
+export const getMutualConnections = (username) => async dispatch => {
+  try {
+    const res = await axios.get("http://localhost:8081/api/connection/mutual/" + username);
+    dispatch({
+      type: GET_MUTUAL_CONNECTIONS,
+      payload: res.data
+    });
+  } catch (err) {
+    // dispatch({
+    //   type: GET_ERRORS,
+    //   payload: err.response.data
+    // });
+  }
+};
+
 export const getNumberOfConnections = (username) => async dispatch => {
   try {
     const res = await axios.get("http://localhost:8081/api/connection/number/" + username);
     dispatch({
       type: SET_NUM_CONNECTIONS,
+      payload: res.data
+    });
+  } catch (err) {
+    // dispatch({
+    //   type: GET_ERRORS,
+    //   payload: err.response.data
+    // });
+  }
+};
+
+export const getNumberOfMutualConnections = (username) => async dispatch => {
+  try {
+    const res = await axios.get("http://localhost:8081/api/connection/number/mutual/" + username);
+    dispatch({
+      type: SET_NUM_MUTUAL_CONNECTIONS,
       payload: res.data
     });
   } catch (err) {

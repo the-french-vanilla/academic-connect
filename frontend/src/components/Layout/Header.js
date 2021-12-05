@@ -26,6 +26,7 @@ class Header extends Component {
 
     this.props.history.push("/search/results/?q=" + this.state.searchValue);
     this.props.searchUserProfiles(this.state.searchValue);
+    this.setState({ searchValue: "" });
   }
 
   logout() {

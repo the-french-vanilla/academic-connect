@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { searchUserProfiles } from "../../actions/userProfileActions";
+
+import UserTile from "../../components/Layout/UserTile";
 
 class PeopleTab extends Component {
+  componentDidMount() {
+    let params = (new URL(document.location)).searchParams;
+    let q = params.get("q");
+    this.props.searchUserProfiles(q);
+  }
+
   render() {
+    const { userProfiles } = this.props;
     let params = (new URL(document.location)).searchParams;
     let q = params.get("q");
     return (
@@ -38,7 +48,21 @@ class PeopleTab extends Component {
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="people" role="tabpanel" aria-labelledby="people-tab">
-            People
+            
+            <div style={{height: '30px'}}></div>
+            <div className="container">
+              <h3>Search results for "{q}"</h3>
+              <div style={{height: '30px'}}></div>
+              
+                {
+                  userProfiles.map((userProfile) => 
+                    <UserTile key={userProfile.id} userProfile={userProfile} />
+                  )
+                }
+              
+              <div style={{height: '30px'}}></div>
+
+            </div>
           </div>
         </div>
       </div>
@@ -47,6 +71,7 @@ class PeopleTab extends Component {
 }
 
 const mapStateToProps = state => ({
+  userProfiles: state.userProfileReducer.userProfiles,
   // security: state.security,
   // posts: state.postReducer.posts,
   // numConnections: state.connectionReducer.numConnections,
@@ -59,5 +84,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { searchUserProfiles }
 )(PeopleTab);
