@@ -36,6 +36,9 @@ class Feed extends Component {
 
   test = (e) => {
     e.preventDefault();
+    if (this.state.text !== "") {
+      this.onSubmit(e);
+    }
   }
 
   updateText(e) {
@@ -58,7 +61,7 @@ class Feed extends Component {
       deleted: false
     };
 
-    this.props.createNewPost(PostRequest);
+    this.props.createNewPost(PostRequest, 'feeds');
 
     this.setState({
       text: ""
@@ -150,7 +153,7 @@ class Feed extends Component {
                 </div>
                 {
                   posts.map((post) =>
-                    <Post key={post.id} user={user} post={post} />
+                    <Post key={post.id} user={user} post={post} page="feeds" />
                   )
                 }
               </div>

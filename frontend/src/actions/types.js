@@ -12,6 +12,7 @@ export const GET_CURRENT_USERS = "GET_CURRENT_USERS";
 export const CREATE_NEW_POST = "CREATE_NEW_POST";
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const GET_ALL_POSTS_IN_FEED = "GET_ALL_POSTS_IN_FEED";
+export const DELETE_POST = "DELETE_POST";
 
 // connections
 export const GET_ALL_CONNECTIONS = "GET_ALL_CONNECTIONS";

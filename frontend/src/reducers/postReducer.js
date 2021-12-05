@@ -1,4 +1,4 @@
-import { CREATE_NEW_POST, GET_ALL_POSTS, GET_ALL_POSTS_IN_FEED } from "../actions/types";
+import { CREATE_NEW_POST, GET_ALL_POSTS, GET_ALL_POSTS_IN_FEED, DELETE_POST } from "../actions/types";
 
 const initialState = {
   posts: [],
@@ -23,6 +23,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: action.payload
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
       };
 
     default:

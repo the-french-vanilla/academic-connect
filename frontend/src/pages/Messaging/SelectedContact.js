@@ -109,10 +109,12 @@ class SelectedContact extends Component {
           </div>
 
           <div className="flex-grow-0 py-3 px-4 border-top">
+            <form onSubmit={this.onSubmit}>
             <div className="input-group">
               <input type="text" value={this.state.text} onChange={this.updateText} className="form-control" placeholder="Type your message" />
-              <button className="btn btn-primary" disabled={this.state.text == "" ? 'disabled' : ''} onClick={this.onSubmit}>Send</button>
+              <button type="submit" className="btn btn-primary" disabled={this.state.text == "" ? 'disabled' : ''}>Send</button>
             </div>
+            </form>
           </div>
 
         </div>

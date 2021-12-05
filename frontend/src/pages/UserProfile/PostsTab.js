@@ -28,6 +28,9 @@ class PostsTab extends Component {
 
   test = (e) => {
     e.preventDefault();
+    if (this.state.text !== "") {
+      this.onSubmit(e);
+    }
   }
 
   updateText(e) {
@@ -47,7 +50,7 @@ class PostsTab extends Component {
     
     const { match } = this.props;
 
-    this.props.createNewPost(PostRequest, match.params.username);
+    this.props.createNewPost(PostRequest, 'userProfile', match.params.username);
 
     this.setState({
       text: ""
@@ -147,7 +150,7 @@ class PostsTab extends Component {
                 <div key={post.id} className="container">
                   <div className="row">
                     <div className="col-8">
-                    <Post user={user} post={post} />
+                    <Post user={user} post={post} page="userProfile" />
                       {/* <div  className="card">
                         <div className="create_input d_flex">
                           <div className="profile_thumb rounded-img">
