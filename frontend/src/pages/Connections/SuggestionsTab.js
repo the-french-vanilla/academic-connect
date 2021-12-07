@@ -19,7 +19,7 @@ class SuggestionsTab extends Component {
 
   render() {
     const { userProfilesSuggestion } = this.props;
-    console.log(userProfilesSuggestion)
+    // console.log(userProfilesSuggestion)
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">

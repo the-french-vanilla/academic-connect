@@ -104,7 +104,8 @@ export const getConnectionRecommendations = (username) => async dispatch => {
     // console.log(axios.defaults.headers.common["Authorization"])
     const res = await axios.get("http://localhost:8001/core/recommendations/?username=" + username +
       "&token=" + axios.defaults.headers.common["Authorization"]);
-    console.log(res.data["ids"])
+    // console.log(res.data["ids"])
+    // console.log(res.data)
     dispatch({
       type: GET_CONNECTION_RECOMMENDATIONS,
       payload: res.data

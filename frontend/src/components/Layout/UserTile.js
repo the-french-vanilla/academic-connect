@@ -54,7 +54,7 @@ class UserTile extends Component {
 
   render() {
     const { userProfile, user } = this.props;
-    console.log(userProfile)
+    // console.log(userProfile)
 
     let params = (new URL(document.location)).searchParams;
     let q = params.get("q");

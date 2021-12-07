@@ -37,7 +37,7 @@ class ConnectionRequestsTab extends Component {
   render() {
     const { sentConnectionRequests, receivedConnectionRequests } = this.props;
 
-    console.log(sentConnectionRequests)
+    // console.log(sentConnectionRequests)
 
     return (
       <div>

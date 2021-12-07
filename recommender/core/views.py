@@ -2,6 +2,7 @@ import json
 import requests
 
 from functools import total_ordering
+from difflib import SequenceMatcher
 
 from rest_framework import views
 from rest_framework.response import Response
@@ -20,14 +21,24 @@ class UserProfile:
         self.headline_similarity = 0
 
     def __lt__(self, other):
-        # mutual_connections
-        # same_institution?
-        # about_similarity + headline_similarity
-        # return ((self.mutual_connections) < (other.mutual_connections))
-        return self.mutual_connections > other.mutual_connections
+        if self.mutual_connections == other.mutual_connections:
+            if self.headline_similarity > other.headline_similarity:
+                return True
+            else:
+                return False
+        else: 
+            if self.mutual_connections > other.mutual_connections:
+                return True;
+            else:
+                return False
 
-    # def myfunc(self):
-    #     print("Hello my name is " + self.name)
+    def calculate_headline_similarity(self, headline1, headline2):
+        if not headline1:
+            headline1 = ""
+        if not headline2:
+            headline2 = ""
+        self.headline_similarity = SequenceMatcher(None, headline1, headline2).ratio()
+        print(self.headline_similarity)
 
 
 class Recommendations(views.APIView):
@@ -52,11 +63,10 @@ class Recommendations(views.APIView):
                 user_profile['institutions'], user_profile['about'],
                 user_profile['headline']))
 
-        # for user_profile in user_profiles:
-        #     # same_institution?
-        #     # calculate about_similarity
-        #     # calculate headline_similarity
-        #     pass
+        currentUserProfileData = currentUserProfile.json()
+
+        for user_profile in user_profiles:
+            user_profile.calculate_headline_similarity(user_profile.headline, currentUserProfileData['headline']);
 
         user_profiles.sort()
 

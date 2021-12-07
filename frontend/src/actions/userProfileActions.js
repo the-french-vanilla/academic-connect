@@ -33,7 +33,7 @@ export const getUserProfilesById = (ids) => async dispatch => {
     type: GET_USER_PROFILES_BY_ID,
     payload: res.data
   });
-  console.log(res.data)
+  // console.log(res.data)
 };
 
 export const updateUserProfile = (headline, about, username) => async dispatch => {
