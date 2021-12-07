@@ -17,7 +17,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/suggesteduser")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class SuggestedUserController {
 
     @Autowired

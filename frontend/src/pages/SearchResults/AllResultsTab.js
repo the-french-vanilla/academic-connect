@@ -35,11 +35,11 @@ class AllResultsTab extends Component {
               Pages
             </Link>
           </li> */}
-          <li className="nav-item" role="groups">
+          {/* <li className="nav-item" role="groups">
             <Link className="nav-link" to="/search/results/groups" id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
-          </li>
+          </li> */}
           {/* <li className="nav-item" role="events">
             <Link className="nav-link" to="/search/results/events" id="events-tab" data-toggle="tab" role="tab" aria-controls="events" aria-selected="false">
               Events

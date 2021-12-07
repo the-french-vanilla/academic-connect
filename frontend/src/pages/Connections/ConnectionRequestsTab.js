@@ -65,8 +65,10 @@ class ConnectionRequestsTab extends Component {
 
             <div className="container">
 
-            <h4>Received Connection Requests</h4>
+            <h3>Received Connection Requests</h3>
 
+            <div className="row">
+              <div className="col">
             {
               receivedConnectionRequests.length > 0 ? (
                 receivedConnectionRequests.map((receivedConnectionRequest) =>
@@ -75,14 +77,20 @@ class ConnectionRequestsTab extends Component {
                 ) 
               ) : <div>You have not received any connection requests.</div>
             }
+              </div>
+            </div>
 
             </div>
+
+            <div style={{height: '30px'}}></div>
 
             <div className="container">
 
 
-            <h4>Sent Connection Requests</h4>
+            <h3>Sent Connection Requests</h3>
 
+            <div className="row">
+              <div className="col">
             {
               sentConnectionRequests.length > 0 ? (
                 sentConnectionRequests.map((sentConnectionRequest) =>
@@ -91,6 +99,8 @@ class ConnectionRequestsTab extends Component {
                 ) 
               ) : <div>You have not send any connection requests.</div>
             }
+              </div>
+            </div>
 
 
             </div>

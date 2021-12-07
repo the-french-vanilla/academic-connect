@@ -19,7 +19,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/connectionrequest")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class ConnectionRequestController {
 
     @Autowired

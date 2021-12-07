@@ -19,7 +19,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/usergroup")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class GroupMemberController {
 
     @Autowired

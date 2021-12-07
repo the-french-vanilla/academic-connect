@@ -1,5 +1,7 @@
 package com.thefrenchvanilla.academicconnect.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +39,15 @@ public class UserProfile {
 	
 	@Transient
 	private boolean connectionRequestReceived;
+	
+//	@Transient
+//	private long userId;
+	
+//	@Transient
+//	private String username;
+	
+	@Transient
+	private List<String> institutions;
 	
 	@OneToOne
 	//@JsonIgnore
@@ -123,6 +134,30 @@ public class UserProfile {
 
 	public void setConnectionRequestReceived(boolean connectionRequestReceived) {
 		this.connectionRequestReceived = connectionRequestReceived;
+	}
+
+//	public long getUserId() {
+//		return userId;
+//	}
+//
+//	public void setUserId(long userId) {
+//		this.userId = userId;
+//	}
+
+//	public String getUsername() {
+//		return username;
+//	}
+//
+//	public void setUsername(String username) {
+//		this.username = username;
+//	}
+
+	public List<String> getInstitutions() {
+		return institutions;
+	}
+
+	public void setInstitutions(List<String> institutions) {
+		this.institutions = institutions;
 	}
 
 }

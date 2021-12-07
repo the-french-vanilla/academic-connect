@@ -23,7 +23,7 @@ import com.thefrenchvanilla.academicconnect.payload.ResponseMessage;
 import com.thefrenchvanilla.academicconnect.service.FilesStorageService;
 
 @Controller
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FilesController {
 
   @Autowired

@@ -14,7 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/page")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class PageController {
 
     @Autowired

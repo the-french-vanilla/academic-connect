@@ -1,9 +1,10 @@
 import { GET_ALL_CONNECTIONS, SET_NUM_CONNECTIONS, SET_IS_CONNECTED, UNCONNECT,
-  GET_MUTUAL_CONNECTIONS, SET_NUM_MUTUAL_CONNECTIONS } from "../actions/types";
+  GET_MUTUAL_CONNECTIONS, SET_NUM_MUTUAL_CONNECTIONS, GET_CONNECTION_RECOMMENDATIONS } from "../actions/types";
 
 const initialState = {
   connections: [],
   mutualConnections: [],
+  // recommendedConnections: [],
   numConnections: 0,
   numMutualConnections: 0,
   isConnected: false,
@@ -39,6 +40,10 @@ export default function(state = initialState, action) {
       return {
         ...state,
         numMutualConnections: action.payload,
+      };
+    case GET_CONNECTION_RECOMMENDATIONS:
+      return {
+        ...state,
       };
 
     default:

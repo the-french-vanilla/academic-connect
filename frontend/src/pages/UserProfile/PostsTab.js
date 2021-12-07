@@ -93,12 +93,11 @@ class PostsTab extends Component {
               Connections
             </Link>
           </li>
-          <li className="nav-item" role="groups">
-            {/* <a className="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="false">Groups</a> */}
+          {/* <li className="nav-item" role="groups">
             <Link className="nav-link" to={'/ac/' + match.params.username + '/groups'} id="groups-tab" data-toggle="tab" role="tab" aria-controls="groups" aria-selected="false">
               Groups
             </Link>
-          </li>
+          </li> */}
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">

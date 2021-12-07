@@ -16,7 +16,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/connection")
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8001"})
 public class ConnectionController {
 
     @Autowired

@@ -11,9 +11,16 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByUsername(String username);
+    
     User getById(Long id);
+    
 	List<User> findAllByUsernameContaining(String username);
+	
 	List<User> findAllByUsernameIn(List<String> usernames);
+	
+	List<User> findByUsernameNotIn(List<String> usernames);
+
+	List<User> findAllByIdIn(List<Long> ids);
 }
 
 //import java.util.List;

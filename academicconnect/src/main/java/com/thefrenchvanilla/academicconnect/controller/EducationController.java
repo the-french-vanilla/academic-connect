@@ -15,7 +15,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/education")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class EducationController {
 
     @Autowired

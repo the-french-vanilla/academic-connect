@@ -17,7 +17,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class ContactController {
 
     @Autowired

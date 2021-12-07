@@ -1,8 +1,10 @@
-import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE } from "../actions/types";
+import { GET_USER_PROFILE, SEARCH_USER_PROFILES, UPDATE_USER_PROFILE,
+  GET_USER_PROFILES_BY_ID } from "../actions/types";
 
 const initialState = {
   userProfile: null,
-  userProfiles: []
+  userProfiles: [],
+  userProfilesSuggestion: [],
 };
 
 export default function(state = initialState, action) {
@@ -21,6 +23,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         userProfile: action.payload
+      };
+    case GET_USER_PROFILES_BY_ID:
+      return {
+        ...state,
+        userProfilesSuggestion: action.payload
       };
 
     default:

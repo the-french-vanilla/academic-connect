@@ -14,7 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/userpage")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class PageLikeController {
 
     @Autowired

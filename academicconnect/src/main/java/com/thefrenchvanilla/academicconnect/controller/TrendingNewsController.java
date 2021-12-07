@@ -15,7 +15,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/trendingnews")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class TrendingNewsController {
 
     @Autowired

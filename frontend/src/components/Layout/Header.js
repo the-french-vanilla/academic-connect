@@ -45,10 +45,9 @@ class Header extends Component {
               Dashboard
             </Link>
           </li> */}
-          <li className="nav-item">
-              {/* <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span>  */}
+          {/* <li className="nav-item">
               <Link className="nav-link" to="/feed">Notification <span className="sr-only">(current)</span></Link>
-          </li>
+          </li> */}
           <li className="nav-item">
               {/* <span className="badge badge-pill badge-primary" style={{float:'right', marginBottom:'-10px'}}>1</span>  */}
               <Link className="nav-link" to="/messaging">Messaging <span className="sr-only">(current)</span></Link>
@@ -63,11 +62,11 @@ class Header extends Component {
               Pages
             </Link>
           </li> */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="/groups">
               Groups
             </Link>
-          </li>
+          </li> */}
           {/* <li className="nav-item">
             <Link className="nav-link" to="/events">
               Events

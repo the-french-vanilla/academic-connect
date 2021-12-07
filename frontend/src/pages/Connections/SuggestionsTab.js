@@ -3,8 +3,23 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { 
+  getConnectionRecommendations, 
+} from "../../actions/connectionActions";
+import UserTile from "../../components/Layout/UserTile";
+
 class SuggestionsTab extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.props.getConnectionRecommendations(this.props.user.username);
+  }
+
   render() {
+    const { userProfilesSuggestion } = this.props;
+    console.log(userProfilesSuggestion)
     return (
       <div>
         <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -26,7 +41,31 @@ class SuggestionsTab extends Component {
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="suggestions" role="tabpanel" aria-labelledby="suggestions-tab">
-            Suggestions
+            
+            <div style={{height: '30px'}}></div>
+           
+           <div className="container">
+              <h3>Suggestions</h3>
+ 
+              <div className="row">
+              <div className="col">
+              {/* {
+                 userProfilesSuggestion.length > 0 ? (
+                  userProfilesSuggestion.map((connection) =>
+                     <ConnectionTile2 key={connection.id} connection={connection} />
+                   ) 
+                 ) : <div>You do not have any connections. Start connecting with people.</div>
+               } */}
+
+                {
+                  userProfilesSuggestion.map((userProfile) => 
+                    <UserTile key={userProfile.id} userProfile={userProfile} />
+                  )
+                }
+               </div>
+              </div>
+           </div>
+
           </div>
         </div>
       </div>
@@ -35,6 +74,8 @@ class SuggestionsTab extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.security.user,
+  userProfilesSuggestion: state.userProfileReducer.userProfilesSuggestion,
   // security: state.security,
   // posts: state.postReducer.posts,
   // numConnections: state.connectionReducer.numConnections,
@@ -47,5 +88,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { getConnectionRecommendations, }
 )(SuggestionsTab);
